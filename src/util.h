@@ -19,9 +19,23 @@ char * get_http_response_header();
 
 void output_header();
 
+void output_header_v(const char * type);
+
 int get_file_size(const char *file_name);
 
-void send_direct_to_page(const char * page_name);
+int get_http_data_size();
+
+void send_redirect_to_page(const char * page_name);
+
+void http_data_decode(char *src, char *dest, char *last);
+
+char * get_http_post_data();
+
+char * get_http_get_data();
+
+char * get_post_data_property(const char * property);
+
+char * get_get_data_property(const char * property);
 
 
 #endif /* SRC_UTIL_H_ */

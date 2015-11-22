@@ -10,4 +10,8 @@
 
 void login_page();
 
+int login_status();
+
+int do_login_process();
+
 #endif /* SRC_LOGIN_H_ */

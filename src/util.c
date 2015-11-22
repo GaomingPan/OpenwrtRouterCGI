@@ -37,8 +37,6 @@ int set_http_response_header_content_type(const char * type)
 	memset(http_response_header,0,HTTP_HEADER_LENTH);
 
 	sprintf(http_response_header,
-			"Cache-Control: no-cache\r\n" \
-			"Connetction: Keep-Alive\r\n" \
 			"Content-Type: %s\r\n" \
 			"\r\n" \
 			"\r\n",
@@ -56,7 +54,13 @@ char * get_http_response_header()
 
 void output_header()
 {
-	printf("%s",get_http_response_header());
+	fprintf(stdout, "%s",get_http_response_header());
+}
+
+void output_header_v(const char * type)
+{
+	set_http_response_header_content_type(type);
+	fprintf(stdout, "%s",get_http_response_header());
 }
 
 int get_file_size(const char *file_name)
@@ -73,8 +77,104 @@ int get_file_size(const char *file_name)
 }
 
 
-void send_direct_to_page(const char * page_name)
+int get_http_data_size()
 {
-	printf(DIRECT_PAGES, page_name);
+	char *len_addr = getenv("CONTENT_LENGTH");
+
+	//DEBUG(len_addr, "getenv");
+
+	if(NULL == len_addr)
+		return -1;
+
+	return atoi(len_addr);
+}
+
+void send_redirect_to_page(const char * page_name)
+{
+	fprintf(stdout, REDIRECT_PAGES, page_name);
+}
+
+
+void http_data_decode(char *src, char *dest, char *last)
+{
+	char code;
+
+	for(; src != last; src++, dest++)
+		if(*src == '+')
+			*dest = ' ';
+		else if(*src == '%'){
+			if(sscanf(src + 1, "%2x", &code) != 1)
+				*dest = code;
+			src += 2;
+		}else{
+			*dest = *src;
+			*dest = ' ';
+			*++dest = 0;
+		}
+}
+
+
+char * get_http_post_data()
+{
+	return &http_post_data;
+}
+
+
+char * get_http_get_data()
+{
+	return &http_get_data;
+}
+
+
+char * get_post_data_property(const char * property)
+{
+	char *ptr1,
+	     *ptr2,
+		 *ptr3;
+	ptr1 = strstr(http_post_data, property);
+
+	if (!ptr1)
+	     ptr2 = strstr(ptr1, "=");
+	else
+		return NULL;
+
+	if (!ptr2)
+	     ptr3 = strstr(ptr2, "&");
+	else
+		return NULL;
+
+	if(!ptr3)
+		snprintf(property_data, ptr3 - (++ptr2),"%s", ptr2);
+	else
+		snprintf(property_data, MAX_PROPERTY_DARA_SIZE - 1, "%s", ++ptr2);
+
+	DEBUG("get_post_data_property",property_data, strlen(property_data));
+	return property_data;
+}
+
+char * get_get_data_property(const char * property)
+{
+	char *ptr1,
+	     *ptr2,
+		 *ptr3;
+	ptr1 = strstr(http_get_data, property);
+
+	if (!ptr1)
+	     ptr2 = strstr(ptr1, "=");
+	else
+		return NULL;
+
+	if (!ptr2)
+	     ptr3 = strstr(ptr2, "&");
+	else
+		return NULL;
+
+	if(!ptr3)
+		snprintf(property_data, ptr3 - (++ptr2),"%s", ptr2);
+	else
+		snprintf(property_data, MAX_PROPERTY_DARA_SIZE - 1, "%s", ++ptr2);
+
+	DEBUG("get_get_data_property",property_data, strlen(property_data));
+	return property_data;
 }
 

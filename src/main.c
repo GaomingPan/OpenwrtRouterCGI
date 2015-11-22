@@ -8,20 +8,121 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "common.h"
 #include "util.h"
 #include "md5.h"
 #include "session_info.h"
 #include "login.h"
 
- int main(int argc, char *argv[])
-{
-	//printf("%s%c%c%c%c","Content-Type:text/html;charset=utf-8", '\r', '\n', '\r', '\n');
+#define MAXLEN 80
+#define EXTRA 5
 
-	 long _time = time(NULL);
+#define MAXINPUT MAXLEN+EXTRA+2
+
+int main(int argc, char *argv[])
+{
+    int http_post_data_length,
+	    http_get_data_length,
+		request_code;
+
+    long _time;
+
+	output_header_v("text/html;charset=utf-8");
+
+	_time = time(NULL);
+
+	if(0 != init_session())
+		send_redirect_to_page(PAGE_INDEX);
+
+    http_get_data_length = parse_get_request(NULL);
+    http_post_data_length = parse_post_request(NULL);
+
+    if(!is_session_valid(_time)){
+    	request_code = get_request_code();
+    	switch(request_code){
+    	case rLogin:
+    		break;
+    	default:
+    		send_redirect_to_page(PAGE_LOGIN);
+    		break;
+    	}
+    	DEBUG("main", "RequestCode", request_code);
+    	return 0;
+    }
+
+    if(http_post_data_length || http_get_data_length)
+    	fprintf(stdout, "<br><br><hr><br><p>data: %s<br><br>length: %d<br><hr><br>QueryString: %s<br>QSlength: %d\n",
+    			 get_http_post_data(),
+				 http_post_data_length,
+				 get_http_get_data(),
+				 http_get_data_length
+				);
+    fprintf( stdout, "\n</html>\n" );
+
+
+    return 0;
+}
+
+
+
+
+/*
+	 char *lenstr;
+
+	 char input[MAXINPUT], data[MAXINPUT];
+
+	 long len;
+
+	 login_status();
+	 int i = 0;
+	 for(;i<argc;i++)
+		 printf("<p>argv[%d]: %s", i, argv[i]);
+
+	 printf("<TITLE>Response</TITLE> ");
+
+	 lenstr = getenv("CONTENT_LENGTH");
+
+	 if(lenstr == NULL || sscanf(lenstr,"%ld",&len)!=1 || len > MAXLEN)
+
+	 printf("<p>form data error,len = %ld.", len);
+
+	 else {
+
+	 fgets(input, len+1, stdin);
+
+	 http_data_decode(input+EXTRA, input+len, data);
+
+	 printf("<p>form data is: <br>%s",data);
+
+	 }
+
+	 return 0;
+
+	//printf("%s%c%c%c%c","Content-Type:text/html;charset=utf-8", '\r', '\n', '\r', '\n');
+*/
+
+
+	// login_status();
+	// fprintf(stdout,"<br>parse_post_request return code: %d<br>", parse_post_request(NULL));
+	// request_code = get_request_code();
+	// login_status();
+//	 printf("<hr><br>request_code: %d<br><hr>",request_code);
+/*
+	 switch(request_code){
+	 case rLogin:
+		 if(!is_session_valid(_time)){
+			 login_status();
+			  return 0;
+		 }
+		 break;
+	 case rBadRequest:
+		 login_page();
+		 break;
+	 }
 
 	 if(!is_session_valid(_time)){
 		 login_page();
-		 return 0;
+		   return 0;
 	 }
 
 	set_http_response_header_content_type("text/html;charset=utf-8");
@@ -52,6 +153,4 @@
 
     printf("<br><br>user:%s\n<br>passwd:%s\n<br>session:%ld\n<br>", get_user_name(),
     		get_password(), get_last_session_time());
-
-    return 0;
-}
+*/

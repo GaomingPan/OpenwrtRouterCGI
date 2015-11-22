@@ -27,8 +27,21 @@ void login_page()
     	return;
     }
 
-    send_direct_to_page(PAGE_LOGIN);
+    send_redirect_to_page(PAGE_LOGIN);
 
 }
 
+int login_status()
+{
+	set_http_response_header_content_type("text/html;charset=utf-8");
+	output_header();
+	fprintf(stdout, "form_data: %s", http_post_data);
 
+	return 0;
+}
+
+
+int do_login_process()
+{
+
+}
