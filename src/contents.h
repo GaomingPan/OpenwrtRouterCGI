@@ -8,20 +8,20 @@
 #ifndef SRC_CONTENTS_H_
 #define SRC_CONTENTS_H_
 
-#include "common.h"
 
-static  char user_name[30];
-static  char password[33];
+extern  char user_name[];
 
-static  long last_session_time = 0;
+extern  char password[];
 
-static char  http_response_header[HTTP_HEADER_LENTH];
+extern  long last_session_time;
 
-static char  http_post_data[MAX_FORM_DATA_LENTH];
+extern char  http_response_header[];
 
-static char  http_get_data[MAX_FORM_DATA_LENTH];
+extern char  http_post_data[];
 
-static char  property_data[MAX_PROPERTY_DARA_SIZE];
+extern char  http_get_data[];
+
+extern char  property_data[];
 
 
 #define  REDIRECT_PAGES "<?xml version=\"1.0\" encoding=\"utf-8\"?> \

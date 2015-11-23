@@ -29,6 +29,7 @@ int main(int argc, char *argv[])
 
 	output_header_v("text/html;charset=utf-8");
 
+
 	_time = time(NULL);
 
 	if(0 != init_session())
@@ -38,27 +39,24 @@ int main(int argc, char *argv[])
     http_post_data_length = parse_post_request(NULL);
 
     if(!is_session_valid(_time)){
-    	request_code = get_request_code();
+    	request_code = get_post_request_code();
+    	DEBUG("main", "RequestCode", request_code);
     	switch(request_code){
     	case rLogin:
+//    		DEBUG("switch", "rLogin", rLogin);
+    		if( !do_login_process()){
+    			send_redirect_to_page(PAGE_AUTH_ERR);
+    			return 0;
+    		}
+    		send_redirect_to_page(PAGE_STATUS);
     		break;
     	default:
     		send_redirect_to_page(PAGE_LOGIN);
     		break;
     	}
-    	DEBUG("main", "RequestCode", request_code);
+//    	DEBUG("main", "RequestCode", request_code);
     	return 0;
     }
-
-    if(http_post_data_length || http_get_data_length)
-    	fprintf(stdout, "<br><br><hr><br><p>data: %s<br><br>length: %d<br><hr><br>QueryString: %s<br>QSlength: %d\n",
-    			 get_http_post_data(),
-				 http_post_data_length,
-				 get_http_get_data(),
-				 http_get_data_length
-				);
-    fprintf( stdout, "\n</html>\n" );
-
 
     return 0;
 }

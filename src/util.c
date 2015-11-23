@@ -23,7 +23,7 @@ int is_session_valid(long int _time)
 }
 
 
-int is_authority_ok(const char * _user_name, const char * _password)
+int is_authority_ok(char * _user_name, char * _password)
 {
 	if((strcmp(user_name, _user_name) == 0) && (strcmp(password, _password)))
 		return 0;
@@ -32,7 +32,7 @@ int is_authority_ok(const char * _user_name, const char * _password)
 }
 
 
-int set_http_response_header_content_type(const char * type)
+int set_http_response_header_content_type(char * type)
 {
 	memset(http_response_header,0,HTTP_HEADER_LENTH);
 
@@ -57,13 +57,13 @@ void output_header()
 	fprintf(stdout, "%s",get_http_response_header());
 }
 
-void output_header_v(const char * type)
+void output_header_v(char * type)
 {
 	set_http_response_header_content_type(type);
 	fprintf(stdout, "%s",get_http_response_header());
 }
 
-int get_file_size(const char *file_name)
+int get_file_size(char *file_name)
 {
 	struct stat  buffer;
 	int          ret;
@@ -89,7 +89,7 @@ int get_http_data_size()
 	return atoi(len_addr);
 }
 
-void send_redirect_to_page(const char * page_name)
+void send_redirect_to_page(char * page_name)
 {
 	fprintf(stdout, REDIRECT_PAGES, page_name);
 }
@@ -116,43 +116,56 @@ void http_data_decode(char *src, char *dest, char *last)
 
 char * get_http_post_data()
 {
-	return &http_post_data;
+	return http_post_data;
 }
 
 
 char * get_http_get_data()
 {
-	return &http_get_data;
+	return http_get_data;
 }
 
 
-char * get_post_data_property(const char * property)
+char * get_post_data_property(char * property)
 {
+//	DEBUG("get_post_data_property00",property,strlen(property));
+//	DEBUG("get_post_data_property00-00",http_post_data,strlen(http_post_data));
 	char *ptr1,
 	     *ptr2,
-		 *ptr3;
-	ptr1 = strstr(http_post_data, property);
+		 *ptr3,
+		 *data;
+	data = get_http_post_data();
+
+	ptr1 = strstr(data, property);
+
+//	DEBUG("get_post_data_property11",data,strlen(data));
+//
+//	DEBUG("get_post_data_property","ptr1",(int)ptr1);
 
 	if (!ptr1)
-	     ptr2 = strstr(ptr1, "=");
-	else
 		return NULL;
 
+	ptr2 = strstr(ptr1, "=");
+
+//	DEBUG("get_post_data_property","ptr2",(int)ptr2);
 	if (!ptr2)
-	     ptr3 = strstr(ptr2, "&");
-	else
 		return NULL;
+
+	ptr3 = strstr(ptr2, "&");
+
+
+//	DEBUG("get_post_data_property","ptr3",(int)ptr3);
 
 	if(!ptr3)
-		snprintf(property_data, ptr3 - (++ptr2),"%s", ptr2);
+		snprintf(property_data, MAX_PROPERTY_DARA_SIZE - 1, ++ptr2);
 	else
-		snprintf(property_data, MAX_PROPERTY_DARA_SIZE - 1, "%s", ++ptr2);
+		snprintf(property_data, ptr3 - ptr2, ++ptr2);
 
-	DEBUG("get_post_data_property",property_data, strlen(property_data));
+//	DEBUG("get_post_data_property",property_data, strlen(property_data));
 	return property_data;
 }
 
-char * get_get_data_property(const char * property)
+char * get_get_data_property(char * property)
 {
 	char *ptr1,
 	     *ptr2,
@@ -170,9 +183,9 @@ char * get_get_data_property(const char * property)
 		return NULL;
 
 	if(!ptr3)
-		snprintf(property_data, ptr3 - (++ptr2),"%s", ptr2);
+		snprintf(property_data, ptr3 - ptr2, ++ptr2);
 	else
-		snprintf(property_data, MAX_PROPERTY_DARA_SIZE - 1, "%s", ++ptr2);
+		snprintf(property_data, MAX_PROPERTY_DARA_SIZE - 1, ++ptr2);
 
 	DEBUG("get_get_data_property",property_data, strlen(property_data));
 	return property_data;

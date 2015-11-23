@@ -18,11 +18,13 @@
 #define  MAX_PROPERTY_DARA_SIZE  512
 
 
-#define  PAGE_INDEX     "/index.html"
-#define  PAGE_LOGIN     "/pages/login.html"
-#define  PAGE_STATUS    "/pages/status.html"
+#define  PAGE_INDEX        "/index.html"
+#define  PAGE_LOGIN        "/pages/login.html"
+#define  PAGE_STATUS       "/pages/status.html"
 
-#define  HIDDEN_FORM_ID "page_id"
+#define  PAGE_AUTH_ERR     "/pages/autherr.html"
+
+#define  HIDDEN_FORM_ID "form_id"
 
 
 
@@ -40,11 +42,10 @@ typedef enum{
 		char log[1024] = {0}; \
 		sprintf(log, "\n\n[<< DEBUG >>] --> f name: %s\n msg: %s\n code: %d\n", func, msg, code); \
         fp = fopen("/dev/console", "w"); \
-        if(!fp) \
-        	goto err; \
-        fwrite(log, 1, strlen(log), fp); \
-        fclose(fp); \
-        err: ;\
+        if(fp){ \
+          fwrite(log, 1, strlen(log), fp); \
+          fclose(fp); \
+         } \
         }while(0)
 
 #endif /* SRC_COMMON_H_ */

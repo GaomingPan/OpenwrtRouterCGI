@@ -40,7 +40,7 @@ int parse_get_request(char * out_data)
         fprintf( http_get_data, addr);
         //http_data_decode(input, http_post_data, input + length);
         length = strlen(http_get_data);
-        DEBUG("parse_get_request",http_get_data, length);
+//        DEBUG("parse_get_request",http_get_data, length);
         return length;
 	}
 
@@ -64,7 +64,7 @@ int parse_post_request(char * out_data)
     	fgets(http_post_data, length + 1, stdin);
     //	http_data_decode(input, http_post_data, input + length);
 
-    	DEBUG("parse_post_request",http_post_data,length);
+//    	DEBUG("parse_post_request",http_post_data,length);
 
     	//for(i = 0; i < length; i++)
         //	DEBUG(length, http_post_data,http_post_data[i]);
@@ -79,7 +79,7 @@ int parse_post_request(char * out_data)
 }
 
 
-int get_request_code()
+int get_post_request_code()
 {
 	char *ptr1,
 	     *ptr2,
@@ -88,7 +88,7 @@ int get_request_code()
 
 	ptr1 = strstr(http_post_data, HIDDEN_FORM_ID);
 
-//	DEBUG("get_request_code", http_post_data, (int)ptr1);
+//	DEBUG("get_post_request_code_01", http_post_data, (int)ptr1);
 
 	if (!ptr1)
 		return rBadRequest;
@@ -101,19 +101,18 @@ int get_request_code()
 	ptr3 = strstr(ptr2, "&");
 
 	if (!ptr3)
-		return rBadRequest;
+		//return rBadRequest;
+		snprintf(page_name, MAX_PROPERTY_DARA_SIZE - 1, ++ptr2);
+	else
+		snprintf(page_name, ptr3 - ptr2, ++ptr2);
 
-	snprintf(page_name, ptr3 - (++ptr2), ptr2);
-
-	DEBUG("get_request_code", page_name, strlen(page_name));
+//	DEBUG("get_post_request_code_02", page_name, strlen(page_name));
 
 	int i;
 
 	for (i = 0; keywords[i].name; i++)
 	     if (strcasecmp(page_name, keywords[i].name) == 0)
 	    	 return keywords[i].rCode;
-
-
 
 	return rInvalid;
 

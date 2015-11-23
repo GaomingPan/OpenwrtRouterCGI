@@ -11,6 +11,7 @@
 #include "common.h"
 #include "contents.h"
 #include "util.h"
+#include "md5.h"
 
 #include "login.h"
 
@@ -43,5 +44,40 @@ int login_status()
 
 int do_login_process()
 {
+//	DEBUG("do_login_process", "0", 0);
+	char user_name[MAX_PROPERTY_DARA_SIZE],
+	     password[MAX_PROPERTY_DARA_SIZE];
 
+	unsigned char decrypt[16];
+
+    MD5_CTX   md5;
+    int       i;
+//    DEBUG("do_login_process", "1", 1);
+//    DEBUG("do_login_process--data", http_post_data, 1);
+
+	sprintf(user_name, "%s", get_post_data_property("user_name"));
+//	DEBUG("do_login_process", "2", 2);
+	sprintf(password, "%s", get_post_data_property("password"));
+
+//	DEBUG("do_login_process_01", user_name, 0);
+//	DEBUG("do_login_process_02", password, 2);
+
+	MD5Init(&md5);
+    MD5Update(&md5,password,strlen((char *)password));
+    MD5Final(&md5,decrypt);
+
+    memset(password, 0, MAX_PROPERTY_DARA_SIZE);
+    snprintf(password,16, "%02x", decrypt);
+
+    DEBUG("do_login_process_03", password, 3);
+
+    if(!is_authority_ok(user_name, password))
+    	return -1;
+
+    save_session_info(NULL, NULL);
+
+	return 0;
 }
+
+
+

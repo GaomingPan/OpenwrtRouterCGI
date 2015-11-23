@@ -14,6 +14,6 @@ int parse_get_request(char * out_data);
 
 int parse_post_request(char * out_data);
 
-int get_request_code();
+int get_post_request_code();
 
 #endif /* SRC_PARSE_REQUEST_H_ */
