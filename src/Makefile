@@ -2,7 +2,7 @@
 TARGET = routerSettings
 
 OBJS = main.o md5.o parse_request.o session_info.o util.o \
-       login.o contents.o
+       login.o contents.o data_request.o
 
 all: $(TARGET)
 
@@ -30,6 +30,9 @@ util.o: util.c util.h
 
 login.o: login.c login.h
 	$(CC)	-c    login.c
+	
+data_request.o: data_request.c data_request.h
+	$(CC)	-c    data_request.c
 
 clean:  
 	rm -f *.o $(TARGET)

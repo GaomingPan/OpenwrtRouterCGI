@@ -30,21 +30,22 @@ int main(int argc, char *argv[])
 	output_header_v("text/html;charset=utf-8");
 
 
-	_time = time(NULL);
-
 	if(0 != init_session())
 		send_redirect_to_page(PAGE_INDEX);
+
+	_time = get_last_session_time();
 
     http_get_data_length = parse_get_request(NULL);
     http_post_data_length = parse_post_request(NULL);
 
-    if(!is_session_valid(_time)){
+    if ( is_session_valid(_time) < 0 ){
     	request_code = get_post_request_code();
     	DEBUG("main", "RequestCode", request_code);
+
     	switch(request_code){
     	case rLogin:
 //    		DEBUG("switch", "rLogin", rLogin);
-    		if( !do_login_process()){
+    		if ( 0 != do_login_process()){
     			send_redirect_to_page(PAGE_AUTH_ERR);
     			return 0;
     		}
@@ -58,6 +59,22 @@ int main(int argc, char *argv[])
     	return 0;
     }
 
+    request_code = get_post_request_code();
+
+    switch(request_code){
+    case rLogin:
+    	break;
+
+    case rdStatus:
+    	output_header_v("application/json");
+    	fprintf(stdout, "%s", get_status_data());
+    	return 0;
+    	break;
+    default:
+    	break;
+    }
+
+    send_redirect_to_page(PAGE_STATUS);
     return 0;
 }
 

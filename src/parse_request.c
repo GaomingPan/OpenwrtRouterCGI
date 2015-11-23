@@ -22,6 +22,7 @@ static const struct{
 		{"page_login", rLogin},
 		{"page_status", rStatus},
 		{"page_error", rBadRequest},
+		{"data_status", rdStatus},
 		{NULL, rInvalid},
 };
 

@@ -67,14 +67,17 @@ int do_login_process()
     MD5Final(&md5,decrypt);
 
     memset(password, 0, MAX_PROPERTY_DARA_SIZE);
-    snprintf(password,16, "%02x", decrypt);
+    for(i=0;i<16;i++)
+        sprintf(password,"%s%02x", password, decrypt[i]);
 
-    DEBUG("do_login_process_03", password, 3);
+//    DEBUG("do_login_process_03", password, 3);
 
-    if(!is_authority_ok(user_name, password))
+    if(is_authority_ok(user_name, password) < 0)
     	return -1;
 
     save_session_info(NULL, NULL);
+
+//    DEBUG("md5 password", password, 007);
 
 	return 0;
 }
