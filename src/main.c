@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
 
     long _time;
 
-	output_header_v("text/html;charset=utf-8");
+//	output_header_v("text/html;charset=utf-8");
 
 
 	if(0 != init_session())
@@ -45,6 +45,7 @@ int main(int argc, char *argv[])
     	switch(request_code){
     	case rLogin:
 //    		DEBUG("switch", "rLogin", rLogin);
+    		output_header_v("text/html;charset=utf-8");
     		if ( 0 != do_login_process()){
     			send_redirect_to_page(PAGE_AUTH_ERR);
     			return 0;
@@ -52,6 +53,7 @@ int main(int argc, char *argv[])
     		send_redirect_to_page(PAGE_STATUS);
     		break;
     	default:
+    		output_header_v("text/html;charset=utf-8");
     		send_redirect_to_page(PAGE_LOGIN);
     		break;
     	}
@@ -71,10 +73,11 @@ int main(int argc, char *argv[])
     	return 0;
     	break;
     default:
+    	output_header_v("text/html;charset=utf-8");
+    	send_redirect_to_page(PAGE_STATUS);
     	break;
     }
 
-    send_redirect_to_page(PAGE_STATUS);
     return 0;
 }
 

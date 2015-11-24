@@ -16,6 +16,8 @@ long get_last_session_time();
 
 int save_session_info(char * _user_name, char * _password);
 
+int clean_session();
+
 int init_session();
 
 #endif /* SRC_SESSION_INFO_H_ */

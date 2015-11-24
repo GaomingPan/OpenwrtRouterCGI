@@ -19,7 +19,10 @@
 
 int is_session_valid(long int _time)
 {
-	return (time(NULL) - _time < SESSION_TIME_OUT ? 0 : -1);
+	if (time(NULL) - _time > SESSION_TIME_OUT)
+		return  -1;
+
+	return 0;
 }
 
 
