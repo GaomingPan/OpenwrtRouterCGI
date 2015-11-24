@@ -19,16 +19,17 @@
 
 int is_session_valid(long int _time)
 {
+	DEBUG("is_s_valid","_time", _time);
 	if (time(NULL) - _time > SESSION_TIME_OUT)
 		return  -1;
-
+	DEBUG("is_s_valid","return code", 0);
 	return 0;
 }
 
 
 int is_authority_ok(char * _user_name, char * _password)
 {
-	if((strcmp(user_name, _user_name) == 0) && (strcmp(password, _password)))
+	if((strcmp(user_name, _user_name) == 0) && (strcmp(password, _password) == 0))
 		return 0;
 
 	return -1;
@@ -194,3 +195,8 @@ char * get_get_data_property(char * property)
 	return property_data;
 }
 
+
+char * get_buffers_data()
+{
+	return buffers;
+}

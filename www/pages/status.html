@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>Obscura</title>
+<title>路由状态</title>
 <link rel="stylesheet" type="text/css" media="all" href="style.css" />
 <link rel="stylesheet" type="text/css" href="style/css/media-queries.css" />
 <link rel="stylesheet" type="text/css" href="style/js/player/mediaelementplayer.css" />
@@ -25,13 +25,56 @@
 <script type="text/javascript" src="style/js/mediaelementplayer.min.js"></script>
 <script type="text/javascript" src="style/js/jquery.dcflickr.1.0.js"></script>
 <script type="text/javascript" src="style/js/twitter.min.js"></script>
+
 <script type="text/javascript">
+
 	$.backstretch("style/images/bg/1.jpg");
+	
 </script>
+
+<script type="text/javascript">
+    setTimeout(function() {
+        Push();
+    },
+        200);
+    /*30轮询读取函数*/
+    setInterval(function() {
+        Push();
+    },
+    3000);
+
+    /*请求函数的ajax*/
+
+    function Push() {
+
+
+        $.ajax({
+
+            type: "POST",
+            url: "/cgi-bin/routerSettings",
+            data: {
+                form_id:$('#form_id').val(),
+            },
+            beforeSend: function() {},
+            success: function(data) {
+
+                var myjson='';  
+                eval("myjson=" + data + ";");  
+                $("#DeviceId").html(myjson.deviceId);  
+                $("#DeviceVer").html(myjson.deviceVer); 
+                $("#OSVersion").html(myjson.OSVersion); 
+                $("#KernelVer").html(myjson.kernelVer); 
+                $("#Uptime").html(myjson.uptime); 
+                $("#Sysload").html(myjson.sysload);
+            }
+        });}
+
+</script>
+
 </head>
 <body>
+<input type="hidden" id="form_id" value="data_status">
 <div class="scanlines"></div>
-
 <!-- Begin Header -->
 <div class="header-wrapper opacity">
 	<div class="header">
@@ -46,12 +89,12 @@
 		<div id="menu-wrapper">
 			<div id="menu" class="menu">
 				<ul id="tiny">
-					<li class="active"><a href="status.html">路由状态 </a>
+					<li class="active"><a href="index.html">路由状态 </a>
 					</li>
 
-					<li><a href="page-with-sidebar.html">系统设置</a>
+					<li><a href="auth.html">系统设置</a>
 						<ul>
-							<li><a href="page-with-sidebar.html">关闭路由认证</a></li>
+							<li><a href="auth.html">关闭路由认证</a></li>
 							<li><a href="full-width.html">修改密码</a></li>
                             <li><a href="full-width.html">恢复出厂设置</a></li>
                             <li><a href="full-width.html">重启</a></li>
@@ -96,19 +139,19 @@
         <table cellspacing="30" cellpadding="100"style="font-size:13px; font-weight:600; color:#000000;padding-left:60px; float:left;">
             <tr>
                 <td>设备名</td>
-                <td>SMARTINDEX</td>
+                <td id="DeviceId">SMARTINDEX</td>
             </tr>
             <tr>
                 <td>设备型号</td>
-                <td>SMART007</td>
+                <td id="DeviceVer">SMART007</td>
             </tr>
             <tr>
                 <td>固件版本</td>
-                <td>VERSION1.0</td>
+                <td id="OSVersion">VERSION1.0</td>
             </tr>
             <tr>
                 <td>内核版本</td>
-                <td>VERSION1.0</td>
+                <td id="KernelVer">VERSION1.0</td>
             </tr>
         </table>
         <table cellspacing="30" cellpadding="100" style="font-size:13px; font-weight:600; color:#000000;padding-left:175px;">
@@ -118,11 +161,11 @@
             </tr>
             <tr>
                 <td>运行时间</td>
-                <td>1 时 38 分 38 秒</td>
+                <td id="Uptime">1 时 38 分 38 秒</td>
             </tr>
             <tr>
                 <td>平均负载</td>
-                <td>0.19 , 0.18 , 0.29</td>
+                <td id="Sysload">0.19 , 0.18 , 0.29</td>
             </tr>
         </table>
         <div style="padding-top:100px; margin-left:10px;">
@@ -131,10 +174,10 @@
         <hr />
         <div style="height:200px;width:150px;float:left;font-size:13px; font-weight:600; color:#000000; margin-top:37px;padding-left:105px;">
             <ul>
-                <li style="margin-bottom:18px;list-style:none;" >可用数</li>
-                <li style="margin-bottom:18px;list-style:none;">空间数</li>
-                <li style="margin-bottom:18px;list-style:none;">已缓存</li>
-                <li style="margin-bottom:18px;list-style:none;">已缓冲</li>
+                <li style="margin-bottom:18px;list-style:none;" id="menTotal" >可用数</li>
+                <li style="margin-bottom:18px;list-style:none;" id="menFree">空间数</li>
+                <li style="margin-bottom:18px;list-style:none;" id="buffers">已缓存</li>
+                <li style="margin-bottom:18px;list-style:none;" id="cached">已缓冲</li>
             </ul>
         </div>
         <div class="container">

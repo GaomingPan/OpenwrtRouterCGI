@@ -14,31 +14,16 @@
 #include "session_info.h"
 #include "login.h"
 
-#define MAXLEN 80
-#define EXTRA 5
 
-#define MAXINPUT MAXLEN+EXTRA+2
+static int http_post_data_length,
+	       http_get_data_length,
+		   request_code;
 
-int main(int argc, char *argv[])
+static long _time;
+
+
+static int do_invalid_session()
 {
-    int http_post_data_length,
-	    http_get_data_length,
-		request_code;
-
-    long _time;
-
-//	output_header_v("text/html;charset=utf-8");
-
-
-	if(0 != init_session())
-		send_redirect_to_page(PAGE_INDEX);
-
-	_time = get_last_session_time();
-
-    http_get_data_length = parse_get_request(NULL);
-    http_post_data_length = parse_post_request(NULL);
-
-    if ( is_session_valid(_time) < 0 ){
     	request_code = get_post_request_code();
     	DEBUG("main", "RequestCode", request_code);
 
@@ -59,17 +44,26 @@ int main(int argc, char *argv[])
     	}
 //    	DEBUG("main", "RequestCode", request_code);
     	return 0;
-    }
+}
 
+
+
+static int do_valid_session()
+{
     request_code = get_post_request_code();
-
+    DEBUG("session valid", "RequestCode", request_code);
     switch(request_code){
     case rLogin:
+    	output_header_v("text/html;charset=utf-8");
+    	fprintf(stdout, "%s", "<hr><center><br><h1>Login Valid ! Hello world.</h1></center>");
+    	return 0;
     	break;
 
     case rdStatus:
     	output_header_v("application/json");
     	fprintf(stdout, "%s", get_status_data());
+    	save_session_info(NULL, NULL);
+    	DEBUG("buffers data",get_buffers_data(),0);
     	return 0;
     	break;
     default:
@@ -78,7 +72,27 @@ int main(int argc, char *argv[])
     	break;
     }
 
-    return 0;
+	return 0;
+}
+
+
+
+
+int main(int argc, char *argv[])
+{
+
+	if(0 != init_session())
+		send_redirect_to_page(PAGE_INDEX);
+
+	_time = get_last_session_time();
+    http_get_data_length = parse_get_request(NULL);
+    http_post_data_length = parse_post_request(NULL);
+
+    DEBUG("data",get_http_post_data(),0);
+    if ( is_session_valid(_time) < 0 )
+    	return do_invalid_session();
+
+    return do_valid_session();
 }
 
 

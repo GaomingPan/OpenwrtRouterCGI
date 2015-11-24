@@ -37,5 +37,6 @@ char * get_post_data_property(char * property);
 
 char * get_get_data_property(char * property);
 
+char * get_buffers_data();
 
 #endif /* SRC_UTIL_H_ */

@@ -19,6 +19,8 @@ char * get_status_data()
 {
 	FILE *fp;
 
+	memset(buffers, 0, MAX_ARRAY_LENTH);
+
 	fp = popen(STATUS_DATA_SCRIPT, "r");
 
 	if (!fp)

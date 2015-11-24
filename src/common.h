@@ -44,7 +44,7 @@ typedef enum{
 #define  DEBUG(func, msg, code) do{ \
 		FILE * fp; \
 		char log[1024] = {0}; \
-		sprintf(log, "\n\n[<< DEBUG >>] --> f name: %s\n msg: %s\n code: %d\n", func, msg, code); \
+		sprintf(log, "\n\n[<< DEBUG >>] --> f name: %s\n msg: %s\n code: %ld\n", func, msg, code); \
         fp = fopen("/dev/console", "w"); \
         if(fp){ \
           fwrite(log, 1, strlen(log), fp); \

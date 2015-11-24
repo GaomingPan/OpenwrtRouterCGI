@@ -14,6 +14,7 @@
 #include "util.h"
 #include "session_info.h"
 
+
 int parse_session_file()
 {
 	char         session[MAX_ARRAY_LENTH] = {0},
@@ -52,7 +53,7 @@ int parse_session_file()
 
 	snprintf(user_name, ptr1_1 - ptr1, "%s", ptr1);
 	snprintf(password, 33, "%s", ptr1_1);
-	snprintf(_time, 10, "%s", ptr2);
+	snprintf(_time, 11, "%s", ptr2);
 
 	last_session_time = atol(_time);
 

@@ -38,12 +38,16 @@ endef
 define Package/routerSettings/install
 	$(INSTALL_DIR) $(1)/www_cloud/cgi-bin
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/src/routerSettings $(1)/www_cloud/cgi-bin/routerSettings
+	$(INSTALL_DIR) $(1)/www_cloud/cgi-bin
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/scripts/*  $(1)/www_cloud/cgi-bin/
 	$(INSTALL_DIR) $(1)/www_cloud/
 	$(CP)          $(PKG_BUILD_DIR)/www/index.html $(1)/www_cloud/
 	$(INSTALL_DIR) $(1)/www_cloud/pages
 	$(CP)          $(PKG_BUILD_DIR)/www/pages/* $(1)/www_cloud/pages/
 	$(INSTALL_DIR) $(1)/etc
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/ui_info.properties $(1)/etc/.ui_info.properties
+	$(INSTALL_DIR) $(1)/etc/config
+	$(INSTALL_DATA) $(PKG_BUILD_DIR)/etc/config/sysinfo_for_browser  $(1)/etc/config/sysinfo_for_browser
 endef
 
 $(eval $(call BuildPackage,routerSettings))
