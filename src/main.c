@@ -13,6 +13,7 @@
 #include "md5.h"
 #include "session_info.h"
 #include "login.h"
+#include "do_process.h"
 
 
 static int http_post_data_length,
@@ -56,6 +57,12 @@ static int do_valid_session()
     case rLogin:
     	output_header_v("text/html;charset=utf-8");
     	fprintf(stdout, "%s", "<hr><center><br><h1>Login Valid ! Hello world.</h1></center>");
+    	return 0;
+    	break;
+    case rLogout:
+    	output_header_v("application/json");
+    	DEBUG("Logout","rLogout",rLogout);
+    	do_logout();
     	return 0;
     	break;
 

@@ -7,7 +7,6 @@
 <link rel="stylesheet" type="text/css" media="all" href="style.css" />
 <link rel="stylesheet" type="text/css" href="style/css/media-queries.css" />
 <link rel="stylesheet" type="text/css" href="style/js/player/mediaelementplayer.css" />
-<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,400italic,300italic,300,700,700italic|Open+Sans+Condensed:300,700' rel="stylesheet" type='text/css'>
 <!--[if IE 8]>
 <link rel="stylesheet" type="text/css" href="style/css/ie8.css" media="all" />
 <![endif]-->
@@ -27,180 +26,219 @@
 <script type="text/javascript" src="style/js/twitter.min.js"></script>
 
 <script type="text/javascript">
-
 	$.backstretch("style/images/bg/1.jpg");
-	
 </script>
 
 <script type="text/javascript">
+
     setTimeout(function() {
-        Push();
-    },
-        200);
-    /*30轮询读取函数*/
+            Push();
+    },200);
+    //3秒轮询读取函数
     setInterval(function() {
         Push();
     },
-    3000);
-
-    /*请求函数的ajax*/
-
+    5000);// update check interval 5 seconds 
+    //请求函数的ajax
     function Push() {
-
-
         $.ajax({
-
             type: "POST",
             url: "/cgi-bin/routerSettings",
             data: {
-                form_id:$('#form_id').val(),
+                form_id: $('#form_id').val(),
             },
-            beforeSend: function() {},
-            success: function(data) {
-
-                var myjson='';  
-                eval("myjson=" + data + ";");  
-                $("#DeviceId").html(myjson.deviceId);  
-                $("#DeviceVer").html(myjson.deviceVer); 
-                $("#OSVersion").html(myjson.OSVersion); 
-                $("#KernelVer").html(myjson.kernelVer); 
-                $("#Uptime").html(myjson.uptime); 
+            beforeSend: function () { },
+            success: function (data) {
+                var myjson = eval(data);
+                $("#DeviceId").html(myjson.deviceId);
+                $("#DeviceVer").html(myjson.deviceVer);
+                $("#OSVersion").html(myjson.osVersion);
+                $("#KernelVer").html(myjson.kernelVer);
+                $("#Uptime").html(myjson.uptime);
                 $("#Sysload").html(myjson.sysload);
-            }
-        });}
+                $("#cpu_use").html(myjson.cpu_use + "%");
+                $("#_cpu_use").css("width", myjson.cpu_use + "%");
+                $("#total_mem").html("Total:&nbsp" + myjson.memTotal + "&nbspKB");
+                $("#MemTotal").css("width", myjson.memTotal + "%");
+                $("#MemFree").css("width", myjson.memFree / myjson.memTotal * 100 + "%");
+                $("#Buffers").css("width", myjson.buffers / myjson.memTotal * 100 + "%");
+                $("#Cached").css("width", myjson.cached / myjson.memTotal * 100 + "%");
+                $("#_mem_free").html(myjson.memFree / myjson.memTotal * 100 + "%");
+                $("#_buffers").html(myjson.buffers / myjson.memTotal * 100 + "%");
+                $("#_cached").html(myjson.cached / myjson.memTotal * 100 + "%");
+             }
+        });
+ }
+ 
+function logout() {
+    $.ajax({
+     type: "POST",
+     url: "/cgi-bin/routerSettings",
+     data: {
+            form_id: "page_logout",
+           },
+     success: function(data){}
+        });
+    window.location="/pages/login.html";
+      }
+</script>
 
+<script language="javascript" type="text/javascript">
+    //js获取日期
+    function time() {
+        var now = new Date();
+        var year = now.getFullYear();
+        var month = now.getMonth();
+        var date = now.getDate();
+        var hours = now.getHours();
+        var minutes = now.getMinutes();
+        var seconds = now.getSeconds();
+        //写入相应id
+        document.getElementById("info1").innerHTML = year + "." + (month + 1) + "." + date + "&nbsp" + hours + ":" + minutes + ":" + seconds;
+    }
+    setInterval('time()', 1000);
 </script>
 
 </head>
-<body>
-<input type="hidden" id="form_id" value="data_status">
-<div class="scanlines"></div>
-<!-- Begin Header -->
-<div class="header-wrapper opacity">
-	<div class="header">
-		<!-- Begin Logo -->
-		<div class="logo">
-		    <a href="index.html">
-                <img src="images/11.png" alt="" />
-			</a>
-	    </div>
-		<!-- End Logo -->
-		<!-- Begin Menu -->
-		<div id="menu-wrapper">
-			<div id="menu" class="menu">
-				<ul id="tiny">
-					<li class="active"><a href="index.html">路由状态 </a>
-					</li>
-
-					<li><a href="auth.html">系统设置</a>
-						<ul>
-							<li><a href="auth.html">关闭路由认证</a></li>
-							<li><a href="full-width.html">修改密码</a></li>
-                            <li><a href="full-width.html">恢复出厂设置</a></li>
-                            <li><a href="full-width.html">重启</a></li>
-						</ul>
-					</li>
-
-					<li><a href="typography.html">网络设置</a>
-						<ul>
-							<li><a href="typography.html">上网设置</a></li>
-							<li><a href="columns.html">无线设置</a></li>
-						</ul>
-					</li>
-
-					<li style="margin-left:80px;"><a href="contact.html">lin</a></li>
-                    <li><input type="button" style="background-color:#ffffff; border-radius:10px; width:60px;height:19px; color:#39accb" value="退出"></input></li>
-				</ul>
-			</div>
-		</div>
-		<div class="clear"></div>
-		<!-- End Menu -->
-	</div>
-</div>
-<!-- End Header -->
-
-<!-- Begin Wrapper -->
-<div class="wrapper"><!-- Begin Intro -->
-<div style="margin-bottom:20px;">
-    <img style="width:70px; margin-left:auto; margin-right:auto" src="images/22.png">
-    <p style="color:#000000; font-size:15px; font-weight:600; width:62px; margin-left:auto; margin-right:auto">路由状态</p>
-</div>
-    <div style="    background-color: rgba(232, 232, 232, 0.21);
-    border-radius: 25px;
-    color: #fff;
-    font-weight: 300;
-    max-width: 888px;
-    padding: 0 30px 30px 30px;
-    margin: 30px auto 0 auto;">
-        <div style="padding-top:20px; margin-left:10px;">
-            <p style="font-size:14px; font-weight:600;">系 统</p>
-        </div>
-        <hr/>
-        <table cellspacing="30" cellpadding="100"style="font-size:13px; font-weight:600; color:#000000;padding-left:60px; float:left;">
-            <tr>
-                <td>设备名</td>
-                <td id="DeviceId">SMARTINDEX</td>
-            </tr>
-            <tr>
-                <td>设备型号</td>
-                <td id="DeviceVer">SMART007</td>
-            </tr>
-            <tr>
-                <td>固件版本</td>
-                <td id="OSVersion">VERSION1.0</td>
-            </tr>
-            <tr>
-                <td>内核版本</td>
-                <td id="KernelVer">VERSION1.0</td>
-            </tr>
-        </table>
-        <table cellspacing="30" cellpadding="100" style="font-size:13px; font-weight:600; color:#000000;padding-left:175px;">
-            <tr>
-                <td>本地时间</td>
-                <td>2015.11.19 17：32：32</td>
-            </tr>
-            <tr>
-                <td>运行时间</td>
-                <td id="Uptime">1 时 38 分 38 秒</td>
-            </tr>
-            <tr>
-                <td>平均负载</td>
-                <td id="Sysload">0.19 , 0.18 , 0.29</td>
-            </tr>
-        </table>
-        <div style="padding-top:100px; margin-left:10px;">
-            <p style="font-size:14px; font-weight:600;">内 存</p>
-        </div>
-        <hr />
-        <div style="height:200px;width:150px;float:left;font-size:13px; font-weight:600; color:#000000; margin-top:37px;padding-left:105px;">
-            <ul>
-                <li style="margin-bottom:18px;list-style:none;" id="menTotal" >可用数</li>
-                <li style="margin-bottom:18px;list-style:none;" id="menFree">空间数</li>
-                <li style="margin-bottom:18px;list-style:none;" id="buffers">已缓存</li>
-                <li style="margin-bottom:18px;list-style:none;" id="cached">已缓冲</li>
-            </ul>
-        </div>
-        <div class="container">
-            <div class="progress">
-              <span style="width: 20%;"></span>
+<body onload="time()">
+<input type="hidden" id="form_id" value="data_status" />
+    <div class="scanlines"></div>
+    <!-- Begin Header -->
+    <div class="header-wrapper opacity">
+        <div class="header">
+            <!-- Begin Logo -->
+            <div class="logo">
+                <a href="index.html">
+                    <img src="images/11.png" alt="" />
+                </a>
             </div>
-            <div class="progress">
-                <span style="width: 40%;"></span>
+            <!-- End Logo -->
+            <!-- Begin Menu -->
+            <div id="menu-wrapper">
+                <div id="menu" class="menu">
+                    <ul id="tiny">
+                        <li class="active">
+                            <a href="/index.html">路由状态 </a>
+                        </li>
+                        <li>
+                            <a href="auth.html">系统设置</a>
+                            <ul>
+                                <li><a href="auth.html">关闭路由认证</a></li>
+                                <li><a href="full-width.html">修改密码</a></li>
+                                <li><a href="full-width.html">恢复出厂设置</a></li>
+                                <li><a href="full-width.html">重启</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="typography.html">网络设置</a>
+                            <ul>
+                                <li><a href="typography.html">上网设置</a></li>
+                                <li><a href="columns.html">无线设置</a></li>
+                            </ul>
+                        </li>
+                        <li style="margin-left:80px;"><a href="contact.html">lin</a></li>
+                        <li><input type="button" style="background-color:#ffffff; border-radius:10px; width:60px;height:19px; color:#39accb; cursor: pointer" value="退出" onclick="logout()"></input></li>
+                    </ul>
+                </div>
             </div>
-            <div class="progress">
-                <span class="orange" style="width: 60%;"></span>
-            </div>
-            <div class="progress">
-                <span class="red" style="width: 80%;"></span>
-            </div>
+            <div class="clear"></div>
+            <!-- End Menu -->
         </div>
-
-
     </div>
+    <!-- End Header -->
+    <!-- Begin Wrapper -->
+    <div class="wrapper">
+        <!-- Begin Intro -->
+        <div style="margin-bottom:20px;">
+            <img style="width:70px; margin-left:auto; margin-right:auto" src="images/22.png">
+            <p style="color:#000000; font-size:15px; font-weight:600; width:62px; margin-left:auto; margin-right:auto">路由状态</p>
+        </div>
+        <div style="background-color: rgba(232, 232, 232, 0.21);
+                    border-radius: 25px;
+                    color: #fff;
+                    font-weight: 300;
+                    max-width: 888px;
+                    padding: 0 30px 30px 30px;
+                    margin: 30px auto 0 auto;">
+            <div style="padding-top:20px; margin-left:10px;">
+                <p style="font-size:14px; font-weight:600;">系 统</p>
+            </div>
+            <hr />
+            <table cellspacing="30" cellpadding="100" style="font-size:13px; font-weight:600; color:#000000;padding-left:60px; float:left;">
+                <tr>
+                    <td>设备名</td>
+                    <td id="DeviceId">---</td>
+                </tr>
+                <tr>
+                    <td>设备型号</td>
+                    <td id="DeviceVer">---</td>
+                </tr>
+                <tr>
+                    <td>固件版本</td>
+                    <td id="OSVersion">---</td>
+                </tr>
+                <tr>
+                    <td>内核版本</td>
+                    <td id="KernelVer">---</td>
+                </tr>
+            </table>
+            <table cellspacing="30" cellpadding="100" style="font-size:13px; font-weight:600; color:#000000;padding-left:175px;">
+                <tr>
+                    <td>本地时间</td>
+                    <td id="info1">---</td>
+                </tr>
+                <tr>
+                    <td>运行时间</td>
+                    <td id="Uptime">---</td>
+                </tr>
+                <tr>
+                    <td>平均负载</td>
+                    <td id="Sysload">---</td>
+                </tr>
+            </table>
+            <div style="padding-top:60px; margin-left:10px;">
+                <p style="font-size:14px; font-weight:600;">CPU</p>
+            </div>
+            <hr />
+            <div style="padding-top:50px; margin-left:10px;font-size:13px; font-weight:600; color:#000000;">
+              <ul>
+                <li style="margin-bottom:18px;list-style:none;padding-left:105px;">使用率</li>
+              </ul>              
+            </div>
+            <div class="container" style="padding-left:60px;">
+                <div class="progress">
+                    <span id="_cpu_use" style="width: 20%;"></span>&nbsp<a id="cpu_use" style="font-size:10px; color:#55FF16">--</a>
+                </div>
+            </div>
 
-
-</div>
-
+            <div style="padding-top:50px; margin-left:10px;">
+                <p style="font-size:14px; font-weight:600;">内 存 <a id="total_mem" style="padding-left:100px; color:#55FF16">KB</a></p>
+            </div>
+            <hr />
+            <div style="height:200px;width:150px;float:left;font-size:13px; font-weight:600; color:#000000; margin-top:37px;padding-left:105px;">
+                <ul>
+                    <!--<li style="margin-bottom:18px;list-style:none;">空间数</li>-->
+                    <li style="margin-bottom:18px;list-style:none;">可用数</li>
+                    <li style="margin-bottom:18px;list-style:none;">已缓存</li>
+                    <li style="margin-bottom:18px;list-style:none;">已缓冲</li>
+                </ul>
+            </div>
+            <div class="container">
+                <!--<div class="progress">
+                    <span id="MemTotal" style="width: 20%;"></span>
+                </div>-->
+                <div class="progress">
+                    <span id="MemFree" style="width: 0%;"></span>&nbsp<a id="_mem_free" style="font-size:10px; color:#55FF16">--</a>
+                </div>
+                <div class="progress">
+                    <span id="Buffers" style="width: 0%;"></span>&nbsp<a id="_buffers" style="font-size:10px; color:#55FF16">--</a>
+                </div>
+                <div class="progress">
+                    <span id="Cached" style="width:  0%;"></span>&nbsp<a id="_cached" style="font-size:10px; color:#55FF16">--</a>
+                </div>
+            </div>
+        </div>
+    </div>
 <script type="text/javascript" src="style/js/scripts.js"></script>
 </body>
 </html>

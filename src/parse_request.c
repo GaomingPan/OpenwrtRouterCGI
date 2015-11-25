@@ -21,8 +21,19 @@ static const struct{
 
 		{"page_login", rLogin},
 		{"page_status", rStatus},
+		{"page_logout", rLogout},
 		{"page_error", rBadRequest},
+
 		{"data_status", rdStatus},
+		{"data_network", rdNetwork},
+		{"data_wireless", rdWireless},
+		{"data_admin", rdAdmin},
+
+		{"set_wan", rsWan},
+		{"set_lan", rsLan},
+		{"set_wireless", rsWireless},
+		{"set_admin", rsAdmin},
+
 		{NULL, rInvalid},
 };
 

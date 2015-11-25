@@ -11,6 +11,7 @@ OS_VERSION=""
 KERNEL_VER=""
 UPTIME=""
 SYSLOAD=""
+CPU_USE=""
 MEM_TOTAL=""
 MEM_FREE=""
 BUFFERS=""
@@ -47,6 +48,11 @@ KERNEL_VER="$(cat /proc/version|awk '{print $2,$3}')"
 
 }
 
+get_cpu_use()
+{
+   CPU_USE=$(top -n1|awk 'NR==2 {print $8}'|tr "%" " ")
+}
+
 json_data_maker()
 {
    JSON_DATA_STRING="{ 
@@ -55,11 +61,12 @@ json_data_maker()
     \"osVersion\":\"$OS_VERSION\",
     \"kernelVer\":\"$KERNEL_VER\",
     \"uptime\":\"$UPTIME\",
+    \"cpu_use\":$((100-$CPU_USE)),
     \"sysload\":\"$SYSLOAD\",
-    \"memTotal\":\"$MEM_TOTAL KB\",
-    \"memFree\":\"$MEM_FREE KB\",
-    \"buffers\":\"$BUFFERS KB\",
-    \"cached\":\"$CACHED KB\"   
+    \"memTotal\":$MEM_TOTAL,
+    \"memFree\":$MEM_FREE,
+    \"buffers\":$BUFFERS,
+    \"cached\":$CACHED  
     
     }"
 }
@@ -69,6 +76,7 @@ main()
     get_memory_info
     get_sysload_uptime
     get_sys_info
+    get_cpu_use
     json_data_maker
 }
 

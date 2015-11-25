@@ -1,0 +1,75 @@
+#!/bin/sh
+#
+#
+#
+###############################
+
+JSON_DATA_STRING=""
+
+NETWORK_LAN=""
+NETWORK_WAN=""
+
+
+LAN_PROTO=""
+LAN_IPADDR=""
+LAN_NETMASK=""
+
+
+WAN_PROTO=""
+WAN_IPADDR=""
+WAN_NETMASK=""
+WAN_GATEWAY=""
+WAN_DNS=""
+
+
+
+get_lan_info()
+{
+  LAN_PROTO="$(uci get network.lan.proto)"
+  LAN_IPADDR="$(uci get network.lan.ipaddr)"
+  LAN_NETMASK="$(uci get network.lan.netmask)"
+}
+
+
+get_wan_info()
+{
+  WAN_PROTO="$(uci get network.wan.proto)"
+  WAN_IPADDR="$(uci get network.wan.ipaddr)"
+  WAN_NETMASK="$(uci get network.wan.netmask)"
+  WAN_GATEWAY="$(uci get network.wan.gateway)"
+  WAN_DNS="$(uci get network.wan.dns)"
+}
+
+json_maker()
+{
+   NETWORK_LAN="{
+       \"lan_proto\":\"$LAN_PROTO\",
+       \"lan_ipaddr\":\"$LAN_IPADDR\",
+       \"lan_netmask\":\"$LAN_NETMASK\"
+   }"
+   NETWORK_WAN="{
+      \"wan_proto\":\"$WAN_PROTO\",
+      \"wan_ipaddr\":\"$WAN_IPADDR\",
+      \"wan_netmask\":\"$WAN_NETMASK\",
+      \"wan_gateway\":\"$WAN_GATEWAY\",
+      \"wan_dns\":\"$WAN_DNS\"
+   }"
+   
+   JSON_DATA_STRING="{
+       \"network_wan\":$NETWORK_WAN,
+       \"network_lan\":$NETWORK_LAN
+   }"
+}
+
+main()
+{
+   get_lan_info
+   get_wan_info
+   json_maker
+}
+
+
+main
+echo $JSON_DATA_STRING
+
+

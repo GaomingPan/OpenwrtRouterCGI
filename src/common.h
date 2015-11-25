@@ -31,13 +31,24 @@
 
 
 typedef enum{
+
 	rLogin,
+	rLogout,
 	rStatus,
 	rSystem,
 	rBadRequest,
 	rInvalid,
 
 	rdStatus,
+	rdNetwork,
+	rdWireless,
+	rdAdmin,
+
+	rsWan,
+	rsLan,
+	rsWireless,
+	rsAdmin,
+
 }RequestCode;
 
 
