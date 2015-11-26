@@ -11,7 +11,10 @@
 #define  SESSION_CONF_FILE  "/etc/.ui_info.properties"
 #define  PAGES_HOME         "/pages"
 #define  CGI_HOME           "/www_cloud/cgi-bin"
-#define  STATUS_DATA_SCRIPT  CGI_HOME"/getStatusInfo"
+
+#define  STATUS_DATA_SCRIPT       CGI_HOME"/getStatusInfo"
+#define  NETWORK_DATA_SCRIPT      CGI_HOME"/getNetworkInfo"
+#define  WIRELESS_DATA_SCRIPT     CGI_HOME"/getWirelessInfo"
 
 #define  SESSION_TIME_OUT        180
 #define  MAX_ARRAY_LENTH         2048

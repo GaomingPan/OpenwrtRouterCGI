@@ -20,3 +20,4 @@ void do_logout()
     clean_session();
     fprintf(stdout, "%s", "[\"code\":0]");
 }
+

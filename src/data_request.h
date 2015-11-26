@@ -10,4 +10,8 @@
 
 char * get_status_data();
 
+char * get_network_data();
+
+char * get_wireless_data();
+
 #endif /* SRC_DATA_REQUEST_H_ */

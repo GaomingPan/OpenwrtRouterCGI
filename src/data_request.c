@@ -33,3 +33,46 @@ char * get_status_data()
 err:
 	return NULL;
 }
+
+
+char * get_network_data()
+{
+	FILE *fp;
+
+	memset(buffers, 0, MAX_ARRAY_LENTH);
+
+	fp = popen(NETWORK_DATA_SCRIPT, "r");
+
+	if (!fp)
+		goto err;
+
+	fread(buffers, 1, MAX_ARRAY_LENTH, fp);
+	pclose(fp);
+
+	return buffers;
+err:
+	return NULL;
+}
+
+
+char * get_wireless_data()
+{
+	FILE *fp;
+
+	memset(buffers, 0, MAX_ARRAY_LENTH);
+
+	fp = popen(WIRELESS_DATA_SCRIPT, "r");
+
+	if (!fp)
+		goto err;
+
+	fread(buffers, 1, MAX_ARRAY_LENTH, fp);
+	pclose(fp);
+
+	return buffers;
+err:
+	return NULL;
+}
+
+
+

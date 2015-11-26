@@ -48,6 +48,7 @@
                 form_id: $('#form_id').val(),
             },
             beforeSend: function () { },
+            dataType: "json",
             success: function (data) {
                 var myjson = eval(data);
                 $("#DeviceId").html(myjson.deviceId);
@@ -63,9 +64,9 @@
                 $("#MemFree").css("width", myjson.memFree / myjson.memTotal * 100 + "%");
                 $("#Buffers").css("width", myjson.buffers / myjson.memTotal * 100 + "%");
                 $("#Cached").css("width", myjson.cached / myjson.memTotal * 100 + "%");
-                $("#_mem_free").html(myjson.memFree / myjson.memTotal * 100 + "%");
-                $("#_buffers").html(myjson.buffers / myjson.memTotal * 100 + "%");
-                $("#_cached").html(myjson.cached / myjson.memTotal * 100 + "%");
+                $("#_mem_free").html(parseInt(myjson.memFree / myjson.memTotal * 100) + "%");
+                $("#_buffers").html(parseInt(myjson.buffers / myjson.memTotal * 100) + "%");
+                $("#_cached").html(parseInt(myjson.cached / myjson.memTotal * 100) + "%");
              }
         });
  }
@@ -77,6 +78,7 @@ function logout() {
      data: {
             form_id: "page_logout",
            },
+     dataType: "json",
      success: function(data){}
         });
     window.location="/pages/login.html";
@@ -94,7 +96,7 @@ function logout() {
         var minutes = now.getMinutes();
         var seconds = now.getSeconds();
         //写入相应id
-        document.getElementById("info1").innerHTML = year + "." + (month + 1) + "." + date + "&nbsp" + hours + ":" + minutes + ":" + seconds;
+        document.getElementById("info1").innerHTML = year + "&nbsp年" + (month + 1) + "&nbsp月" + date + "&nbsp日&nbsp" + hours + ":" + minutes + ":" + seconds;
     }
     setInterval('time()', 1000);
 </script>
