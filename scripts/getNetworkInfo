@@ -21,6 +21,39 @@ WAN_NETMASK=""
 WAN_GATEWAY=""
 WAN_DNS=""
 
+DHCP_WAN=""
+DHCP_LAN=""
+
+get_dhcp_info()
+{
+  dhcp_wan_ignore="$(uci get dhcp.wan.ignore)"
+  
+  if [ $? -ne 0 ] 
+   then
+      dhcp_wan_ignore="0"
+  fi
+  
+  dhcp_lan_ignore="$(uci get dhcp.lan.ignore)"
+  if [ $? -ne 0 ] 
+   then
+      dhcp_lan_ignore="0"
+  fi
+  dhcp_lan_start="$(uci get dhcp.lan.start)"
+  dhcp_lan_limit="$(uci get dhcp.lan.limit)"
+  dhcp_lan_leasetime="$(uci get dhcp.lan.leasetime)"
+  
+  DHCP_LAN="{
+    \"ignore\":$dhcp_lan_ignore,
+    \"start\":\"$dhcp_lan_start\",
+    \"limit\":\"$dhcp_lan_limit\",
+    \"leasetime\":\"$dhcp_lan_leasetime\"
+  }"
+  
+  DHCP_WAN="{
+    \"ignore\":$dhcp_wan_ignore
+  }"
+}
+
 
 
 get_lan_info()
@@ -57,7 +90,9 @@ json_maker()
    
    JSON_DATA_STRING="{
        \"network_wan\":$NETWORK_WAN,
-       \"network_lan\":$NETWORK_LAN
+       \"network_lan\":$NETWORK_LAN,
+       \"dhcp_wan\":$DHCP_WAN,
+       \"dhcp_lan\":$DHCP_LAN
    }"
 }
 
@@ -65,6 +100,7 @@ main()
 {
    get_lan_info
    get_wan_info
+   get_dhcp_info
    json_maker
 }
 

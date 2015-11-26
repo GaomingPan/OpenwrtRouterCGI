@@ -32,32 +32,38 @@ set_network_wan()
      WAN_GATEWAY=$4
      WAN_DNS=$5
      
-     if [ "$WAN_PROTO" -eq "" ]
+     if [ "$WAN_PROTO" == "" ]
       then
         return 1
      fi
      uci set network.wan.proto=$WAN_PROTO
-     if [ $? -ne 0 ] then
+     if [ $? -ne 0 ] 
+     then
        return 2
      fi
      uci set network.wan.ipaddr=$WAN_IP
-     if [ $? -ne 0 ] then
+     if [ $? -ne 0 ] 
+     then
        return 3
      fi
      uci set network.wan.netmask=$WAN_NETMASK
-     if [ $? -ne 0 ] then
+     if [ $? -ne 0 ] 
+     then
        return 4
      fi
      uci set network.wan.gateway=$WAN_GATEWAY
-     if [ $? -ne 0 ] then
+     if [ $? -ne 0 ] 
+     then
        return 5
      fi
      uci set network.wan.dns=$WAN_DNS
-     if [ $? -ne 0 ] then
+     if [ $? -ne 0 ] 
+     then
        return 6
      fi
      uci commit network
-     if [ $? -ne 0 ] then
+     if [ $? -ne 0 ] 
+     then
        return 1
      fi
      return 0     
@@ -75,24 +81,28 @@ set_network_lan()
     LAN_IP=$2
     LAN_NETMASK=$3
     
-    if [ "$LAN_PROTO" -eq "" ]
+    if [ "$LAN_PROTO" == "" ]
     then
        return 1
     fi
     uci set network.lan.proto=$LAN_PROTO
-    if [ $? -ne 0 ] then
+    if [ $? -ne 0 ] 
+    then
        return 2
     fi
     uci set network.lan.ipaddr=$LAN_IP
-    if [ $? -ne 0 ] then
+    if [ $? -ne 0 ] 
+    then
        return 3
     fi
     uci set network.lan.netmask=$LAN_NETMASK
-    if [ $? -ne 0 ] then
+    if [ $? -ne 0 ] 
+    then
        return 4
     fi
     uci commit network
-    if [ $? -ne 0 ] then
+    if [ $? -ne 0 ] 
+    then
        return 1
     fi
     return 0 
@@ -103,11 +113,13 @@ set_network_lan()
 #
 set_network()
 {
-      if [ "$1" -eq "wan" ] then
+      if [ "$1" == "wan" ] 
+      then
         return set_network_wan $2 $3 $4 $5 $6
       fi
       
-      if [ "$1" -eq "lan" ] then
+      if [ "$1" == "lan" ] 
+      then
         return set_network_lan $2 $3 $4
       fi
       
@@ -120,12 +132,14 @@ set_network()
 network_restart()
 {
    ifdown $1
-   if [ $? -ne 0 ] then
+   if [ $? -ne 0 ] 
+   then
     return 1
    fi
    sleep 1
    ifup $1
-   if [ $? -ne 0 ] then
+   if [ $? -ne 0 ] 
+   then
     return 2
    fi
    return 0;
@@ -134,7 +148,8 @@ network_restart()
 main()
 {
    set_network $1 $2 $3 $4 $5 $6
-   if [ $? -eq 0 ] then
+   if [ $? -eq 0 ] 
+   then
      set_network $1
      echo $?
      return
