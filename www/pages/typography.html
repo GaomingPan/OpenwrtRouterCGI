@@ -1,0 +1,398 @@
+﻿<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>网络设置</title>
+    <link rel="stylesheet" type="text/css" media="all" href="style.css"/>
+    <link rel="stylesheet" type="text/css" href="style/css/media-queries.css"/>
+    <link rel="stylesheet" type="text/css" href="style/js/player/mediaelementplayer.css"/>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,400italic,300italic,300,700,700italic|Open+Sans+Condensed:300,700'
+          rel="stylesheet" type='text/css'>
+    <link rel="stylesheet" href="css/jquery-labelauty.css">
+    <!--[if IE 8]>
+    <link rel="stylesheet" type="text/css" href="style/css/ie8.css" media="all"/>
+    <![endif]-->
+    <!--[if IE 9]>
+    <link rel="stylesheet" type="text/css" href="style/css/ie9.css" media="all"/>
+    <![endif]-->
+    <script type="text/javascript" src="style/js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="style/js/ddsmoothmenu.js"></script>
+    <script type="text/javascript" src="style/js/retina.js"></script>
+    <script type="text/javascript" src="style/js/selectnav.js"></script>
+    <script type="text/javascript" src="style/js/jquery.masonry.min.js"></script>
+    <script type="text/javascript" src="style/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="style/js/jquery.backstretch.min.js"></script>
+    <script type="text/javascript" src="style/js/mediaelement.min.js"></script>
+    <script type="text/javascript" src="style/js/mediaelementplayer.min.js"></script>
+    <script type="text/javascript" src="style/js/jquery.dcflickr.1.0.js"></script>
+    <script type="text/javascript" src="style/js/twitter.min.js"></script>
+
+    <script type="text/javascript">
+        $.backstretch("style/images/bg/1.jpg");
+    </script>
+
+    <script type="text/javascript">
+        function networkSettings_data_binding() {
+            $.ajax({
+                type: "POST",
+                url: "/cgi-bin/routerSettings",
+                data: {
+                    form_id: "data_network"
+                },
+                dataType: "json",
+                beforeSend: function () {
+                },
+                success: function (data) {
+
+                    var ret_data = eval(data);
+                    if (ret_data.network_wan.wan_proto == "static") {
+
+                        $("#network_type").html("&amp[&amp当前联网方式:&amp静态&ampIP&amp地址&amp]");
+
+                        if ($("#static_ip").is(":checked"))
+                            ;
+                        else
+                            $("#static_ip").attr("checked", true);
+
+                        $("#objPage > .div-item").css("visibility", "hidden");
+                        $("#objPage > .div-item").css("display", "none");
+                        $("#objPage > #div2").css("visibility", "visible");
+                        $("#objPage > #div2").css("display", "block");
+
+                        var ip_str;
+                        ip_str = ret_data.network_wan.wan_ipaddr;
+                        $("#ip1").val(ip_str.split(".")[0]);
+                        $("#ip2").val(ip_str.split(".")[1]);
+                        $("#ip3").val(ip_str.split(".")[2]);
+                        $("#ip4").val(ip_str.split(".")[3]);
+
+                        ip_str = ret_data.network_wan.wan_netmask;
+                        $("#netmask1").val(ip_str.split(".")[0]);
+                        $("#netmask2").val(ip_str.split(".")[1]);
+                        $("#netmask3").val(ip_str.split(".")[2]);
+                        $("#netmask4").val(ip_str.split(".")[3]);
+
+                        ip_str = ret_data.network_wan.wan_gateway;
+                        $("#gateway1").val(ip_str.split(".")[0]);
+                        $("#gateway2").val(ip_str.split(".")[1]);
+                        $("#gateway3").val(ip_str.split(".")[2]);
+                        $("#gateway4").val(ip_str.split(".")[3]);
+
+                        ip_str = ret_data.network_wan.wan_dns;
+                        $("#dns1").val(ip_str.split(".")[0]);
+                        $("#dns2").val(ip_str.split(".")[1]);
+                        $("#dns3").val(ip_str.split(".")[2]);
+                        $("#dns4").val(ip_str.split(".")[3]);
+
+                    } else if (ret_data.network_wan.wan_proto == "dhcp") {
+
+                        $("#network_type").html("&nbsp;[&nbsp;当前联网方式:&nbsp;DHCP&nbsp;客户端&nbsp]");
+
+                        if ($("#dhcp").is(":checked"))
+                            ;
+                        else
+                            $("#dhcp").attr("checked", true);
+
+                        $("#objPage > .div-item").css("visibility", "hidden");
+                        $("#objPage > .div-item").css("display", "none");
+                        $("#objPage > #div1").css("visibility", "visible");
+                        $("#objPage > #div1").css("display", "block");
+
+                    } else if (ret_data.network_wan.wan_proto == "pppoe") {
+
+                        $("#network_type").html("&nbsp;[&nbsp;当前联网方式:&nbsp;PPPoE&nbsp;拨号&nbsp;]");
+
+                        if ($("#pppoe").is(":checked"))
+                            ;
+                        else
+                            $("#pppoe").attr("checked", true);
+
+                        var str;
+                        str = ret_data.network_wan.wan_pppoe_username;
+                        $("#pppoe_username").val(str);
+                        str = ret_data.network_wan.wan_pppoe_password;
+                        $("#pppoe_password").val(str);
+
+                        $("#objPage > .div-item").css("visibility", "hidden");
+                        $("#objPage > .div-item").css("display", "none");
+                        $("#objPage > #div3").css("visibility", "visible");
+                        $("#objPage > #div3").css("display", "block");
+
+                    } else
+                        alert("Server ERROR !");
+
+
+                },//success: function (data)
+            })
+        }
+
+        function networkSettings_data_post() {
+            var proto;
+            var ip;
+            var netmask;
+            var gateway;
+            var dns;
+            var pppoe_username;
+            var pppoe_password;
+
+            ip=$("#ip1").val() + "." + $("#ip2").val() + "." + $("#ip3").val() + "." + $("#ip4").val();
+            netmask=$("#netmask1").val() + "." + $("#netmask2").val() + "." + $("#netmask3").val() + "." + $("#netmask4").val();
+            gateway=$("#gateway1").val() + "." + $("#gateway2").val() + "." + $("#gateway3").val() + "." + $("#gateway4").val();
+            dns=$("#dns1").val() + "." + $("#dns2").val() + "." + $("#dns3").val() + "." + $("#dns4").val();
+            pppoe_username=$("#pppoe_username").val();
+            pppoe_password=$("#pppoe_password").val();
+
+
+            if ($("#static_ip").is(":checked"))
+                proto="static";
+
+            if ($("#pppoe").is(":checked"))
+                proto="pppoe";
+
+            if ($("#dhcp").is(":checked"))
+                proto="dhcp";
+
+            $.ajax({
+                type: "POST",
+                url: "/cgi-bin/routerSettings",
+                data: {
+                    form_id: "set_wan",
+                    wan_proto: proto,
+                    wan_ip: ip,
+                    wan_netmask: netmask,
+                    wan_gateway: gateway,
+                    wan_dns:dns,
+                    wan_pppoe_username: pppoe_username,
+                    wan_pppoe_password: pppoe_password,
+                },
+                dataType: "json",
+                beforeSend: function () {
+
+                },
+                success: function ( data ) {
+                    var ret = eval( data );
+                    if(ret.result == 0){
+                        alert("OK: 上网设置成功！");
+                        window.location="/index.html";
+                    }else{
+                        alert("ERROR: 上网设置出错！请重新设置！");
+                        window.location="/index.html";
+                    }
+                },//success: function (data)
+            });
+
+           // window.location("/index.html");
+        }
+    </script>
+
+    <style>
+        ul {
+            list-style-type: none;
+        }
+
+        li {
+            display: inline-block;
+        }
+
+        li {
+            margin: 10px 0;
+        }
+
+        input.labelauty + label {
+            font: 12px "Microsoft Yahei";
+        }
+    </style>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#dhcp").click(function () {
+                $("#objPage > .div-item").css("visibility", "hidden");
+                $("#objPage > .div-item").css("display", "none");
+                $("#objPage > #div1").css("visibility", "visible");
+                $("#objPage > #div1").css("display", "block");
+            });
+            $("#static_ip").click(function () {
+                $("#objPage > .div-item").css("visibility", "hidden");
+                $("#objPage > .div-item").css("display", "none");
+                $("#objPage > #div2").css("visibility", "visible");
+                $("#objPage > #div2").css("display", "block");
+            });
+            $("#pppoe").click(function () {
+                $("#objPage > .div-item").css("visibility", "hidden");
+                $("#objPage > .div-item").css("display", "none");
+                $("#objPage > #div3").css("visibility", "visible");
+                $("#objPage > #div3").css("display", "block");
+            });
+        });
+    </script>
+
+    <script id="clientEventHandlersJS" language="javascript">
+        //<!--
+        function T1_onkeyup() {
+            if (document.card.T1.value.length == 3) {
+                document.card.T2.focus();
+            }
+        }
+        function T2_onkeyup() {
+            if (document.card.T2.value.length == 3) {
+                document.card.T3.focus();
+            }
+        }
+
+        function T3_onkeyup() {
+            if (document.card.T3.value.length == 3) {
+                document.card.T4.focus();
+            }
+        }
+        //-->
+    </script>
+</head>
+<body onload="networkSettings_data_binding()">
+<div class="scanlines"></div>
+
+<!-- Begin Header -->
+<div class="header-wrapper opacity">
+    <div class="header">
+        <!-- Begin Logo -->
+        <div class="logo">
+            <a href="index.html">
+                <img src="images/11.png" alt=""/>
+            </a>
+        </div>
+        <!-- End Logo -->
+        <!-- Begin Menu -->
+        <div id="menu-wrapper">
+            <div id="menu" class="menu">
+                <ul id="tiny">
+                    <li><a href="/index.html">路由状态</a>
+                    </li>
+                    <li><a href="page-with-sidebar.html">系统设置</a>
+                        <ul>
+                            <li><a href="auth.html">关闭路由认证</a></li>
+                            <li><a href="full-width.html">修改密码</a></li>
+                            <li><a href="full-width.html">恢复出厂设置</a></li>
+                            <li><a href="full-width.html">重启</a></li>
+                        </ul>
+                    </li>
+                    <li class="active"><a href="#">网络设置</a>
+                        <ul>
+                            <li><a href="typography.html">上网设置</a></li>
+                            <li><a href="wifi.html">无线设置</a></li>
+                        </ul>
+                    </li>
+                    <li style="margin-left:80px;"><a href="#">lin</a></li>
+                    <li><input type="button"
+                               style="background-color:#ffffff; border-radius:10px; width:60px;height:19px; color:#39accb"
+                               value="退出"/></li>
+                </ul>
+            </div>
+        </div>
+        <div class="clear"></div>
+        <!-- End Menu -->
+    </div>
+</div>
+<!-- End Header -->
+
+<!-- Begin Wrapper -->
+<div class="wrapper"><!-- Begin Intro -->
+    <!-- Begin Container -->
+    <div style="margin-bottom:20px;">
+        <img style="width:70px; margin-left:auto; margin-right:auto" src="images/22.png">
+
+        <p style="color:#000000; font-size:15px; font-weight:600; width:70px; margin-left:auto; margin-right:auto">
+            上网设置  </p>
+    </div>
+    <div style="background-color: rgba(232, 232, 232, 0.21);
+                    border-radius: 25px;
+                    color: #fff;
+                    font-weight: 300;
+                    max-width: 888px;
+                    padding: 0 30px 30px 30px;
+                    margin: 30px auto 0 auto;">
+        <div style="padding-top:20px; margin-left:10px;">
+            <p style="font-size:14px; font-weight:600; float:left;">上 网 设 置 <a id="network_type" type="color:#FF0000">---</a></p>
+            <input type="button" id="submit_button" value="提交更改" onclick="networkSettings_data_post();" style="width:150px; height:100%;margin-left:75%;" />
+        </div>
+        <hr style="margin-top:20px;"/>
+        <div>
+            <ul style="text-align: -webkit-center;">
+                <li><input type="radio" name="radio" id="dhcp" data-labelauty="DHCP 客户端"></li>
+                <li><input type="radio" name="radio" id="static_ip" data-labelauty=" 静态 IP 地址"></li>
+                <li><input type="radio" name="radio" id="pppoe" data-labelauty=" PPPoE 拨号"></li>
+            </ul>
+        </div>
+        <div id="objPage">
+            <!--<div id="div1" class="div-item" style="width:100px;height:100px;background-color:#0ff;visibility:hidden;display:none"></div>-->
+            <div id="div2" class="div-item" style="visibility:hidden;display:none;text-align: -webkit-center;">
+                <form method="POST" name="card" style="margin-bottom:20px;">
+                    IP &emsp; 地址：
+                    <input type="text" id="ip1" name="T1" size="4" maxlength="4" language="javascript"
+                           onkeyup="return T1_onkeyup()" style="margin-top:30px; width:5%">.
+                    <input type="text" id="ip2" name="T2" size="4" maxlength="4" language="javascript"
+                           onkeyup="return T2_onkeyup()" style="width:5%">.
+                    <input type="text" id="ip3" name="T3" size="4" maxlength="4" language="javascript"
+                           onkeyup="return T3_onkeyup()" style="width:5%">.
+                    <input type="text" id="ip4" name="T4" size="4" maxlength="4" style="width:5%">
+                </form>
+                <form method="POST" name="card" style="margin-bottom:20px;">
+                    子网掩码：
+                    <input type="text" id="netmask1" name="T1" size="4" maxlength="4" language="javascript"
+                           onkeyup="return T1_onkeyup()" style="width:5%">.
+                    <input type="text" id="netmask2" name="T2" size="4" maxlength="4" language="javascript"
+                           onkeyup="return T2_onkeyup()" style="width:5%">.
+                    <input type="text" id="netmask3" name="T3" size="4" maxlength="4" language="javascript"
+                           onkeyup="return T3_onkeyup()" style="width:5%">.
+                    <input type="text" id="netmask4" name="T4" size="4" maxlength="4" style="width:5%">
+                </form>
+                <form method="POST" name="card" style="margin-bottom:20px;">
+                    默认网关：
+                    <input type="text" id="gateway1" name="T1" size="4" maxlength="4" language="javascript"
+                           onkeyup="return T1_onkeyup()" style="width:5%">.
+                    <input type="text" id="gateway2" name="T2" size="4" maxlength="4" language="javascript"
+                           onkeyup="return T2_onkeyup()" style="width:5%">.
+                    <input type="text" id="gateway3" name="T3" size="4" maxlength="4" language="javascript"
+                           onkeyup="return T3_onkeyup()" style="width:5%">.
+                    <input type="text" id="gateway4" name="T4" size="4" maxlength="4" style="width:5%">
+                </form>
+                <form method="POST" name="card" style="margin-bottom:50px;">
+                    DNS服务器：
+                    <input type="text" id="dns1" name="T1" size="4" maxlength="4" language="javascript"
+                           onkeyup="return T1_onkeyup()" style="width:5%">.
+                    <input type="text" id="dns2" name="T2" size="4" maxlength="4" language="javascript"
+                           onkeyup="return T2_onkeyup()" style="width:5%">.
+                    <input type="text" id="dns3" name="T3" size="4" maxlength="4" language="javascript"
+                           onkeyup="return T3_onkeyup()" style="width:5%">.
+                    <input type="text" id="dns4" name="T4" size="4" maxlength="4" style="width:5%">
+                </form>
+
+            </div>
+            <div id="div3" class="div-item"
+                 style="text-align: -webkit-center;height:100%;visibility:hidden;display:none;">
+
+                <form method="POST" style="margin-bottom:50px;">
+                    账 号:
+                    <input type="text" id="pppoe_username" name="firstname" style="margin-top:30px; margin-bottom:30px;width:15%"/>
+                    <br/>
+                    密 码:
+                    <input type="text" id="pppoe_password" name="lastname" style="margin-bottom:20px;width:15%"/>
+                </form>
+            </div>
+        </div>
+
+
+    </div>
+    <!-- End Container -->
+
+</div>
+<!-- End Wrapper -->
+<!-- End Footer -->
+<script src="js/jquery-labelauty.js"></script>
+<script>
+    $(function () {
+        $(':input').labelauty();
+    });
+</script>
+<script type="text/javascript" src="style/js/scripts.js"></script>
+</body>
+</html>

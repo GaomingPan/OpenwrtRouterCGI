@@ -1,0 +1,86 @@
+#!/bin/sh
+#
+##########################
+
+WIFI_DISABLED=""
+WIFI_SSID=""
+WIFI_ENCRYPTION=""
+WIFI_KEY=""
+WIFI_SSID_HIDDEN=""
+
+
+#
+# $1 disabled
+# $2 ssid
+# $3 encryption 
+# $4 key(password)
+# $5 ssid_hidden
+#
+set_wireless()
+{
+   ret=1
+   
+   WIFI_DISABLED="$1"
+   WIFI_SSID="$2"
+   WIFI_ENCRYPTION="$3"
+   WIFI_KEY="$4"
+   WIFI_SSID_HIDDEN="$5"
+   
+   if [ "$WIFI_SSID" == "" ]
+   then
+      return 1
+   fi
+   if [ "$WIFI_ENCRYPTION" == "" ]
+   then
+      WIFI_ENCRYPTION="none"
+   fi
+   if [ "$WIFI_KEY" == "" ]
+   then
+     WIFI_ENCRYPTION="none"
+     WIFI_KEY="123456"
+   fi
+   if [ "$WIFI_SSID_HIDDEN" == "" ]
+   then
+      WIFI_SSID_HIDDEN="0"
+   fi
+   
+   uci set wireless.radio0.disabled=$WIFI_DISABLED
+   uci set wireless.@wifi-iface[0].ssid=$WIFI_SSID
+   uci set wireless.@wifi-iface[0].encryption=$WIFI_ENCRYPTION
+   uci set wireless.@wifi-iface[0].key=$WIFI_KEY
+   uci set wireless.@wifi-iface[0].hidden=$WIFI_SSID_HIDDEN
+   
+   uci commit wireless
+  
+   return $?
+}
+
+
+
+wireless_restart()
+{
+    /bin/ubus call network reload >/dev/null 2>/dev/null
+    return $?
+}
+
+#
+# $1 wifi_disabled
+# $2 ssid
+# $3 encryption 
+# $4 key(password)
+# $5 ssid_hidden
+#
+main()
+{
+    set_wireless $1 $2 $3 $4 $5
+    if [ $? -eq 0 ]
+    then
+      sleep 1
+      wireless_restart
+    fi
+    echo $?
+}
+
+
+main $1 $2 $3 $4 $5
+

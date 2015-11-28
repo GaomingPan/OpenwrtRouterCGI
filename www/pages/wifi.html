@@ -1,0 +1,389 @@
+﻿<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>wifi</title>
+    <link rel="stylesheet" type="text/css" media="all" href="style.css"/>
+    <link rel="stylesheet" type="text/css" href="style/css/media-queries.css"/>
+    <link rel="stylesheet" type="text/css" href="style/js/player/mediaelementplayer.css"/>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,400italic,300italic,300,700,700italic|Open+Sans+Condensed:300,700'
+          rel="stylesheet" type='text/css'>
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="css/style.css" media="screen" type="text/css"/>
+    <!--[if IE 8]>
+    <link rel="stylesheet" type="text/css" href="style/css/ie8.css" media="all"/>
+    <![endif]-->
+    <!--[if IE 9]>
+    <link rel="stylesheet" type="text/css" href="style/css/ie9.css" media="all"/>
+    <![endif]-->
+    <script type="text/javascript" src="style/js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="style/js/ddsmoothmenu.js"></script>
+    <script type="text/javascript" src="style/js/retina.js"></script>
+    <script type="text/javascript" src="style/js/selectnav.js"></script>
+    <script type="text/javascript" src="style/js/jquery.masonry.min.js"></script>
+    <script type="text/javascript" src="style/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="style/js/jquery.backstretch.min.js"></script>
+    <script type="text/javascript" src="style/js/mediaelement.min.js"></script>
+    <script type="text/javascript" src="style/js/mediaelementplayer.min.js"></script>
+    <script type="text/javascript" src="style/js/jquery.dcflickr.1.0.js"></script>
+    <script type="text/javascript" src="style/js/twitter.min.js"></script>
+    <script type="text/javascript">
+        $.backstretch("style/images/bg/1.jpg");
+    </script>
+
+    <script type="text/javascript">
+
+        function wireless_data_binding() {
+
+            $.ajax({
+                type: "POST",
+                url: "/cgi-bin/routerSettings",
+                data: {
+                    form_id: "data_wireless"
+                },
+                dataType: "json",
+                beforeSend: function () {
+
+                },
+                success: function (data) {
+
+                    var ret = eval(data);
+
+                    $("#wifi_ssid").val(ret.ssid);
+                    $("#wifi_password").val(ret.key);
+
+                    if (ret.hidden == 1) {
+                        $("#ssid_hidden_box").attr("checked", true);
+                    } else {
+                        $("#ssid_hidden_box").attr("checked", false);
+                    }
+
+                    if (ret.encryption == "none") {
+                        $("#wifi_passwd_box").attr("checked", false);
+
+                        if ($("#wifi_passwd_box").is(":checked")) {
+                            $("#objPage1 > .div-item").css("visibility", "hidden");
+                            $("#objPage1 > .div-item").css("display", "none");
+                            $("#objPage1 > #div3").css("visibility", "visible");
+                            $("#objPage1 > #div3").css("display", "block");
+
+                        }
+                        else {
+
+                            $("#objPage1 > .div-item").css("visibility", "hidden");
+                            $("#objPage1 > .div-item").css("display", "none");
+                            $("#objPage1 > #div3").css("visibility", "hidden");
+                            $("#objPage1 > #div3").css("display", "none");
+                        }
+
+                    } else {
+                        $("#wifi_passwd_box").attr("checked", true);
+
+                        if ($("#wifi_passwd_box").is(":checked")) {
+                            $("#objPage1 > .div-item").css("visibility", "hidden");
+                            $("#objPage1 > .div-item").css("display", "none");
+                            $("#objPage1 > #div3").css("visibility", "visible");
+                            $("#objPage1 > #div3").css("display", "block");
+
+                        }
+                        else {
+
+                            $("#objPage1 > .div-item").css("visibility", "hidden");
+                            $("#objPage1 > .div-item").css("display", "none");
+                            $("#objPage1 > #div3").css("visibility", "hidden");
+                            $("#objPage1 > #div3").css("display", "none");
+                        }
+                    }
+
+                    if (ret.wifi_status.radio0.up) {
+                        $indicator = $('.indicator');
+                        if ($indicator.hasClass('switch-off')) {
+
+                            $indicator.removeClass('switch-off').addClass('switch-on');
+                            $("#objPage > .div-item").css("visibility", "hidden");
+                            $("#objPage > .div-item").css("display", "none");
+                            $("#objPage > #div2").css("visibility", "visible");
+                            $("#objPage > #div2").css("display", "block");
+                        }
+
+                    } else {
+
+                        $indicator = $('.indicator');
+                        if ($indicator.hasClass('switch-on')) {
+                            $indicator.removeClass('switch-on').addClass('switch-off');
+                            $("#objPage > .div-item").css("visibility", "hidden");
+                            $("#objPage > .div-item").css("display", "none");
+                            $("#objPage > #div2").css("visibility", "hidden");
+                            $("#objPage > #div2").css("display", "none");
+                        }
+
+                    }
+
+                }//success
+            });//$.ajax
+        }
+
+        function wireless_data_post() {
+
+            var wifi_ssid;
+            var wifi_disabled;
+            var ssid_hidden;
+            var encryption;
+            var key;
+
+            $indicator = $('.indicator');
+            if ($indicator.hasClass('switch-on')) {
+                wifi_disabled = 0;
+            } else {
+                wifi_disabled = 1;
+            }
+
+            if ($("#ssid_hidden_box").is(":checked"))
+                ssid_hidden = 1;
+            else
+                ssid_hidden = 0;
+
+            if ($("#wifi_passwd_box").is(":checked"))
+                encryption = "psk2";
+            else
+                encryption = "none";
+
+            key = $("#wifi_password").val();
+            wifi_ssid = $("#wifi_ssid").val();
+
+
+            $.ajax({
+                type: "POST",
+                url: "/cgi-bin/routerSettings",
+                data: {
+                    form_id: "set_wireless",
+                    ssid: wifi_ssid,
+                    hidden: ssid_hidden,
+                    encryption: encryption,
+                    key: key,
+                    disabled: wifi_disabled,
+                },
+                dataType: "json",
+                beforeSend: function () {
+
+                },
+                success: function (data) {
+
+                    var ret = eval(data);
+                    if (ret.result == 0) {
+                        alert("OK: 无线设置成功！");
+                        window.location = "/index.html";
+                    } else {
+                        alert("ERROR: 无线设置出错！请重新设置！");
+                        window.location = "/index.html";
+                    }
+
+                },//success
+            });//$.ajax
+        }
+
+    </script>
+
+    <style type="text/css">
+        .ssid_hidden_box {
+            width: 40px;
+            height: 40px;
+            background: #ddd;
+            margin: 20px 90px;
+            border-radius: 100%;
+            position: relative;
+            -webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.5);
+            -moz-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.5);
+            box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        .wifi_passwd_box {
+            width: 40px;
+            height: 40px;
+            background: #ddd;
+            margin: 20px 90px;
+            border-radius: 100%;
+            position: relative;
+            -webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.5);
+            -moz-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.5);
+            box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        /**
+ * Create the label for the off position
+ */
+        .ssid_hidden_box label {
+            display: block;
+            width: 30px;
+            height: 30px;
+            border-radius: 100px;
+            -webkit-transition: all .5s ease;
+            -moz-transition: all .5s ease;
+            -o-transition: all .5s ease;
+            -ms-transition: all .5s ease;
+            transition: all .5s ease;
+            cursor: pointer;
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            z-index: 1;
+            background: #333;
+            -webkit-box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.5);
+            -moz-box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.5);
+            box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        .wifi_passwd_box label {
+            display: block;
+            width: 30px;
+            height: 30px;
+            border-radius: 100px;
+            -webkit-transition: all .5s ease;
+            -moz-transition: all .5s ease;
+            -o-transition: all .5s ease;
+            -ms-transition: all .5s ease;
+            transition: all .5s ease;
+            cursor: pointer;
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            z-index: 1;
+            background: #333;
+            -webkit-box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.5);
+            -moz-box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.5);
+            box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        /**
+ * Create the checkbox event for the label
+ */
+        /**
+ * Create the checked state
+ */
+        .ssid_hidden_box input[type=checkbox]:checked + label {
+            background: #26ca28;
+        }
+
+        .wifi_passwd_box input[type=checkbox]:checked + label {
+            background: #26ca28;
+        }
+    </style>
+</head>
+<body onload="wireless_data_binding()">
+<div class="scanlines"></div>
+
+<!-- Begin Header -->
+<div class="header-wrapper opacity">
+    <div class="header">
+        <!-- Begin Logo -->
+        <div class="logo">
+            <a href="index.html">
+                <img src="images/11.png" alt=""/>
+            </a>
+        </div>
+        <!-- End Logo -->
+        <!-- Begin Menu -->
+        <div id="menu-wrapper">
+            <div id="menu" class="menu">
+                <ul id="tiny">
+                    <li><a href="/index.html">路由状态</a>
+                    </li>
+                    <li>
+                        <a href="auth.html">系统设置</a>
+                        <ul>
+                            <li><a href="wifi_auth.html">关闭路由认证</a></li>
+                            <li><a href="full-width.html">修改密码</a></li>
+                            <li><a href="full-width.html">恢复出厂设置</a></li>
+                            <li><a href="full-width.html">重启</a></li>
+                        </ul>
+                    </li>
+                    <li class="active"><a href="typography.html">网络设置</a>
+                        <ul>
+                            <li><a href="typography.html">上网设置</a></li>
+                            <li><a href="wifi.html">无线设置</a></li>
+                        </ul>
+                    </li>
+                    <li style="margin-left:80px;"><a href="contact.html">lin</a></li>
+                    <li><input type="button"
+                               style="background-color:#ffffff; border-radius:10px; width:60px;height:19px; color:#39accb; cursor: pointer"
+                               value="退出" onclick="logout()"/></li>
+                </ul>
+            </div>
+        </div>
+        <div class="clear"></div>
+        <!-- End Menu -->
+    </div>
+</div>
+<!-- End Header -->
+
+<!-- Begin Wrapper -->
+<div class="wrapper"><!-- Begin Intro -->
+    <div style="margin-bottom:20px;">
+        <img style="width:70px; margin-left:auto; margin-right:auto" src="images/22.png">
+
+        <p style="color:#000000; font-size:15px; font-weight:600; width:70px; margin-left:auto; margin-right:auto">
+            路由状态</p>
+    </div>
+    <div style="background-color: rgba(232, 232, 232, 0.21);
+                    border-radius: 25px;
+                    color: #fff;
+                    font-weight: 300;
+                    max-width: 888px;
+                    padding: 0 30px 30px 30px;
+                    margin: 30px auto 0 auto;">
+        <div style="padding-top:20px; margin-left:10px;">
+            <p style="font-size:14px; font-weight:600; float:left;">无线设置</p>
+            <input style="width:150px; height:100%;margin-left:70%;" type="button" value="提交更改"
+                   onclick="wireless_data_post()"/>
+        </div>
+        <hr style="margin-top: 20px;">
+        <div style=" float:left;font-size:13px; font-weight:600; color:#000000; margin-top:2em;margin-left:10em;padding-left:10px;">
+            无 线 开 关
+        </div>
+        <div class="track">
+            <div id="wifi" class="indicator switch-off"></div>
+        </div>
+        <div id="objPage">
+
+            <div id="div2" class="div-item" style="visibility:hidden;display:none;text-align:-webkit-center;">
+                <form method="POST" name="card" style="margin-bottom:20px;">
+                    S S I D ：&emsp;
+                    <input id="wifi_ssid" type="text" name="firstname"
+                           style="margin-top:30px; margin-bottom:30px;width:15%"/>
+                    <br/>
+
+                    <section>
+                        <p style="float:left;margin:auto">隐藏ssid：</p>
+
+                        <div class="ssid_hidden_box">
+                            <input type="checkbox" value="1" id="ssid_hidden_box" name=""/>
+                            <label for="ssid_hidden_box"></label>
+                        </div>
+                    </section>
+                    <section>
+                        <p style="float:left;margin:auto">WIFI&emsp;加密：</p>
+
+                        <div class="wifi_passwd_box">
+                            <input type="checkbox" value="0" id="wifi_passwd_box" name=""/>
+                            <label for="wifi_passwd_box"></label>
+                        </div>
+                    </section>
+                    <div id="objPage1">
+                        <div id="div3" class="div-item1"
+                             style="visibility:hidden;display:none;text-align:-webkit-center;">
+                            WIFI&emsp;密码：<input type="text" id="wifi_password" name="lastname"
+                                                style="margin-top:30px; margin-bottom:30px;width:15%"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Footer -->
+<script src='js/jquery.js'></script>
+<script src="js/index.js"></script>
+<script type="text/javascript" src="style/js/scripts.js"></script>
+</body>
+</html>

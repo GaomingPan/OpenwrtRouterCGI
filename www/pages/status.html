@@ -29,61 +29,8 @@
 	$.backstretch("style/images/bg/1.jpg");
 </script>
 
-<script type="text/javascript">
-
-    setTimeout(function() {
-            Push();
-    },200);
-    //3秒轮询读取函数
-    setInterval(function() {
-        Push();
-    },
-    5000);// update check interval 5 seconds 
-    //请求函数的ajax
-    function Push() {
-        $.ajax({
-            type: "POST",
-            url: "/cgi-bin/routerSettings",
-            data: {
-                form_id: $('#form_id').val(),
-            },
-            beforeSend: function () { },
-            dataType: "json",
-            success: function (data) {
-                var myjson = eval(data);
-                $("#DeviceId").html(myjson.deviceId);
-                $("#DeviceVer").html(myjson.deviceVer);
-                $("#OSVersion").html(myjson.osVersion);
-                $("#KernelVer").html(myjson.kernelVer);
-                $("#Uptime").html(myjson.uptime);
-                $("#Sysload").html(myjson.sysload);
-                $("#cpu_use").html(myjson.cpu_use + "%");
-                $("#_cpu_use").css("width", myjson.cpu_use + "%");
-                $("#total_mem").html("Total:&nbsp" + myjson.memTotal + "&nbspKB");
-                $("#MemTotal").css("width", myjson.memTotal + "%");
-                $("#MemFree").css("width", myjson.memFree / myjson.memTotal * 100 + "%");
-                $("#Buffers").css("width", myjson.buffers / myjson.memTotal * 100 + "%");
-                $("#Cached").css("width", myjson.cached / myjson.memTotal * 100 + "%");
-                $("#_mem_free").html(parseInt(myjson.memFree / myjson.memTotal * 100) + "%");
-                $("#_buffers").html(parseInt(myjson.buffers / myjson.memTotal * 100) + "%");
-                $("#_cached").html(parseInt(myjson.cached / myjson.memTotal * 100) + "%");
-             }
-        });
- }
- 
-function logout() {
-    $.ajax({
-     type: "POST",
-     url: "/cgi-bin/routerSettings",
-     data: {
-            form_id: "page_logout",
-           },
-     dataType: "json",
-     success: function(data){}
-        });
-    window.location="/pages/login.html";
-      }
-</script>
+<script type="text/javascript" src="js/status_data_binding.js"></script>
+<script type="text/javascript" src="js/logout.js"></script>
 
 <script language="javascript" type="text/javascript">
     //js获取日期
@@ -96,7 +43,7 @@ function logout() {
         var minutes = now.getMinutes();
         var seconds = now.getSeconds();
         //写入相应id
-        document.getElementById("info1").innerHTML = year + "&nbsp年" + (month + 1) + "&nbsp月" + date + "&nbsp日&nbsp" + hours + ":" + minutes + ":" + seconds;
+        document.getElementById("info1").innerHTML = year + "&nbsp年" + (month + 1) + "&nbsp月" + date + "&nbsp日&nbsp" + hours + "&nbsp时&nbsp" + minutes + "&nbsp分&nbsp" + seconds + "&nbsp秒";
     }
     setInterval('time()', 1000);
 </script>
@@ -125,20 +72,20 @@ function logout() {
                         <li>
                             <a href="auth.html">系统设置</a>
                             <ul>
-                                <li><a href="auth.html">关闭路由认证</a></li>
+                                <li><a href="wifi_auth.html">关闭路由认证</a></li>
                                 <li><a href="full-width.html">修改密码</a></li>
                                 <li><a href="full-width.html">恢复出厂设置</a></li>
                                 <li><a href="full-width.html">重启</a></li>
                             </ul>
                         </li>
                         <li>
-                            <a href="typography.html">网络设置</a>
+                            <a href="#">网络设置</a>
                             <ul>
                                 <li><a href="typography.html">上网设置</a></li>
-                                <li><a href="columns.html">无线设置</a></li>
+                                <li><a href="wifi.html">无线设置</a></li>
                             </ul>
                         </li>
-                        <li style="margin-left:80px;"><a href="contact.html">lin</a></li>
+                        <li style="margin-left:80px;"><a href="test_data.html">lin</a></li>
                         <li><input type="button" style="background-color:#ffffff; border-radius:10px; width:60px;height:19px; color:#39accb; cursor: pointer" value="退出" onclick="logout()"></input></li>
                     </ul>
                 </div>
@@ -153,7 +100,7 @@ function logout() {
         <!-- Begin Intro -->
         <div style="margin-bottom:20px;">
             <img style="width:70px; margin-left:auto; margin-right:auto" src="images/22.png">
-            <p style="color:#000000; font-size:15px; font-weight:600; width:62px; margin-left:auto; margin-right:auto">路由状态</p>
+            <p style="color:#000000; font-size:15px; font-weight:600; width:70px; margin-left:auto; margin-right:auto">路由状态</p>
         </div>
         <div style="background-color: rgba(232, 232, 232, 0.21);
                     border-radius: 25px;
@@ -220,7 +167,7 @@ function logout() {
             <div style="height:200px;width:150px;float:left;font-size:13px; font-weight:600; color:#000000; margin-top:37px;padding-left:105px;">
                 <ul>
                     <!--<li style="margin-bottom:18px;list-style:none;">空间数</li>-->
-                    <li style="margin-bottom:18px;list-style:none;">可用数</li>
+                    <li style="margin-bottom:18px;list-style:none;">已使用</li>
                     <li style="margin-bottom:18px;list-style:none;">已缓存</li>
                     <li style="margin-bottom:18px;list-style:none;">已缓冲</li>
                 </ul>

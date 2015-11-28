@@ -165,7 +165,7 @@ char * get_post_data_property(char * property)
 	else
 		snprintf(property_data, ptr3 - ptr2, ++ptr2);
 
-//	DEBUG("get_post_data_property",property_data, strlen(property_data));
+	DEBUG("get_post_data_property",property_data, strlen(property_data));
 	return property_data;
 }
 

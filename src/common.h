@@ -12,15 +12,17 @@
 #define  PAGES_HOME         "/pages"
 #define  CGI_HOME           "/www_cloud/cgi-bin"
 
-#define  STATUS_DATA_SCRIPT       CGI_HOME"/getStatusInfo"
-#define  NETWORK_DATA_SCRIPT      CGI_HOME"/getNetworkInfo"
-#define  WIRELESS_DATA_SCRIPT     CGI_HOME"/getWirelessInfo"
+#define  STATUS_DATA_SCRIPT              CGI_HOME"/getStatusInfo"
+#define  NETWORK_DATA_SCRIPT             CGI_HOME"/getNetworkInfo"
+#define  WIRELESS_DATA_SCRIPT            CGI_HOME"/getWirelessInfo"
+#define  NETWORK_SETTINGS_SCRIPT         CGI_HOME"/networkSettings"
+#define  WIRELESS_SETTINGS_SCRIPT        CGI_HOME"/wirelessSettings"
 
 #define  SESSION_TIME_OUT        180
 #define  MAX_ARRAY_LENTH         2048
 #define  HTTP_HEADER_LENTH       1024
 #define  MAX_FORM_DATA_LENTH     1024
-#define  MAX_PROPERTY_DARA_SIZE  512
+#define  MAX_PROPERTY_DARA_SIZE  64
 
 
 #define  PAGE_INDEX        "/index.html"

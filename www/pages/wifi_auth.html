@@ -1,0 +1,175 @@
+﻿<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>网络设置</title>
+<link rel="stylesheet" type="text/css" media="all" href="style.css" />
+<link rel="stylesheet" type="text/css" href="style/css/media-queries.css" />
+<link rel="stylesheet" type="text/css" href="style/js/player/mediaelementplayer.css" />
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,400italic,300italic,300,700,700italic|Open+Sans+Condensed:300,700' rel="stylesheet" type='text/css'>
+    <link rel="stylesheet" href="css/jquery-labelauty.css">
+<!--[if IE 8]>
+<link rel="stylesheet" type="text/css" href="style/css/ie8.css" media="all" />
+<![endif]-->
+<!--[if IE 9]>
+<link rel="stylesheet" type="text/css" href="style/css/ie9.css" media="all" />
+<![endif]-->
+<script type="text/javascript" src="style/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="style/js/ddsmoothmenu.js"></script>
+<script type="text/javascript" src="style/js/retina.js"></script>
+<script type="text/javascript" src="style/js/selectnav.js"></script>
+<script type="text/javascript" src="style/js/jquery.masonry.min.js"></script>
+<script type="text/javascript" src="style/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="style/js/jquery.backstretch.min.js"></script>
+<script type="text/javascript" src="style/js/mediaelement.min.js"></script>
+<script type="text/javascript" src="style/js/mediaelementplayer.min.js"></script>
+<script type="text/javascript" src="style/js/jquery.dcflickr.1.0.js"></script>
+<script type="text/javascript" src="style/js/twitter.min.js"></script>
+
+<script type="text/javascript">
+	$.backstretch("style/images/bg/1.jpg");
+</script>
+
+    <style>
+        ul {
+            list-style-type: none;
+        }
+        li {
+            display: inline-block;
+        }
+        li {
+            margin: 10px 0;
+        }
+        input.labelauty + label {
+            font: 12px "Microsoft Yahei";
+        }
+    </style>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+        $("#dhcp").click(function () {
+            $("#objPage > .div-item").css("visibility", "hidden");
+            $("#objPage > .div-item").css("display", "none");
+            $("#objPage > #div1").css("visibility", "visible");
+            $("#objPage > #div1").css("display", "block");
+        });
+        $("#ip").click(function () {
+            $("#objPage > .div-item").css("visibility", "hidden");
+            $("#objPage > .div-item").css("display", "none");
+            $("#objPage > #div2").css("visibility", "visible");
+            $("#objPage > #div2").css("display", "block");
+        });
+        $("#ppoe").click(function () {
+            $("#objPage > .div-item").css("visibility", "hidden");
+            $("#objPage > .div-item").css("display", "none");
+            $("#objPage > #div3").css("visibility", "visible");
+            $("#objPage > #div3").css("display", "block");
+        });
+    });
+    </script>
+
+    <script id="clientEventHandlersJS" language="javascript">
+<!--
+function T1_onkeyup() {
+  if(document.card.T1.value.length==3){
+     document.card.T2.focus();
+   }
+}
+function T2_onkeyup() {
+  if(document.card.T2.value.length==3){
+     document.card.T3.focus();
+   }
+}
+
+function T3_onkeyup() {
+  if(document.card.T3.value.length==3){
+     document.card.T4.focus();
+   }
+}
+//-->
+    </script>
+</head>
+<body>
+<div class="scanlines"></div>
+
+<!-- Begin Header -->
+<div class="header-wrapper opacity">
+	<div class="header">
+		<!-- Begin Logo -->
+		<div class="logo">
+		    <a href="index.html">
+                <img src="images/11.png" alt="" />
+			</a>
+	    </div>
+		<!-- End Logo -->
+		<!-- Begin Menu -->
+		<div id="menu-wrapper">
+			<div id="menu" class="menu">
+				<ul id="tiny">
+					<li><a href="/index.html">路由状态</a>
+					</li>
+					<li><a href="page-with-sidebar.html">系统设置</a>
+						<ul>
+                            <li><a href="auth.html">关闭路由认证</a></li>
+                            <li><a href="full-width.html">修改密码</a></li>
+                            <li><a href="full-width.html">恢复出厂设置</a></li>
+                            <li><a href="full-width.html">重启</a></li>
+						</ul>
+					</li>
+					<li class="active"><a href="#">网络设置</a>
+						<ul>
+                            <li><a href="typography.html">上网设置</a></li>
+                            <li><a href="wifi.html">无线设置</a></li>
+						</ul>
+					</li>
+                    <li style="margin-left:80px;"><a href="#">lin</a></li>
+                    <li><input type="button" style="background-color:#ffffff; border-radius:10px; width:60px;height:19px; color:#39accb" value="退出" /></li>
+				</ul>
+			</div>
+		</div>
+		<div class="clear"></div>
+		<!-- End Menu -->
+	</div>
+</div>
+<!-- End Header -->
+
+<!-- Begin Wrapper -->
+<div class="wrapper"><!-- Begin Intro -->
+<!-- Begin Container -->
+    <div style="margin-bottom:20px;">
+        <img style="width:70px; margin-left:auto; margin-right:auto" src="images/22.png">
+        <p style="color:#000000; font-size:15px; font-weight:600; width:62px; margin-left:auto; margin-right:auto">路由状态</p>
+    </div>
+    <div style="background-color: rgba(232, 232, 232, 0.21);
+                border-radius: 25px;
+                color: #fff;
+                font-weight: 300;
+                max-width: 888px;
+                padding: 0 30px 30px 30px;
+                margin: 30px auto 0 auto;">
+        <div style="padding-top:20px; margin-left:10px;">
+            <p style="font-size:14px; font-weight:600;">系 统 设 置</p>
+        </div>
+        <hr />
+        <div style=" float:left;font-size:13px; font-weight:600; color:#000000; margin-top:2em;margin-left:10em;padding-left:10px;">路由认证</div>
+        <div class="track">
+            <div class="indicator switch-off"></div>
+        </div>
+        <script src='js/jquery.js'></script>
+        <script src="js/index.js"></script>
+    </div>
+        <!-- End Container -->
+
+    </div>
+<!-- End Wrapper -->
+<!-- End Footer --> 
+    <script src="js/jquery-labelauty.js"></script>
+    <script>
+        $(function () {
+            $(':input').labelauty();
+        });
+    </script>
+<script type="text/javascript" src="style/js/scripts.js"></script>
+</body>
+</html>

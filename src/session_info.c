@@ -88,8 +88,8 @@ long get_last_session_time()
 
 int save_session_info(char * _user_name, char * _password)
 {
-	DEBUG("save_session user_name",_user_name,01);
-	DEBUG("save_session password",_password,02);
+//	DEBUG("save_session user_name",_user_name,01);
+//	DEBUG("save_session password",_password,02);
 
 	FILE *fp;
 	char session[128] = {0};
@@ -99,11 +99,11 @@ int save_session_info(char * _user_name, char * _password)
 	else if(_user_name && _password)
 		sprintf(session, "user:%s:%s\nsession:%ld\n", _user_name, _password, time(NULL));
 
-	DEBUG("save_session","step 1", 1);
+//	DEBUG("save_session","step 1", 1);
 	fp = fopen(SESSION_CONF_FILE, "w");
 	if(!fp)
 		return -1;
-	DEBUG("save_session","step 2", 2);
+//	DEBUG("save_session","step 2", 2);
 	fwrite(session, 1, strlen(session), fp);
 	fclose(fp);
 

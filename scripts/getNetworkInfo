@@ -20,6 +20,8 @@ WAN_IPADDR=""
 WAN_NETMASK=""
 WAN_GATEWAY=""
 WAN_DNS=""
+WAN_PPPoE_USERNAME=""
+WAN_PPPoE_PASSWORD=""
 
 DHCP_WAN=""
 DHCP_LAN=""
@@ -71,6 +73,8 @@ get_wan_info()
   WAN_NETMASK="$(uci get network.wan.netmask)"
   WAN_GATEWAY="$(uci get network.wan.gateway)"
   WAN_DNS="$(uci get network.wan.dns)"
+  WAN_PPPoE_USERNAME="$(uci get network.wan.username)"
+  WAN_PPPoE_PASSWORD="$(uci get network.wan.password)"
 }
 
 json_maker()
@@ -85,7 +89,9 @@ json_maker()
       \"wan_ipaddr\":\"$WAN_IPADDR\",
       \"wan_netmask\":\"$WAN_NETMASK\",
       \"wan_gateway\":\"$WAN_GATEWAY\",
-      \"wan_dns\":\"$WAN_DNS\"
+      \"wan_dns\":\"$WAN_DNS\",
+      \"wan_pppoe_username\":\"$WAN_PPPoE_USERNAME\",
+      \"wan_pppoe_password\":\"$WAN_PPPoE_PASSWORD\"
    }"
    
    JSON_DATA_STRING="{

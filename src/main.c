@@ -26,7 +26,7 @@ static long _time;
 static int do_invalid_session()
 {
     	request_code = get_post_request_code();
-    	DEBUG("main", "RequestCode", request_code);
+    	DEBUG("session is invalid", "RequestCode", request_code);
 
     	switch(request_code){
     	case rLogin:
@@ -38,6 +38,26 @@ static int do_invalid_session()
     		}
     		send_redirect_to_page(PAGE_STATUS);
     		break;
+        case rdNetwork:
+        	output_header_v("application/json");
+        	return 0;
+        	break;
+        case rdWireless:
+        	output_header_v("application/json");
+        	return 0;
+        	break;
+        case rsWan:
+        	output_header_v("application/json");
+        	return 0;
+        	break;
+        case rsLan:
+        	output_header_v("application/json");
+        	return 0;
+        	break;
+        case rsWireless:
+        	output_header_v("application/json");
+        	return 0;
+        	break;
     	default:
     		output_header_v("text/html;charset=utf-8");
     		send_redirect_to_page(PAGE_LOGIN);
@@ -52,7 +72,7 @@ static int do_invalid_session()
 static int do_valid_session()
 {
     request_code = get_post_request_code();
-    DEBUG("session valid", "RequestCode", request_code);
+    DEBUG("session is valid", "RequestCode", request_code);
     switch(request_code){
     case rLogin:
     	output_header_v("text/html;charset=utf-8");
@@ -61,7 +81,7 @@ static int do_valid_session()
     	break;
     case rLogout:
     	output_header_v("application/json");
-    	DEBUG("Logout","rLogout",rLogout);
+//    	DEBUG("Logout","rLogout",rLogout);
     	do_logout();
     	return 0;
     	break;
@@ -70,7 +90,34 @@ static int do_valid_session()
     	output_header_v("application/json");
     	fprintf(stdout, "%s", get_status_data());
     	save_session_info(NULL, NULL);
-    	DEBUG("buffers data",get_buffers_data(),0);
+//    	DEBUG("buffers data",get_buffers_data(),0);
+    	return 0;
+    	break;
+    case rdNetwork:
+    	output_header_v("application/json");
+    	fprintf(stdout, "%s", get_network_data());
+    	DEBUG("network-data",get_network_data(),0);
+    	return 0;
+    	break;
+    case rdWireless:
+    	output_header_v("application/json");
+    	fprintf(stdout, "%s", get_wireless_data());
+    	DEBUG("wireless-data",get_wireless_data(),0);
+    	return 0;
+    	break;
+    case rsWan:
+    	output_header_v("application/json");
+    	do_network_settings(rsWan);
+    	return 0;
+    	break;
+    case rsLan:
+    	output_header_v("application/json");
+    	do_network_settings(rsLan);
+    	return 0;
+    	break;
+    case rsWireless:
+    	output_header_v("application/json");
+    	do_wireless_settings();
     	return 0;
     	break;
     default:
@@ -95,7 +142,7 @@ int main(int argc, char *argv[])
     http_get_data_length = parse_get_request(NULL);
     http_post_data_length = parse_post_request(NULL);
 
-    DEBUG("data",get_http_post_data(),0);
+    DEBUG("post-data:",get_http_post_data(),0);
     if ( is_session_valid(_time) < 0 )
     	return do_invalid_session();
 
