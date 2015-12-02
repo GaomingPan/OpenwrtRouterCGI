@@ -1,0 +1,202 @@
+﻿<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>路由状态</title>
+    <link rel="stylesheet" type="text/css" media="all" href="style.css"/>
+    <link rel="stylesheet" type="text/css" href="style/css/media-queries.css"/>
+    <link rel="stylesheet" type="text/css" href="style/js/player/mediaelementplayer.css"/>
+    <!--[if IE 8]>
+    <link rel="stylesheet" type="text/css" href="style/css/ie8.css" media="all"/>
+    <![endif]-->
+    <!--[if IE 9]>
+    <link rel="stylesheet" type="text/css" href="style/css/ie9.css" media="all"/>
+    <![endif]-->
+    <script type="text/javascript" src="style/js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="style/js/ddsmoothmenu.js"></script>
+    <script type="text/javascript" src="style/js/retina.js"></script>
+    <script type="text/javascript" src="style/js/selectnav.js"></script>
+    <script type="text/javascript" src="style/js/jquery.masonry.min.js"></script>
+    <script type="text/javascript" src="style/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="style/js/jquery.backstretch.min.js"></script>
+    <script type="text/javascript" src="style/js/mediaelement.min.js"></script>
+    <script type="text/javascript" src="style/js/mediaelementplayer.min.js"></script>
+    <script type="text/javascript" src="style/js/jquery.dcflickr.1.0.js"></script>
+    <script type="text/javascript" src="style/js/twitter.min.js"></script>
+
+    <!-- the status js-->
+    <script type="text/javascript" src="js/status_data_binding.js"></script>
+
+    <!-- the logout js -->
+    <script type="text/javascript" src="js/logout.js"></script>
+
+    <script type="text/javascript">
+        $.backstretch("style/images/bg/1.jpg");
+    </script>
+
+    <script type="text/javascript" src="js/status_data_binding.js"></script>
+    <script type="text/javascript" src="js/logout.js"></script>
+
+    <script language="javascript" type="text/javascript">
+    //js获取日期
+    function time() {
+        var now = new Date();
+        var year = now.getFullYear();
+        var month = now.getMonth();
+        var date = now.getDate();
+        var hours = now.getHours();
+        var minutes = now.getMinutes();
+        var seconds = now.getSeconds();
+        //写入相应id
+        document.getElementById("info1").innerHTML = year + "." + (month + 1) + "." + date + "&nbsp" + hours + ":" + minutes + ":" + seconds;
+    }
+    setInterval('time()', 1000);
+    </script>
+
+</head>
+<body onload="time()">
+
+<div class="scanlines"></div>
+<!-- Begin Header -->
+<div class="header-wrapper opacity">
+    <div class="header">
+        <!-- Begin Logo -->
+        <div class="logo">
+            <a href="/index.html">
+                <img src="images/11.png" alt=""/>
+            </a>
+        </div>
+        <!-- End Logo -->
+        <!-- Begin Menu -->
+        <div id="menu-wrapper">
+            <div id="menu" class="menu">
+                <ul id="tiny">
+                    <li>
+                        <a href="status.html">路由状态</a>
+                    </li>
+                    <li>
+                        <a class="active" href="#">系统设置</a>
+                        <ul>
+                            <li><a href="wifi_auth.html">关闭路由认证</a></li>
+                            <li><a href="modify.html">修改密码</a></li>
+                            <li><a href="reset.html">恢复出厂设置</a></li>
+                            <li><a href="reboot.html">重启</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">网络设置</a>
+                        <ul>
+                            <li><a href="typography.html">上网设置</a></li>
+                            <li><a href="wifi.html">无线设置</a></li>
+                        </ul>
+                    </li>
+                    <li style="margin-left:80px;"><a href="#">lin</a></li>
+                    <li><input type="button" style="background-color:#ffffff; border-radius:10px; width:60px;height:19px;
+                        color:#39accb; cursor: pointer" value="退出" onclick="logout()"/>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="clear"></div>
+        <!-- End Menu -->
+    </div>
+</div>
+<!-- End Header -->
+<!-- Begin Wrapper -->
+<div class="wrapper">
+    <!-- Begin Intro -->
+    <div style="margin-bottom:20px;">
+        <img style="width:70px; margin-left:auto; margin-right:auto" src="images/22.png">
+
+        <p style="color:#000000; font-size:15px; font-weight:600; width:70px; margin-left:auto; margin-right:auto">
+            路由状态</p>
+    </div>
+    <div style="background-color: rgba(232, 232, 232, 0.21);
+                    border-radius: 25px;
+                    color: #fff;
+                    font-weight: 300;
+                    max-width: 888px;
+                    padding: 0 30px 30px 30px;
+                    margin: 30px auto 0 auto;">
+        <div style="padding-top:20px; margin-left:10px;">
+            <p style="font-size:14px; font-weight:600;">系 统</p>
+        </div>
+        <hr/>
+        <table cellspacing="30" cellpadding="100" style="font-size:13px; font-weight:600; color:#000000;padding-left:60px; float:left;">
+            <tr>
+                <td>设备名</td>
+                <td id="DeviceId">---</td>
+            </tr>
+            <tr>
+                <td>设备型号</td>
+                <td id="DeviceVer">---</td>
+            </tr>
+            <tr>
+                <td>固件版本</td>
+                <td id="OSVersion">---</td>
+            </tr>
+            <tr>
+                <td>内核版本</td>
+                <td id="KernelVer">---</td>
+            </tr>
+        </table>
+        <table cellspacing="30" cellpadding="100"
+               style="font-size:13px; font-weight:600; color:#000000;padding-left:175px;">
+            <tr>
+                <td>本地时间</td>
+                <td id="info1">---</td>
+            </tr>
+            <tr>
+                <td>运行时间</td>
+                <td id="Uptime">---</td>
+            </tr>
+            <tr>
+                <td>平均负载</td>
+                <td id="Sysload">---</td>
+            </tr>
+        </table>
+        <div style="padding-top:60px; margin-left:10px;">
+            <p style="font-size:14px; font-weight:600;">CPU</p>
+        </div>
+        <hr/>
+        <div style="height:20px;width:150px;float:left;font-size:13px; font-weight:600; color:#000000; margin-top:37px;padding-left:105px;">
+            <ul>
+                <li style="margin-bottom:18px;list-style:none;">使用率</li>
+            </ul>
+        </div>
+        <div class="container">
+            <div class="progress">
+                <span id="_cpu_use" style="width: 20%;"></span>&nbsp<a id="cpu_use" style="font-size:10px; color:#55FF16">--</a>
+            </div>
+        </div>
+
+        <div style="padding-top:37px;margin-left:10px;">
+            <p style="font-size:14px; font-weight:600;">内 存</p>
+        </div>
+        <hr style="margin-top:0px;"/>
+        <div style="height:200px;width:150px;float:left;font-size:13px; font-weight:600; color:#000000; margin-top:37px;padding-left:105px;">
+            <ul>
+                <li style="margin-bottom:18px;list-style:none;">已使用</li>
+                <li style="margin-bottom:18px;list-style:none;">已缓存</li>
+                <li style="margin-bottom:18px;list-style:none;">已缓冲</li>
+            </ul>
+        </div>
+        <div class="container">
+            <div class="progress">
+                <span id="MemFree" style="width: 0%;"></span>&nbsp<a id="_mem_free"
+                                                                     style="font-size:10px; color:#55FF16">--</a>
+            </div>
+            <div class="progress">
+                <span id="Buffers" style="width: 0%;"></span>&nbsp<a id="_buffers"
+                                                                     style="font-size:10px; color:#55FF16">--</a>
+            </div>
+            <div class="progress">
+                <span id="Cached" style="width:  0%;"></span>&nbsp<a id="_cached" style="font-size:10px; color:#55FF16">--</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="style/js/scripts.js"></script>
+</body>
+</html>

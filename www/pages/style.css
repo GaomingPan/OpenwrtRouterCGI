@@ -8,6 +8,8 @@ Version: 1.0
 /*-----------------------------------------------------------------------------------*/
 /*	RESET
 /*-----------------------------------------------------------------------------------*/
+
+/**/
 .container {
   margin-top:50px;
   margin-left:200px;
@@ -213,7 +215,7 @@ a.button,
 #commentform input#submit {
     font-family: 'Open Sans Condensed', sans-serif;
     background: #f2f2f2 url(style/images/button.png) repeat-x;
-    height: 31px;
+    height: 25px;
     line-height: 31px;
     color: #383838;
     font-size: 14px;

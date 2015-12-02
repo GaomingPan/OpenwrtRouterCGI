@@ -14,6 +14,7 @@
 #include "util.h"
 #include "session_info.h"
 
+
 int parse_session_file()
 {
 	char         session[MAX_ARRAY_LENTH] = {0},
@@ -52,7 +53,7 @@ int parse_session_file()
 
 	snprintf(user_name, ptr1_1 - ptr1, "%s", ptr1);
 	snprintf(password, 33, "%s", ptr1_1);
-	snprintf(_time, 10, "%s", ptr2);
+	snprintf(_time, 11, "%s", ptr2);
 
 	last_session_time = atol(_time);
 
@@ -87,21 +88,44 @@ long get_last_session_time()
 
 int save_session_info(char * _user_name, char * _password)
 {
+//	DEBUG("save_session user_name",_user_name,01);
+//	DEBUG("save_session password",_password,02);
+
 	FILE *fp;
-	char session[MAX_ARRAY_LENTH] = {0};
+	char session[128] = {0};
 
-	if( NULL == _user_name || NULL == _password)
-		sprintf("user:%s:%s\nsession:%ld\n", user_name, password, time(NULL));
-	else
-		sprintf("user:%s:%s\nsession:%ld\n", _user_name, _password, time(NULL));
+	if( !_user_name || !_password)
+		sprintf(session, "user:%s:%s\nsession:%ld\n", user_name, password, time(NULL));
+	else if(_user_name && _password)
+		sprintf(session, "user:%s:%s\nsession:%ld\n", _user_name, _password, time(NULL));
 
+//	DEBUG("save_session","step 1", 1);
 	fp = fopen(SESSION_CONF_FILE, "w");
 	if(!fp)
 		return -1;
+//	DEBUG("save_session","step 2", 2);
 	fwrite(session, 1, strlen(session), fp);
 	fclose(fp);
 
 	return 0;
 }
+
+
+int clean_session()
+{
+	FILE *fp;
+	char session[128] = {0};
+	sprintf(session, "user:%s:%s\nsession:%ld\n", user_name, password, 0);
+
+	fp = fopen(SESSION_CONF_FILE, "w");
+	if(!fp)
+		return -1;
+
+	fwrite(session, 1, strlen(session), fp);
+	fclose(fp);
+
+	return 0;
+}
+
 
 

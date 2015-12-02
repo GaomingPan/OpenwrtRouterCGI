@@ -67,4 +67,6 @@ void MD5Encode(unsigned char *output,unsigned int *input,unsigned int len);
 
 void MD5Decode(unsigned int *output,unsigned char *input,unsigned int len);
 
+void md5Sum(char *input, char *output);
+
 #endif /* SRC_MD5_H_ */

@@ -1,0 +1,59 @@
+#!/bin/sh
+#
+############################
+
+JSON_DATA_STRING=""
+
+WIRLESS_SSID=""
+WIRLESS_ENCRYPTION=""
+WIRLESS_KEY=""
+WIRLESS_HIDDEN=""
+WIRLESS_DISABLED=""
+
+WIFI_STATUS=""
+
+
+get_wirless_info()
+{
+  WIRLESS_SSID="$(uci get wireless.@wifi-iface[0].ssid)"
+  WIRLESS_ENCRYPTION="$(uci get wireless.@wifi-iface[0].encryption)"
+  WIRLESS_KEY="$(uci get wireless.@wifi-iface[0].key)"
+  WIRLESS_HIDDEN="$(uci get wireless.@wifi-iface[0].hidden)"
+  if [ "$WIRLESS_HIDDEN" == "" ]
+  then
+     WIRLESS_HIDDEN=0
+  fi
+  WIFI_STATUS="$(wifi status)"
+  WIRLESS_DISABLED="$(uci get wireless.radio0.disabled)"
+  if [ "$WIRLESS_DISABLED" == "" ]
+  then
+     WIRLESS_DISABLED=0
+  fi
+}
+
+json_maker()
+{
+   JSON_DATA_STRING="{
+      \"ssid\":\"$WIRLESS_SSID\",
+      \"hidden\":$WIRLESS_HIDDEN,
+      \"encryption\":\"$WIRLESS_ENCRYPTION\",
+      \"key\":\"$WIRLESS_KEY\",
+      \"disabled\":$WIRLESS_DISABLED,
+      \"wifi_status\":$WIFI_STATUS
+   }"
+}
+
+main()
+{
+   get_wirless_info
+   json_maker
+}
+
+
+main
+echo $JSON_DATA_STRING
+
+
+
+
+

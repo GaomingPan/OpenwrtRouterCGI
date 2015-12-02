@@ -1,0 +1,117 @@
+#!/bin/sh
+#
+#
+#
+###############################
+
+JSON_DATA_STRING=""
+
+NETWORK_LAN=""
+NETWORK_WAN=""
+
+
+LAN_PROTO=""
+LAN_IPADDR=""
+LAN_NETMASK=""
+
+
+WAN_PROTO=""
+WAN_IPADDR=""
+WAN_NETMASK=""
+WAN_GATEWAY=""
+WAN_DNS=""
+WAN_PPPoE_USERNAME=""
+WAN_PPPoE_PASSWORD=""
+
+DHCP_WAN=""
+DHCP_LAN=""
+
+get_dhcp_info()
+{
+  dhcp_wan_ignore="$(uci get dhcp.wan.ignore)"
+  
+  if [ $? -ne 0 ] 
+   then
+      dhcp_wan_ignore="0"
+  fi
+  
+  dhcp_lan_ignore="$(uci get dhcp.lan.ignore)"
+  if [ $? -ne 0 ] 
+   then
+      dhcp_lan_ignore="0"
+  fi
+  dhcp_lan_start="$(uci get dhcp.lan.start)"
+  dhcp_lan_limit="$(uci get dhcp.lan.limit)"
+  dhcp_lan_leasetime="$(uci get dhcp.lan.leasetime)"
+  
+  DHCP_LAN="{
+    \"ignore\":$dhcp_lan_ignore,
+    \"start\":\"$dhcp_lan_start\",
+    \"limit\":\"$dhcp_lan_limit\",
+    \"leasetime\":\"$dhcp_lan_leasetime\"
+  }"
+  
+  DHCP_WAN="{
+    \"ignore\":$dhcp_wan_ignore
+  }"
+}
+
+
+
+get_lan_info()
+{
+  LAN_PROTO="$(uci get network.lan.proto)"
+  LAN_IPADDR="$(uci get network.lan.ipaddr)"
+  LAN_NETMASK="$(uci get network.lan.netmask)"
+}
+
+
+get_wan_info()
+{
+  WAN_PROTO="$(uci get network.wan.proto)"
+  WAN_IPADDR="$(uci get network.wan.ipaddr)"
+  WAN_NETMASK="$(uci get network.wan.netmask)"
+  WAN_GATEWAY="$(uci get network.wan.gateway)"
+  WAN_DNS="$(uci get network.wan.dns)"
+  WAN_PPPoE_USERNAME="$(uci get network.wan.username)"
+  WAN_PPPoE_PASSWORD="$(uci get network.wan.password)"
+}
+
+json_maker()
+{
+   NETWORK_LAN="{
+       \"lan_proto\":\"$LAN_PROTO\",
+       \"lan_ipaddr\":\"$LAN_IPADDR\",
+       \"lan_netmask\":\"$LAN_NETMASK\"
+   }"
+   NETWORK_WAN="{
+      \"wan_proto\":\"$WAN_PROTO\",
+      \"wan_ipaddr\":\"$WAN_IPADDR\",
+      \"wan_netmask\":\"$WAN_NETMASK\",
+      \"wan_gateway\":\"$WAN_GATEWAY\",
+      \"wan_dns\":\"$WAN_DNS\",
+      \"wan_pppoe_username\":\"$WAN_PPPoE_USERNAME\",
+      \"wan_pppoe_password\":\"$WAN_PPPoE_PASSWORD\"
+   }"
+   
+   JSON_DATA_STRING="{
+       \"network_wan\":$NETWORK_WAN,
+       \"network_lan\":$NETWORK_LAN,
+       \"dhcp_wan\":$DHCP_WAN,
+       \"dhcp_lan\":$DHCP_LAN
+   }"
+}
+
+main()
+{
+   get_lan_info
+   get_wan_info
+   get_dhcp_info
+   json_maker
+}
+
+
+main
+echo $JSON_DATA_STRING
+
+

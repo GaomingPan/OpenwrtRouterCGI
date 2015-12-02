@@ -11,6 +11,7 @@
 #include "common.h"
 #include "contents.h"
 #include "util.h"
+#include "md5.h"
 
 #include "login.h"
 
@@ -27,8 +28,48 @@ void login_page()
     	return;
     }
 
-    send_direct_to_page(PAGE_LOGIN);
+    send_redirect_to_page(PAGE_LOGIN);
 
 }
+
+int login_status()
+{
+	set_http_response_header_content_type("text/html;charset=utf-8");
+	output_header();
+	fprintf(stdout, "form_data: %s", http_post_data);
+
+	return 0;
+}
+
+
+int do_login_process()
+{
+//	DEBUG("do_login_process", "0", 0);
+	char user_name[MAX_PROPERTY_DARA_SIZE],
+	     password[MAX_PROPERTY_DARA_SIZE];
+
+	unsigned char decrypt[16];
+
+    MD5_CTX   md5;
+    int       i;
+//    DEBUG("do_login_process", "1", 1);
+//    DEBUG("do_login_process--data", http_post_data, 1);
+
+	sprintf(user_name, "%s", get_post_data_property("user_name"));
+//	DEBUG("do_login_process", "2", 2);
+	sprintf(password, "%s", get_post_data_property("password"));
+
+	md5Sum(password, password);
+
+    if(is_authority_ok(user_name, password) < 0)
+    	return -1;
+
+    save_session_info(NULL, NULL);
+
+//    DEBUG("md5 password", password, 007);
+
+	return 0;
+}
+
 
 

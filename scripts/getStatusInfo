@@ -1,0 +1,85 @@
+#!/bin/sh
+#
+#
+#
+#
+#############################################
+
+DEVICE_ID=""
+DEVICE_VER=""
+OS_VERSION=""
+KERNEL_VER=""
+UPTIME=""
+SYSLOAD=""
+CPU_USE=""
+MEM_TOTAL=""
+MEM_FREE=""
+BUFFERS=""
+CACHED=""
+
+JSON_DATA_STRING=""
+
+get_memory_info()
+{
+   MEM_TOTAL="$(cat /proc/meminfo|awk 'NR==1 {print $0}'|awk '{print $2}')"
+   MEM_FREE="$(cat /proc/meminfo|awk 'NR==2 {print $0}'|awk '{print $2}')"
+   BUFFERS="$(cat /proc/meminfo|awk 'NR==3 {print $0}'|awk '{print $2}')"
+   CACHED="$(cat /proc/meminfo|awk 'NR==4 {print $0}'|awk '{print $2}')"
+}
+
+
+get_sysload_uptime()
+{
+  SYSLOAD="$(cat /proc/loadavg | awk '{print $1",",$2",",$3}')"
+  s=$(cat /proc/uptime|awk '{print $1}'|awk -F "." '{print $1}')
+  m=$(($s/60))
+  h=$(($m/60))
+  s=$(($s%60))
+  m=$(($m%60))
+  UPTIME="$h h $m m $s s"
+}
+
+get_sys_info()
+{
+DEVICE_ID="$(uci get sysinfo_for_browser.@sysinfo[0].device_id)"
+DEVICE_VER="$(uci get sysinfo_for_browser.@sysinfo[0].device_rev)"
+OS_VERSION="$(uci get sysinfo_for_browser.@sysinfo[0].os_version)"
+KERNEL_VER="$(cat /proc/version|awk '{print $2,$3}')"
+
+}
+
+get_cpu_use()
+{
+   CPU_USE=$(top -n1|awk 'NR==2 {print $8}'|tr "%" " ")
+}
+
+json_data_maker()
+{
+   JSON_DATA_STRING="{ 
+    \"deviceId\":\"$DEVICE_ID\",
+    \"deviceVer\":\"$DEVICE_VER\",
+    \"osVersion\":\"$OS_VERSION\",
+    \"kernelVer\":\"$KERNEL_VER\",
+    \"uptime\":\"$UPTIME\",
+    \"cpu_use\":$((100-$CPU_USE)),
+    \"sysload\":\"$SYSLOAD\",
+    \"memTotal\":$MEM_TOTAL,
+    \"memFree\":$MEM_FREE,
+    \"buffers\":$BUFFERS,
+    \"cached\":$CACHED  
+    
+    }"
+}
+
+main()
+{
+    get_memory_info
+    get_sysload_uptime
+    get_sys_info
+    get_cpu_use
+    json_data_maker
+}
+
+
+main
+echo "$JSON_DATA_STRING"

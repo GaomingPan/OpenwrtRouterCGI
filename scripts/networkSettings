@@ -1,0 +1,219 @@
+#!/bin/sh
+#
+#
+##########################
+
+
+
+
+LAN_PROTO=""
+LAN_IP=""
+LAN_NETMASK=""
+
+WAN_PROTO=""
+WAN_IP=""
+WAN_NETMASK=""
+WAN_GATEWAY=""
+WAN_DNS=""
+WAN_PPPoE_USER_NAME=""
+WAN_PPPoE_USER_PASSWORD=""
+
+#
+# $1 proto 
+# $2 ip
+# $3 netmask
+# $4 gateway
+# $5 dns
+# $6 pppoe user name
+# $7 pppoe password
+#
+set_network_wan()
+{
+     ret=1
+
+     WAN_PROTO=$1
+     WAN_IP=$2
+     WAN_NETMASK=$3
+     WAN_GATEWAY=$4
+     WAN_DNS=$5
+     WAN_PPPoE_USER_NAME=$6
+     WAN_PPPoE_USER_PASSWORD=$7
+     
+     if [ "$WAN_PROTO" == "" ]
+      then
+        return 1
+     fi
+     uci set network.wan.proto=$WAN_PROTO
+     ret=$?
+     if [ $ret -ne 0 ] 
+     then
+       return 2
+     fi
+     
+     if [ "$WAN_PROTO" == "pppoe" ]
+     then
+         uci set network.wan.username=$WAN_PPPoE_USER_NAME
+         uci set network.wan.password=$WAN_PPPoE_USER_PASSWORD
+         uci commit netmask
+         return 0
+     fi
+     
+     uci set network.wan.ipaddr=$WAN_IP
+     ret=$?
+     if [ $ret -ne 0 ] 
+     then
+       return 3
+     fi
+     uci set network.wan.netmask=$WAN_NETMASK
+     ret=$?
+     if [ $ret -ne 0 ] 
+     then
+       return 4
+     fi
+     uci set network.wan.gateway=$WAN_GATEWAY
+     ret=$?
+     if [ $ret -ne 0 ] 
+     then
+       return 5
+     fi
+     uci set network.wan.dns=$WAN_DNS
+     ret=$?
+     if [ $ret -ne 0 ] 
+     then
+       return 6
+     fi
+     uci commit network
+     ret=$?
+     if [ ret -ne 0 ] 
+     then
+       return 1
+     fi
+     return 0     
+}
+
+
+#
+# $1 proto 
+# $2 ip
+# $3 netmask
+#
+set_network_lan()
+{
+    ret=1
+    
+    LAN_PROTO=$1
+    LAN_IP=$2
+    LAN_NETMASK=$3
+    
+    if [ "$LAN_PROTO" == "" ]
+    then
+       return 1
+    fi
+    uci set network.lan.proto=$LAN_PROTO
+    ret=$?
+    if [ $ret -ne 0 ] 
+    then
+       return 2
+    fi
+    uci set network.lan.ipaddr=$LAN_IP
+    ret=$?
+    if [ $ret -ne 0 ] 
+    then
+       return 3
+    fi
+    uci set network.lan.netmask=$LAN_NETMASK
+    ret=$?
+    if [ $ret -ne 0 ] 
+    then
+       return 4
+    fi
+    uci commit network
+    ret=$?
+    if [ $ret -ne 0 ] 
+    then
+       return 1
+    fi
+    return 0 
+}
+
+#
+# $1 seting type: lan,wan
+#
+set_network()
+{
+      ret=1
+      if [ "$1" == "wan" ] 
+      then
+         set_network_wan $2 $3 $4 $5 $6 $7 $8 > /dev/null
+         ret=$?
+         #echo "aa: $ret"
+         return $ret
+      fi
+      
+      if [ "$1" == "lan" ] 
+      then
+        set_network_lan $2 $3 $4 > /dev/null
+        ret=$?
+        #echo "aa: $ret"
+        return $ret
+      fi
+      
+      return 1      
+}
+
+#
+# $1 interface: {wan | lan}
+#
+network_restart()
+{
+   ret=1
+   ifdown $1
+   ret=$?
+   if [ $ret -ne 0 ] 
+   then
+    return 1
+   fi
+   sleep 1
+   ifup $1
+   ret=$?
+   if [ $ret -ne 0 ] 
+   then
+    return 2
+   fi
+   return 0;
+}
+
+
+main()
+{
+   ret=1
+   set_network $1 $2 $3 $4 $5 $6 $7 $8
+   ret=$?
+   if [ $ret -eq 0 ] 
+   then
+     network_restart $1 > /dev/null
+     echo $?
+     return
+   fi
+   echo $?
+}
+
+#
+# if wan interface:
+# $1 wan
+# $2 proto 
+# $3 ip
+# $4 netmask
+# $5 gateway
+# $6 dns
+# $7 pppoe user name
+# $8 pppoe password
+#
+# if lan interface:
+# $1 lan
+# $2 proto 
+# $3 ip
+# $4 netmask
+#
+main $1 $2 $3 $4 $5 $6 $7 $8 
+

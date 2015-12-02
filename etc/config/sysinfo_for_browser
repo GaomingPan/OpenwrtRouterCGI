@@ -1,0 +1,5 @@
+config sysinfo
+
+	option device_id 'SmartIndex'
+	option device_rev 'AR9341 DB120 ref v1.0.0'
+	option os_version 'v3.0.0'

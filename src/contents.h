@@ -8,18 +8,25 @@
 #ifndef SRC_CONTENTS_H_
 #define SRC_CONTENTS_H_
 
-#include "common.h"
 
-static  char user_name[30] = {0};
-static  char password[33] = {0};
-static  long last_session_time = 0;
+extern  char user_name[];
 
-static char  http_response_header[HTTP_HEADER_LENTH] = {0};
+extern  char password[];
+
+extern  long last_session_time;
+
+extern char  http_response_header[];
+
+extern char  http_post_data[];
+
+extern char  http_get_data[];
+
+extern char  property_data[];
+
+extern char  buffers[];
 
 
-
-
-#define  DIRECT_PAGES "<?xml version=\"1.0\" encoding=\"utf-8\"?> \
+#define  REDIRECT_PAGES "<?xml version=\"1.0\" encoding=\"utf-8\"?> \
 	<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\"> \
 	<html xmlns=\"http://www.w3.org/1999/xhtml\"> \
 	<head> \
