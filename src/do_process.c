@@ -188,3 +188,116 @@ void do_wireless_settings()
 }
 
 
+void do_sys_reboot()
+{
+    FILE *fp;
+
+    fprintf(stdout, "{\"result\":0}");
+
+    fp = popen("sh -c reboot", "r");
+
+    if(!fp)
+    	return;
+
+    pclose(fp);
+}
+
+
+int  sys_can_do_reset()
+{
+	FILE  *fp;
+	char  ret[64] = {0};
+	fp = popen("sh -c cat /proc/mtd | grep -e rootfs_data", "r");
+	if(!fp)
+		return -1;
+	fread(ret, 1, 64, fp);
+
+	if ( strlen(ret) <= 0)
+		return -1;
+
+	return 0;
+}
+
+
+void do_sys_reset()
+{
+   FILE *fp;
+   int ret;
+   ret = sys_can_do_reset();
+   if(ret < 0){
+	   fprintf(stdout, "{\"result\":1}");
+	   return;
+   }
+//   fprintf(stdout, "{\"result\":0}");
+   fp = open("sh -c "CMD_RESET, "r");
+   if(!fp){
+	   fprintf(stdout, "{\"result\":1}");
+	   return;
+   }
+   fprintf(stdout, "{\"result\":0}");
+   pclose(fp);
+   return;
+}
+
+
+void do_wifidog_up_down(int stat)
+{
+	DEBUG("do_wifidog_up_down", "stat", stat);
+	FILE *fp;
+	char cmd[64] = {0};
+	sprintf(cmd, CMD_STOP_START_DOG, stat, stat);
+
+    fp = popen(cmd, "r");
+     if (!fp){
+        fprintf(stdout, "{\"result\":1}");
+    	return;
+    }
+    pclose(fp);
+    fprintf(stdout, "{\"result\":0}");
+    return;
+}
+
+
+void do_dogstat()
+{
+	FILE *fp;
+	char ret[6];
+
+	fp = popen("sh -c uci get dog_alive.@dog_alive[0].is_alive", "r");
+
+	if(!fp){
+		fprintf(stdout, "{\"result\":1}");
+		return;
+	}
+	fread(ret, 1, 6, fp);
+	pclose(fp);
+
+	fprintf(stdout, "{\"result\":0,\"stat\":%d}", atoi(ret));
+}
+
+
+void do_change_admin_password()
+{
+	char u[MAX_PROPERTY_DARA_SIZE] = {0},
+	     p[MAX_PROPERTY_DARA_SIZE] = {0},
+		 *_username = NULL,
+		 *_password = NULL;
+	sprintf(u, get_post_data_property("username"));
+	sprintf(p, get_post_data_property("password"));
+	if ( strlen(u) > 0)
+		_username = u;
+	if ( strlen(p) > 0)
+		_password = p;
+
+    if ( !_username || !_password ){
+    	fprintf(stdout, "{\"result\":1}");
+    	return;
+    }
+
+    md5Sum(_password, _password);
+    save_session_info(_username, _password);
+
+    fprintf(stdout, "{\"result\":0}");
+
+}
+

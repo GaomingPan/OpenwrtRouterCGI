@@ -19,22 +19,27 @@ static const struct{
 	RequestCode rCode;
 }keywords[] = {
 
-		{"page_login", rLogin},
-		{"page_status", rStatus},
-		{"page_logout", rLogout},
-		{"page_error", rBadRequest},
+		{"page_login",       rLogin},
+		{"page_status",      rStatus},
+		{"page_logout",      rLogout},
+		{"page_error",       rBadRequest},
 
-		{"data_status", rdStatus},
-		{"data_network", rdNetwork},
-		{"data_wireless", rdWireless},
-		{"data_admin", rdAdmin},
+		{"data_status",      rdStatus},
+		{"data_network",     rdNetwork},
+		{"data_wireless",    rdWireless},
+		{"data_admin",       rdAdmin},
+		{"data_dogstat",     rdDogstat},
 
-		{"set_wan", rsWan},
-		{"set_lan", rsLan},
-		{"set_wireless", rsWireless},
-		{"set_admin", rsAdmin},
+		{"set_wan",          rsWan},
+		{"set_lan",          rsLan},
+		{"set_wireless",     rsWireless},
+		{"set_admin",        rsAdmin},
+		{"set_dogstat",      rsDogstat},
 
-		{NULL, rInvalid},
+		{"set_reboot",       rsReboot},
+		{"set_reset",        rsReset},
+
+		{NULL,               rInvalid},
 };
 
 int parse_pages_request(char * out_data)

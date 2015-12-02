@@ -1,175 +1,251 @@
 ﻿<!DOCTYPE HTML>
 <html lang="en-US">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>网络设置</title>
-<link rel="stylesheet" type="text/css" media="all" href="style.css" />
-<link rel="stylesheet" type="text/css" href="style/css/media-queries.css" />
-<link rel="stylesheet" type="text/css" href="style/js/player/mediaelementplayer.css" />
-<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,400italic,300italic,300,700,700italic|Open+Sans+Condensed:300,700' rel="stylesheet" type='text/css'>
-    <link rel="stylesheet" href="css/jquery-labelauty.css">
-<!--[if IE 8]>
-<link rel="stylesheet" type="text/css" href="style/css/ie8.css" media="all" />
-<![endif]-->
-<!--[if IE 9]>
-<link rel="stylesheet" type="text/css" href="style/css/ie9.css" media="all" />
-<![endif]-->
-<script type="text/javascript" src="style/js/jquery-1.7.2.min.js"></script>
-<script type="text/javascript" src="style/js/ddsmoothmenu.js"></script>
-<script type="text/javascript" src="style/js/retina.js"></script>
-<script type="text/javascript" src="style/js/selectnav.js"></script>
-<script type="text/javascript" src="style/js/jquery.masonry.min.js"></script>
-<script type="text/javascript" src="style/js/jquery.fitvids.js"></script>
-<script type="text/javascript" src="style/js/jquery.backstretch.min.js"></script>
-<script type="text/javascript" src="style/js/mediaelement.min.js"></script>
-<script type="text/javascript" src="style/js/mediaelementplayer.min.js"></script>
-<script type="text/javascript" src="style/js/jquery.dcflickr.1.0.js"></script>
-<script type="text/javascript" src="style/js/twitter.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>wifi</title>
+    <link rel="stylesheet" type="text/css" media="all" href="style.css"/>
+    <link rel="stylesheet" type="text/css" href="style/css/media-queries.css"/>
+    <link rel="stylesheet" type="text/css" href="style/js/player/mediaelementplayer.css"/>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,400italic,300italic,300,700,700italic|Open+Sans+Condensed:300,700'
+          rel="stylesheet" type='text/css'>
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="css/style.css" media="screen" type="text/css"/>
+    <!--[if IE 8]>
+    <link rel="stylesheet" type="text/css" href="style/css/ie8.css" media="all"/>
+    <![endif]-->
+    <!--[if IE 9]>
+    <link rel="stylesheet" type="text/css" href="style/css/ie9.css" media="all"/>
+    <![endif]-->
+    <script type="text/javascript" src="style/js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="style/js/ddsmoothmenu.js"></script>
+    <script type="text/javascript" src="style/js/retina.js"></script>
+    <script type="text/javascript" src="style/js/selectnav.js"></script>
+    <script type="text/javascript" src="style/js/jquery.masonry.min.js"></script>
+    <script type="text/javascript" src="style/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="style/js/jquery.backstretch.min.js"></script>
+    <script type="text/javascript" src="style/js/mediaelement.min.js"></script>
+    <script type="text/javascript" src="style/js/mediaelementplayer.min.js"></script>
+    <script type="text/javascript" src="style/js/jquery.dcflickr.1.0.js"></script>
+    <script type="text/javascript" src="style/js/twitter.min.js"></script>
 
-<script type="text/javascript">
-	$.backstretch("style/images/bg/1.jpg");
-</script>
+    <!-- the logout js -->
+    <script type="text/javascript" src="js/logout.js"></script>
 
-    <style>
-        ul {
-            list-style-type: none;
-        }
-        li {
-            display: inline-block;
-        }
-        li {
-            margin: 10px 0;
-        }
-        input.labelauty + label {
-            font: 12px "Microsoft Yahei";
-        }
-    </style>
+    <!-- the wifi auth js -->
+    <script type="text/javascript" src="js/wifi_auth.js"></script>
 
     <script type="text/javascript">
-        $(document).ready(function () {
-        $("#dhcp").click(function () {
-            $("#objPage > .div-item").css("visibility", "hidden");
-            $("#objPage > .div-item").css("display", "none");
-            $("#objPage > #div1").css("visibility", "visible");
-            $("#objPage > #div1").css("display", "block");
-        });
-        $("#ip").click(function () {
-            $("#objPage > .div-item").css("visibility", "hidden");
-            $("#objPage > .div-item").css("display", "none");
-            $("#objPage > #div2").css("visibility", "visible");
-            $("#objPage > #div2").css("display", "block");
-        });
-        $("#ppoe").click(function () {
-            $("#objPage > .div-item").css("visibility", "hidden");
-            $("#objPage > .div-item").css("display", "none");
-            $("#objPage > #div3").css("visibility", "visible");
-            $("#objPage > #div3").css("display", "block");
-        });
-    });
+        $.backstretch("style/images/bg/1.jpg");
     </script>
+    <style type="text/css">
+        .checkboxFour {
+            width: 40px;
+            height: 40px;
+            background: #ddd;
+            margin: 20px 90px;
+            border-radius: 100%;
+            position: relative;
+            -webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.5);
+            -moz-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.5);
+            box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.5);
+        }
 
-    <script id="clientEventHandlersJS" language="javascript">
-<!--
-function T1_onkeyup() {
-  if(document.card.T1.value.length==3){
-     document.card.T2.focus();
-   }
-}
-function T2_onkeyup() {
-  if(document.card.T2.value.length==3){
-     document.card.T3.focus();
-   }
-}
+        .checkboxFour1 {
+            width: 40px;
+            height: 40px;
+            background: #ddd;
+            margin: 20px 90px;
+            border-radius: 100%;
+            position: relative;
+            -webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.5);
+            -moz-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.5);
+            box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.5);
+        }
 
-function T3_onkeyup() {
-  if(document.card.T3.value.length==3){
-     document.card.T4.focus();
-   }
-}
-//-->
-    </script>
+        /**
+ * Create the label for the off position
+ */
+        .checkboxFour label {
+            display: block;
+            width: 30px;
+            height: 30px;
+            border-radius: 100px;
+            -webkit-transition: all .5s ease;
+            -moz-transition: all .5s ease;
+            -o-transition: all .5s ease;
+            -ms-transition: all .5s ease;
+            transition: all .5s ease;
+            cursor: pointer;
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            z-index: 1;
+            background: #333;
+            -webkit-box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.5);
+            -moz-box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.5);
+            box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        .checkboxFour1 label {
+            display: block;
+            width: 30px;
+            height: 30px;
+            border-radius: 100px;
+            -webkit-transition: all .5s ease;
+            -moz-transition: all .5s ease;
+            -o-transition: all .5s ease;
+            -ms-transition: all .5s ease;
+            transition: all .5s ease;
+            cursor: pointer;
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            z-index: 1;
+            background: #333;
+            -webkit-box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.5);
+            -moz-box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.5);
+            box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        /**
+ * Create the checkbox event for the label
+ */
+        /**
+ * Create the checked state
+ */
+        .checkboxFour input[type=checkbox]:checked + label {
+            background: #26ca28;
+        }
+
+        .checkboxFour1 input[type=checkbox]:checked + label {
+            background: #26ca28;
+        }
+    </style>
+    <style>
+        #check_frame {
+            top: -75px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 150px;
+            height: 40px;
+            padding-top: 15px;
+            padding-left: 250px;
+            margin: auto;
+        }
+
+        #check_frame .checkbox {
+            display: none;
+        }
+
+        #check_frame .trigger {
+            cursor: pointer;
+            position: relative;
+            float: left;
+            width: 50px;
+            height: 25px;
+            margin: 10px;
+            background: #666;
+            overflow: hidden;
+            -webkit-transition: background .15s linear;
+            border-radius: 20px;
+        }
+
+        #check_frame .checkbox:checked + .trigger {
+            background: #00C5FF;
+        }
+
+        #check_frame .trigger:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 25px;
+            height: 10px;
+            margin: auto 5px;
+            box-shadow: 0 0 0 100px hsla(0, 0%, 0%, .3);
+            -webkit-transition: left .15s linear;
+            border-radius: 20px;
+        }
+
+        #check_frame .checkbox:checked + .trigger:before {
+            left: 10px;
+        }
+    </style>
 </head>
-<body>
+<body onload="auth_data_binding()">
+
 <div class="scanlines"></div>
 
 <!-- Begin Header -->
 <div class="header-wrapper opacity">
-	<div class="header">
-		<!-- Begin Logo -->
-		<div class="logo">
-		    <a href="index.html">
-                <img src="images/11.png" alt="" />
-			</a>
-	    </div>
-		<!-- End Logo -->
-		<!-- Begin Menu -->
-		<div id="menu-wrapper">
-			<div id="menu" class="menu">
-				<ul id="tiny">
-					<li><a href="/index.html">路由状态</a>
-					</li>
-					<li><a href="page-with-sidebar.html">系统设置</a>
-						<ul>
-                            <li><a href="auth.html">关闭路由认证</a></li>
-                            <li><a href="full-width.html">修改密码</a></li>
-                            <li><a href="full-width.html">恢复出厂设置</a></li>
-                            <li><a href="full-width.html">重启</a></li>
-						</ul>
-					</li>
-					<li class="active"><a href="#">网络设置</a>
-						<ul>
+    <div class="header">
+        <!-- Begin Logo -->
+        <div class="logo">
+            <a href="/index.html">
+                <img src="images/11.png" alt=""/>
+            </a>
+        </div>
+        <!-- End Logo -->
+        <!-- Begin Menu -->
+        <div id="menu-wrapper">
+            <div id="menu" class="menu">
+                <ul id="tiny">
+                    <li>
+                        <a href="status.html">路由状态</a>
+                    </li>
+                    <li>
+                        <a class="active" href="#">系统设置</a>
+                        <ul>
+                            <li><a href="wifi_auth.html">关闭路由认证</a></li>
+                            <li><a href="modify.html">修改密码</a></li>
+                            <li><a href="reset.html">恢复出厂设置</a></li>
+                            <li><a href="reboot.html">重启</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">网络设置</a>
+                        <ul>
                             <li><a href="typography.html">上网设置</a></li>
                             <li><a href="wifi.html">无线设置</a></li>
-						</ul>
-					</li>
+                        </ul>
+                    </li>
                     <li style="margin-left:80px;"><a href="#">lin</a></li>
-                    <li><input type="button" style="background-color:#ffffff; border-radius:10px; width:60px;height:19px; color:#39accb" value="退出" /></li>
-				</ul>
-			</div>
-		</div>
-		<div class="clear"></div>
-		<!-- End Menu -->
-	</div>
+                    <li><input type="button" style="background-color:#ffffff; border-radius:10px; width:60px;height:19px; color:#39accb; cursor: pointer" value="退出" onclick="logout()"/></li>
+                </ul>
+            </div>
+        </div>
+        <div class="clear"></div>
+        <!-- End Menu -->
+    </div>
 </div>
 <!-- End Header -->
 
 <!-- Begin Wrapper -->
 <div class="wrapper"><!-- Begin Intro -->
-<!-- Begin Container -->
     <div style="margin-bottom:20px;">
         <img style="width:70px; margin-left:auto; margin-right:auto" src="images/22.png">
-        <p style="color:#000000; font-size:15px; font-weight:600; width:62px; margin-left:auto; margin-right:auto">路由状态</p>
-    </div>
-    <div style="background-color: rgba(232, 232, 232, 0.21);
-                border-radius: 25px;
-                color: #fff;
-                font-weight: 300;
-                max-width: 888px;
-                padding: 0 30px 30px 30px;
-                margin: 30px auto 0 auto;">
-        <div style="padding-top:20px; margin-left:10px;">
-            <p style="font-size:14px; font-weight:600;">系 统 设 置</p>
-        </div>
-        <hr />
-        <div style=" float:left;font-size:13px; font-weight:600; color:#000000; margin-top:2em;margin-left:10em;padding-left:10px;">路由认证</div>
-        <div class="track">
-            <div class="indicator switch-off"></div>
-        </div>
-        <script src='js/jquery.js'></script>
-        <script src="js/index.js"></script>
-    </div>
-        <!-- End Container -->
 
+        <p style="color:#000000; font-size:15px; font-weight:600; width:70px; margin-left:auto; margin-right:auto">
+            系统设置</p>
     </div>
-<!-- End Wrapper -->
-<!-- End Footer --> 
-    <script src="js/jquery-labelauty.js"></script>
-    <script>
-        $(function () {
-            $(':input').labelauty();
-        });
-    </script>
+    <div style="background-color: rgba(232, 232, 232, 0.21);border-radius: 25px;color: #fff;font-weight: 300;max-width: 888px;padding: 0 30px 30px 30px;margin: 30px auto 0 auto;">
+        <div style="padding-top:20px; margin-left:10px;">
+            <p style="font-size:14px; font-weight:600; float:left;">认  证 设 置</p>
+            <input style="width:150px; height:100%;margin-left:70%;cursor: pointer" type="button" value="提交更改" onclick="auth_data_post()"/>
+        </div>
+        <hr style="margin-top:20px;"/>
+        <div  style=" float:left;font-size:13px; font-weight:600; color:#000000;padding-top:25px;padding-left:250px;"><a id="auth_txt" style="color: #FFFFFF" >---</a></div>
+        <section id="check_frame">
+            <input id="auth_check" class="checkbox" name="check" type="checkbox">
+            <label for="auth_check" class="trigger"></label>
+        </section>
+    </div>
+</div>
+<!-- End Footer -->
+<script src="js/index.js"></script>
 <script type="text/javascript" src="style/js/scripts.js"></script>
 </body>
 </html>

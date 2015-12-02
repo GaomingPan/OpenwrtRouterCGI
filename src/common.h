@@ -18,6 +18,9 @@
 #define  NETWORK_SETTINGS_SCRIPT         CGI_HOME"/networkSettings"
 #define  WIRELESS_SETTINGS_SCRIPT        CGI_HOME"/wirelessSettings"
 
+#define  CMD_RESET                       "sh -c killall dropbear uhttpd; sleep 1; mtd -r erase rootfs_data"
+#define  CMD_STOP_START_DOG              "sh -c uci set dog_alive.@dog_alive[0].is_alive=%d;commit dog_alive;echo %d > /tmp/.is_stop_or_start_deamon"
+
 #define  SESSION_TIME_OUT        180
 #define  MAX_ARRAY_LENTH         2048
 #define  HTTP_HEADER_LENTH       1024
@@ -48,11 +51,16 @@ typedef enum{
 	rdNetwork,
 	rdWireless,
 	rdAdmin,
+	rdDogstat,
 
 	rsWan,
 	rsLan,
 	rsWireless,
 	rsAdmin,
+	rsDogstat,
+
+	rsReboot,
+	rsReset,
 
 }RequestCode;
 

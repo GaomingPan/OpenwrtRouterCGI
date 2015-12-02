@@ -59,18 +59,7 @@ int do_login_process()
 //	DEBUG("do_login_process", "2", 2);
 	sprintf(password, "%s", get_post_data_property("password"));
 
-//	DEBUG("do_login_process_01", user_name, 0);
-//	DEBUG("do_login_process_02", password, 2);
-
-	MD5Init(&md5);
-    MD5Update(&md5,password,strlen((char *)password));
-    MD5Final(&md5,decrypt);
-
-    memset(password, 0, MAX_PROPERTY_DARA_SIZE);
-    for(i=0;i<16;i++)
-        sprintf(password,"%s%02x", password, decrypt[i]);
-
-//    DEBUG("do_login_process_03", password, 3);
+	md5Sum(password, password);
 
     if(is_authority_ok(user_name, password) < 0)
     	return -1;

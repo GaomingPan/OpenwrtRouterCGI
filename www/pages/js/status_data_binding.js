@@ -12,7 +12,7 @@ setTimeout(function() {
             type: "POST",
             url: "/cgi-bin/routerSettings",
             data: {
-                form_id: $('#form_id').val(),
+                form_id: "data_status",
             },
             beforeSend: function () { },
             dataType: "json",
@@ -26,7 +26,7 @@ setTimeout(function() {
                 $("#Sysload").html(myjson.sysload);
                 $("#cpu_use").html(myjson.cpu_use + "%");
                 $("#_cpu_use").css("width", myjson.cpu_use + "%");
-                $("#total_mem").html("Total:&nbsp" + myjson.memTotal + "&nbspKB");
+               // $("#total_mem").html("Total:&nbsp" + myjson.memTotal + "&nbspKB");
                 $("#MemTotal").css("width", myjson.memTotal + "%");
                 $("#MemFree").css("width", myjson.memFree / myjson.memTotal * 100 + "%");
                 $("#Buffers").css("width", myjson.buffers / myjson.memTotal * 100 + "%");

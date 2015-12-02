@@ -173,3 +173,32 @@ void MD5Transform(unsigned int state[4],unsigned char block[64])
     state[2] += c;
     state[3] += d;
 }
+
+
+
+
+
+void md5Sum(char *input, char *output)
+{
+	if(!input){
+		output = (char*)0;
+		return;
+	}
+
+    MD5_CTX md5;
+    MD5Init(&md5);
+    int i;
+    unsigned char encrypt[33] = {0};
+    unsigned char decrypt[16];
+    MD5Update(&md5,input,strlen((char *)input));
+    MD5Final(&md5,decrypt);
+
+    for(i=0;i<16;i++){
+        sprintf(encrypt, "%s%02x", encrypt, decrypt[i]);
+    }
+
+    if(!output)
+    	return;
+
+    sprintf(output, "%s", encrypt);
+}

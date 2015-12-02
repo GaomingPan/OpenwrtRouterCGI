@@ -1,0 +1,156 @@
+﻿<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>恢复出厂设置</title>
+    <link rel="stylesheet" type="text/css" media="all" href="style.css"/>
+    <link rel="stylesheet" type="text/css" href="style/css/media-queries.css"/>
+    <link rel="stylesheet" type="text/css" href="style/js/player/mediaelementplayer.css"/>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,400italic,300italic,300,700,700italic|Open+Sans+Condensed:300,700'
+          rel="stylesheet" type='text/css'>
+    <!--[if IE 8]>
+    <link rel="stylesheet" type="text/css" href="style/css/ie8.css" media="all"/>
+    <![endif]-->
+    <!--[if IE 9]>
+    <link rel="stylesheet" type="text/css" href="style/css/ie9.css" media="all"/>
+    <![endif]-->
+    <script type="text/javascript" src="style/js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="style/js/ddsmoothmenu.js"></script>
+    <script type="text/javascript" src="style/js/retina.js"></script>
+    <script type="text/javascript" src="style/js/selectnav.js"></script>
+    <script type="text/javascript" src="style/js/jquery.masonry.min.js"></script>
+    <script type="text/javascript" src="style/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="style/js/jquery.backstretch.min.js"></script>
+    <script type="text/javascript" src="style/js/mediaelement.min.js"></script>
+    <script type="text/javascript" src="style/js/mediaelementplayer.min.js"></script>
+    <script type="text/javascript" src="style/js/jquery.dcflickr.1.0.js"></script>
+    <script type="text/javascript" src="style/js/twitter.min.js"></script>
+
+    <!-- reset js -->
+    <script type="text/javascript" src="js/reset.js"></script>
+    <!-- logout js -->
+    <script type="text/javascript" src="js/logout.js"></script>
+
+    <script type="text/javascript">
+        $.backstretch("style/images/bg/1.jpg");
+    </script>
+
+    <style>
+        a.button {
+            position: relative;
+            color: rgba(255,255,255,1);
+            text-decoration: none;
+            background-color: #666;
+            font-family: 'Yanone Kaffeesatz';
+            font-weight: 700;
+            font-size: 10px;
+            display: block;
+            padding: 4px;
+            -webkit-border-radius: 8px;
+            -moz-border-radius: 8px;
+            border-radius: 8px;
+            -webkit-box-shadow: 0px 9px 0px rgb(85, 85, 85), 0px 9px 25px rgb(85, 85, 85);
+            -moz-box-shadow: 0px 9px 0px rgb(85, 85, 85), 0px 9px rgb(85, 85, 85);
+            box-shadow: 0px 9px 0px rgb(85, 85, 85), 0px 9px 25px rgb(85, 85, 85);
+            margin-top: 15px;
+            margin-left: 500px;
+            width: 55px;
+            text-align: center;
+            -webkit-transition: all .1s ease;
+            -moz-transition: all .1s ease;
+            -ms-transition: all .1s ease;
+            -o-transition: all .1s ease;
+            transition: all .1s ease;
+        }
+
+            a.button:active {
+                -webkit-box-shadow: 0px 3px 0px rgb(85, 85, 85), 0px 3px 6px rgb(85, 85, 85);
+                -moz-box-shadow: 0px 3px 0px rgb(85, 85, 85), 0px 3px 6px rgb(85, 85, 85);
+                box-shadow: 0px 3px 0px rgb(85, 85, 85), 0px 3px 6px rgb(85, 85, 85);
+                position: relative;
+                top: 6px;
+            }
+    </style>
+
+
+
+</head>
+<body>
+<div class="scanlines"></div>
+
+<!-- Begin Header -->
+<div class="header-wrapper opacity">
+    <div class="header">
+        <!-- Begin Logo -->
+        <div class="logo">
+            <a href="/index.html">
+                <img src="images/11.png" alt=""/>
+            </a>
+        </div>
+        <!-- End Logo -->
+        <!-- Begin Menu -->
+        <div id="menu-wrapper">
+            <div id="menu" class="menu">
+                <ul id="tiny">
+                    <li>
+                        <a href="status.html">路由状态</a>
+                    </li>
+                    <li>
+                        <a class="active" href="#">系统设置</a>
+                        <ul>
+                            <li><a href="wifi_auth.html">关闭路由认证</a></li>
+                            <li><a href="modify.html">修改密码</a></li>
+                            <li><a href="reset.html">恢复出厂设置</a></li>
+                            <li><a href="reboot.html">重启</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">网络设置</a>
+                        <ul>
+                            <li><a href="typography.html">上网设置</a></li>
+                            <li><a href="wifi.html">无线设置</a></li>
+                        </ul>
+                    </li>
+                    <li style="margin-left:80px;"><a href="#">lin</a></li>
+                    <li><input type="button"
+                               style="background-color:#ffffff; border-radius:10px; width:60px;height:19px; color:#39accb; cursor: pointer"
+                               value="退出" onclick="logout()"/></li>
+                </ul>
+            </div>
+        </div>
+        <div class="clear"></div>
+        <!-- End Menu -->
+    </div>
+</div>
+<!-- End Header -->
+
+<!-- Begin Wrapper -->
+<div class="wrapper"><!-- Begin Intro -->
+    <div style="margin-bottom:20px;">
+        <img style="width:70px; margin-left:auto; margin-right:auto" src="images/22.png">
+
+        <p style="color:#000000; font-size:15px; font-weight:600; width:62px; margin-left:auto; margin-right:auto">
+            系统设置</p>
+    </div>
+    <div style="background-color: rgba(232, 232, 232, 0.21);
+                    border-radius: 25px;
+                    color: #fff;
+                    font-weight: 300;
+                    max-width: 888px;
+                    padding: 0 30px 30px 30px;
+                    margin: 30px auto 0 auto;">
+        <div style="padding-top:20px; margin-left:10px;">
+            <p style="font-size:14px; font-weight:600;">恢复出厂设置</p>
+        </div>
+        <hr style="margin-top:20px;"/>
+        <div style=" float:left;font-size:13px; font-weight:600; color:#000000;padding-top:25px;padding-left:250px;">恢 复 出 厂 设 置</div>
+        <a href="javascript:void(0);" class="button" onclick="reset_router()">确定</a>
+
+    </div>
+
+</div>
+<!-- End Footer -->
+<script type="text/javascript" src="style/js/scripts.js"></script>
+</body>
+</html>
