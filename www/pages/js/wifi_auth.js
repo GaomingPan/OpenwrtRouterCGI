@@ -17,16 +17,15 @@ function auth_data_binding() {
 
                 if (ret.stat == 0) {
                     if ($("#auth_check").is(":checked")) {
-                        $("#auth_txt").html("认 证 上 网 打 开");
-                    }
-                    else {
                         $("#auth_check").attr("checked", true);
-                        $("#auth_txt").html("认 证 上 网 关 闭");
+                        $("#auth_txt").html("认 证 上 网 打 开");
                     }
                 } else {
 
-                    if ($("#auth_check").is(":checked"))
+                    if ($("#auth_check").is(":checked")) {
                         $("#auth_check").attr("checked", false);
+                    }
+                    $("#auth_txt").html("认 证 上 网 关 闭");
                 }
 
             } else {
