@@ -26,11 +26,8 @@ static long _time;
 static int do_invalid_session()
 {
     	request_code = get_post_request_code();
-    	DEBUG("session is invalid", "RequestCode", request_code);
-
     	switch(request_code){
     	case rLogin:
-//    		DEBUG("switch", "rLogin", rLogin);
     		output_header_v("text/html;charset=utf-8");
     		if ( 0 != do_login_process()){
     			send_redirect_to_page(PAGE_AUTH_ERR);
@@ -38,21 +35,27 @@ static int do_invalid_session()
     		}
     		send_redirect_to_page(PAGE_STATUS);
     		break;
+
+    	case rdAdmin:
         case rdNetwork:
         case rdWireless:
+
         case rsWan:
         case rsLan:
         case rsWireless:
+        case rsAdmin:
+        case rsReboot:
+        case rsReset:
         	output_header_v("application/json");
         	fprintf(stdout, "{\"result\":1}");
         	return 0;
         	break;
+
     	default:
     		output_header_v("text/html;charset=utf-8");
     		send_redirect_to_page(PAGE_LOGIN);
     		break;
     	}
-//    	DEBUG("main", "RequestCode", request_code);
     	return 0;
 }
 
@@ -74,7 +77,6 @@ static int do_valid_session()
     	break;
     case rLogout:
     	output_header_v("application/json");
-//    	DEBUG("Logout","rLogout",rLogout);
     	do_logout();
     	return 0;
     	break;
@@ -83,53 +85,62 @@ static int do_valid_session()
     	output_header_v("application/json");
     	fprintf(stdout, "%s", get_status_data());
     	save_session_info(NULL, NULL);
-//    	DEBUG("buffers data",get_buffers_data(),0);
     	return 0;
     	break;
     case rdNetwork:
     	output_header_v("application/json");
     	fprintf(stdout, "%s", get_network_data());
+    	save_session_info(NULL, NULL);
     	DEBUG("network-data",get_network_data(),0);
     	return 0;
     	break;
     case rdWireless:
     	output_header_v("application/json");
     	fprintf(stdout, "%s", get_wireless_data());
+    	save_session_info(NULL, NULL);
     	DEBUG("wireless-data",get_wireless_data(),0);
     	return 0;
     	break;
     case rdAdmin:
     	output_header_v("application/json");
     	fprintf(stdout, "{\"result\":0,\"username\":\"%s\"}", get_user_name());
+    	save_session_info(NULL, NULL);
     	return 0;
     	break;
     case rdDogstat:
     	output_header_v("application/json");
     	do_dogstat();
+    	save_session_info(NULL, NULL);
     	return 0;
     	break;
     case rsDogstat:
+    	output_header_v("application/json");
     	do_wifidog_up_down( atoi( get_post_data_property("stat") ) );
+    	save_session_info(NULL, NULL);
     	return 0;
     	break;
     case rsWan:
     	output_header_v("application/json");
     	do_network_settings(rsWan);
+    	save_session_info(NULL, NULL);
     	return 0;
     	break;
     case rsLan:
     	output_header_v("application/json");
     	do_network_settings(rsLan);
+    	save_session_info(NULL, NULL);
     	return 0;
     	break;
     case rsWireless:
     	output_header_v("application/json");
     	do_wireless_settings();
+    	save_session_info(NULL, NULL);
     	return 0;
     	break;
     case rsAdmin:
     	output_header_v("application/json");
     	do_change_admin_password();
+    	save_session_info(NULL, NULL);
     	return 0;
     	break;
     case rsReboot:
@@ -137,9 +148,14 @@ static int do_valid_session()
     	do_sys_reboot();
     	return 0;
     	break;
+    case rsReset:
+    	output_header_v("application/json");
+    	do_sys_reset();
+    	break;
     default:
     	output_header_v("text/html;charset=utf-8");
     	send_redirect_to_page(PAGE_STATUS);
+    	save_session_info(NULL, NULL);
     	break;
     }
 

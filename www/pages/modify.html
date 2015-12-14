@@ -7,8 +7,7 @@
     <link rel="stylesheet" type="text/css" media="all" href="style.css"/>
     <link rel="stylesheet" type="text/css" href="style/css/media-queries.css"/>
     <link rel="stylesheet" type="text/css" href="style/js/player/mediaelementplayer.css"/>
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,400italic,300italic,300,700,700italic|Open+Sans+Condensed:300,700'
-          rel="stylesheet" type='text/css'>
+
     <!--[if IE 8]>
     <link rel="stylesheet" type="text/css" href="style/css/ie8.css" media="all"/>
     <![endif]-->
@@ -32,9 +31,7 @@
     <!-- the logout js -->
     <script type="text/javascript" src="js/logout.js"></script>
 
-    <script type="text/javascript">
-        $.backstretch("style/images/bg/1.jpg");
-    </script>
+
 </head>
 <body onload="load_admin_info()">
 <div class="scanlines"></div>
@@ -59,7 +56,7 @@
                     <li>
                         <a class="active" href="#">系统设置</a>
                         <ul>
-                            <li><a href="wifi_auth.html">关闭路由认证</a></li>
+                            <li><a href="wifi_auth.html">认证上网</a></li>
                             <li><a href="modify.html">修改密码</a></li>
                             <li><a href="reset.html">恢复出厂设置</a></li>
                             <li><a href="reboot.html">重启</a></li>
@@ -72,7 +69,7 @@
                             <li><a href="wifi.html">无线设置</a></li>
                         </ul>
                     </li>
-                    <li style="margin-left:80px;"><a href="#">lin</a></li>
+                    <!-- <li style="margin-left:80px;"><a href="#">lin</a></li> -->
                     <li><input type="button"
                                style="background-color:#ffffff; border-radius:10px; width:60px;height:19px; color:#39accb; cursor: pointer"
                                value="退出" onclick="logout()"/></li>
@@ -101,13 +98,13 @@
                     padding: 0 30px 30px 30px;
                     margin: 30px auto 0 auto;">
         <div style="padding-top:20px; margin-left:10px;">
-            <p style="font-size:14px; font-weight:600; float:left;">修 改 密 码</p>
+            <p style="font-size:14px; font-weight:600; float:left;position: absolute;">修 改 密 码</p>
             <input style="width:150px; height:100%;margin-left:75%;cursor: pointer;" type="button" value="提交更改" onclick="change_password()"/>
         </div>
         <hr style="margin-top:20px;"/>
         <div style="text-align: -webkit-center;">
             新用户名：<input type="text" style="margin-top:15px;margin-bottom:15px; width:15%;" id="username" /><br />
-            新 &nbsp;密 &nbsp;码：<input type="password" style="margin-bottom:15px;width:15%" id="pwd1" /><br />
+            新 密 码：<input type="password" style="margin-bottom:15px;width:15%" id="pwd1" /><br />
             确认密码：<input type="password" style="margin-bottom:20px;width:15%" id="pwd2" />
         </div>
     </div>

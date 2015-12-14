@@ -7,8 +7,7 @@
     <link rel="stylesheet" type="text/css" media="all" href="style.css"/>
     <link rel="stylesheet" type="text/css" href="style/css/media-queries.css"/>
     <link rel="stylesheet" type="text/css" href="style/js/player/mediaelementplayer.css"/>
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,400italic,300italic,300,700,700italic|Open+Sans+Condensed:300,700'
-          rel="stylesheet" type='text/css'>
+
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="css/style.css" media="screen" type="text/css"/>
     <!--[if IE 8]>
@@ -35,9 +34,7 @@
     <!-- the wifi auth js -->
     <script type="text/javascript" src="js/wifi_auth.js"></script>
 
-    <script type="text/javascript">
-        $.backstretch("style/images/bg/1.jpg");
-    </script>
+
     <style type="text/css">
         .checkboxFour {
             width: 40px;
@@ -199,7 +196,7 @@
                     <li>
                         <a class="active" href="#">系统设置</a>
                         <ul>
-                            <li><a href="wifi_auth.html">关闭路由认证</a></li>
+                            <li><a href="wifi_auth.html">认证上网</a></li>
                             <li><a href="modify.html">修改密码</a></li>
                             <li><a href="reset.html">恢复出厂设置</a></li>
                             <li><a href="reboot.html">重启</a></li>
@@ -212,8 +209,10 @@
                             <li><a href="wifi.html">无线设置</a></li>
                         </ul>
                     </li>
-                    <li style="margin-left:80px;"><a href="#">lin</a></li>
-                    <li><input type="button" style="background-color:#ffffff; border-radius:10px; width:60px;height:19px; color:#39accb; cursor: pointer" value="退出" onclick="logout()"/></li>
+                    <!-- <li style="margin-left:80px;"><a href="#">lin</a></li> -->
+                    <li><input type="button"
+                               style="background-color:#ffffff; border-radius:10px; width:60px;height:19px; color:#39accb; cursor: pointer"
+                               value="退出" onclick="logout()"/></li>
                 </ul>
             </div>
         </div>
@@ -233,13 +232,15 @@
     </div>
     <div style="background-color: rgba(232, 232, 232, 0.21);border-radius: 25px;color: #fff;font-weight: 300;max-width: 888px;padding: 0 30px 30px 30px;margin: 30px auto 0 auto;">
         <div style="padding-top:20px; margin-left:10px;">
-            <p style="font-size:14px; font-weight:600; float:left;">认  证 设 置</p>
-            <input style="width:150px; height:100%;margin-left:70%;cursor: pointer" type="button" value="提交更改" onclick="auth_data_post()"/>
+            <p style="font-size:14px; font-weight:600; float:left;">认 证 设 置</p>
+           <!-- <input style="width:150px; height:100%;margin-left:70%;cursor: pointer" type="button" value="提交更改"
+                   onclick="auth_data_post()"/> -->
         </div>
-        <hr style="margin-top:20px;"/>
-        <div  style=" float:left;font-size:13px; font-weight:600; color:#000000;padding-top:25px;padding-left:250px;"><a id="auth_txt" style="color: #FFFFFF" >---</a></div>
+        <hr style="margin-top:41px;"/>
+        <div style=" float:left;font-size:13px; font-weight:600; color:#000000;padding-top:25px;padding-left:250px;"><a
+                id="auth_txt" style="color: #FFFFFF">---</a></div>
         <section id="check_frame">
-            <input id="auth_check" class="checkbox" name="check" type="checkbox">
+            <input id="auth_check" class="checkbox" name="check" type="checkbox" onclick="auth_data_post()">
             <label for="auth_check" class="trigger"></label>
         </section>
     </div>

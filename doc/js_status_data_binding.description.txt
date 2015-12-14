@@ -1,0 +1,84 @@
+﻿js 前端浏览器和CGI程序交互数据的格式是JSON数据格式，下面说明各个js的功能和数据说明。
+
+1.status_data_binding.js 说明：
+
+这是一个动态刷新路由状态的定时js函数。
+具体如下：在请求数据时，form_id: "data_status"是必须字段。
+
+数据处理在 success: function (data) {}进行。
+
+setTimeout(function() {
+            Push();
+    },200);
+    //3秒轮询读取函数
+    setInterval(function() {
+        Push();
+    },
+    5000);// update check interval 5 seconds 
+    //请求函数的ajax
+    function Push() {
+        $.ajax({
+            type: "POST",
+            url: "/cgi-bin/routerSettings",
+            data: {
+                form_id: "data_status",
+            },
+            beforeSend: function () { },
+            dataType: "json",
+            success: function (data) {
+                var myjson = eval(data);
+
+                if(myjson.result == 1){
+                    window.location = "/index.html";
+                    return false;
+                }
+
+                $("#DeviceId").html(myjson.deviceId);
+                $("#DeviceVer").html(myjson.deviceVer);
+                $("#OSVersion").html(myjson.osVersion);
+                $("#KernelVer").html(myjson.kernelVer);
+                $("#Uptime").html(myjson.uptime);
+                $("#Sysload").html(myjson.sysload);
+                $("#cpu_use").html(myjson.cpu_use + "%");
+                $("#_cpu_use").css("width", myjson.cpu_use + "%");
+               // $("#total_mem").html("Total:&nbsp" + myjson.memTotal + "&nbspKB");
+                $("#MemTotal").css("width", myjson.memTotal + "%");
+                $("#MemFree").css("width", myjson.memFree / myjson.memTotal * 100 + "%");
+                $("#Buffers").css("width", myjson.buffers / myjson.memTotal * 100 + "%");
+                $("#Cached").css("width", myjson.cached / myjson.memTotal * 100 + "%");
+                $("#_mem_free").html(parseInt(myjson.memFree / myjson.memTotal * 100) + "%");
+                $("#_buffers").html(parseInt(myjson.buffers / myjson.memTotal * 100) + "%");
+                $("#_cached").html(parseInt(myjson.cached / myjson.memTotal * 100) + "%");
+             }
+        });
+ }
+
+2.CGI返回的数据格式如下：
+
+{
+    "result":0,
+    "network_wan":{
+        "wan_proto":"dhcp",
+        "wan_ipaddr":"",
+        "wan_netmask":"",
+        "wan_gateway":"",
+        "wan_dns":"",
+        "wan_pppoe_username":"",
+        "wan_pppoe_password":""
+    },
+    "network_lan":{
+        "lan_proto":"static",
+        "lan_ipaddr":"192.168.1.1",
+        "lan_netmask":"255.255.255.0"
+    },
+    "dhcp_wan":{
+        "ignore":1
+    },
+    "dhcp_lan":{
+        "ignore":0,
+        "start":"100",
+        "limit":"150",
+        "leasetime":"12h"
+    }
+}
+result:数据标识，0 表示正常，其他表示异常。

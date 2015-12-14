@@ -1,3 +1,5 @@
+
+
 setTimeout(function() {
             Push();
     },200);
@@ -18,6 +20,12 @@ setTimeout(function() {
             dataType: "json",
             success: function (data) {
                 var myjson = eval(data);
+
+                if(myjson.result == 1){
+                    window.location = "/index.html";
+                    return false;
+                }
+
                 $("#DeviceId").html(myjson.deviceId);
                 $("#DeviceVer").html(myjson.deviceVer);
                 $("#OSVersion").html(myjson.osVersion);

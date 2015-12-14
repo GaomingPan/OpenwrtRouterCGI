@@ -14,6 +14,11 @@ function wireless_data_binding() {
 
                 var ret = eval(data);
 
+                if (ret.result == 1) {
+                    window.location = "/index.html";
+                    return false;
+                }
+
                 $("#wifi_ssid").val(ret.ssid);
                 $("#wifi_password").val(ret.key);
 
@@ -98,7 +103,7 @@ function wireless_data_post() {
     var key;
 
     $indicator = $('.indicator');
-    if ($indicator.hasClass('switch-on')) {
+    if ($("#wifi").is(":checked")) {
         wifi_disabled = 0;
     } else {
         wifi_disabled = 1;

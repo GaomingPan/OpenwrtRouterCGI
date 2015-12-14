@@ -1,1 +1,2 @@
 # OpenwrtRouterCGI
+这是一个简单的CGI程序，http服务器用的是uhttpd.

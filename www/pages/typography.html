@@ -7,8 +7,7 @@
     <link rel="stylesheet" type="text/css" media="all" href="style.css"/>
     <link rel="stylesheet" type="text/css" href="style/css/media-queries.css"/>
     <link rel="stylesheet" type="text/css" href="style/js/player/mediaelementplayer.css"/>
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,400italic,300italic,300,700,700italic|Open+Sans+Condensed:300,700'
-          rel="stylesheet" type='text/css'>
+
     <link rel="stylesheet" href="css/jquery-labelauty.css">
     <!--[if IE 8]>
     <link rel="stylesheet" type="text/css" href="style/css/ie8.css" media="all"/>
@@ -32,10 +31,6 @@
     <script type="text/javascript" src="js/network_settings.js"></script>
     <!-- the logout js -->
     <script type="text/javascript" src="js/logout.js"></script>
-
-    <script type="text/javascript">
-        $.backstretch("style/images/bg/1.jpg");
-    </script>
 
     <style>
         ul {
@@ -77,31 +72,91 @@
             });
         });
     </script>
-
     <script id="clientEventHandlersJS" language="javascript">
         //<!--
-        function T1_onkeyup() {
-            if (document.card.T1.value.length == 3) {
-                document.card.T2.focus();
+        function checkIPValid_1()
+        {
+            if(event.shiftKey)
+            {
+                event.returnValue=false;
+                return;
             }
+            var keyCode = parseInt(event.keyCode);
+            var result=true;
+            if((keyCode==8) || (keyCode==37) || (keyCode==39) || (keyCode==9)) return;
+            if((keyCode>=48) && (keyCode<=57)) return;
+            else result=false;
+            if((keyCode>=96) && (keyCode<=105)) return;
+            else result=false;
+            if((keyCode==110) || (keyCode==190) || (keyCode==32))
+            {
+                event.keyCode=9;
+                return;
+            }
+            if(result==false) event.returnValue=false;
         }
-        function T2_onkeyup() {
-            if (document.card.T2.value.length == 3) {
-                document.card.T3.focus();
+
+        function checkIPValid_2(formname,ip)
+        {
+            var form = eval("document."+formname)
+            var ip_1 = parseInt(eval("form."+ip+".value"));
+            if(T1>223)
+            {
+                eval("form."+ip).value="223";
+                alert(T1+"不是个有效项目，请指定一个介于1和223之间的数值");
+
+
+            }
+            else if(T1==127)
+            {
+                eval("form."+ip).value="1";
+                alert("以127开头的IP地址无效，因为它们保留用作环回地址，请在1和223之间指定一些其他有效值");
             }
         }
 
-        function T3_onkeyup() {
-            if (document.card.T3.value.length == 3) {
-                document.card.T4.focus();
+
+        function checkIPValid_3(mask)
+        {
+
+            if(typeof(mask) != 'object'){
+                mask = eval(mask)
             }
+            var maskInt=parseInt(mask.value);
+            if((maskInt<0) || (maskInt>255))
+            {
+                mask.value=255;
+                alert(maskInt+"不是个有效项目，请指定一个介于0和255之间的数值");
+            }
+        }
+
+
+        function checkIPValid_4(mask)
+        {
+            var maskInt=parseInt(mask.value);
+            if((maskInt<0) || (maskInt>32))
+            {
+                mask.value="";
+                alert("掩码错误，请指定一个介于0和32之间的数值");
+            }
+        }
+
+
+        function checkIPValid_5()
+        {
+            var keyCode = parseInt(event.keyCode);
+            var result=true;
+            if((keyCode==219) || (keyCode==221) || (keyCode==191) || (keyCode==220) || (keyCode==186) || (keyCode==32))
+            {
+                result=false;
+            }
+            if(result==false) event.returnValue=false;
         }
         //-->
     </script>
+
 </head>
 <body onload="networkSettings_data_binding()">
 <div class="scanlines"></div>
-
 <!-- Begin Header -->
 <div class="header-wrapper opacity">
     <div class="header">
@@ -122,7 +177,7 @@
                     <li>
                         <a class="active" href="#">系统设置</a>
                         <ul>
-                            <li><a href="wifi_auth.html">关闭路由认证</a></li>
+                            <li><a href="wifi_auth.html">认证上网</a></li>
                             <li><a href="modify.html">修改密码</a></li>
                             <li><a href="reset.html">恢复出厂设置</a></li>
                             <li><a href="reboot.html">重启</a></li>
@@ -135,10 +190,11 @@
                             <li><a href="wifi.html">无线设置</a></li>
                         </ul>
                     </li>
-                    <li style="margin-left:80px;"><a href="#">lin</a></li>
+                    <!-- <li style="margin-left:80px;"><a href="#">lin</a></li> -->
                     <li><input type="button"
                                style="background-color:#ffffff; border-radius:10px; width:60px;height:19px; color:#39accb; cursor: pointer"
-                               value="退出" onclick="logout()"/></li>
+                               value="退出" onclick="logout()"/>\
+                    </li>
                 </ul>
             </div>
         </div>
@@ -181,47 +237,46 @@
         <div id="objPage">
             <!--<div id="div1" class="div-item" style="width:100px;height:100px;background-color:#0ff;visibility:hidden;display:none"></div>-->
             <div id="div2" class="div-item" style="visibility:hidden;display:none;text-align: -webkit-center;">
-                <form method="POST" name="card" style="margin-bottom:20px;">
-                    I P &emsp; 地 址：
-                    <input type="text" id="ip1" name="T1" size="4" maxlength="4" language="javascript"
-                           onkeyup="return T1_onkeyup()" style="margin-top:30px; width:5%">.
-                    <input type="text" id="ip2" name="T2" size="4" maxlength="4" language="javascript"
-                           onkeyup="return T2_onkeyup()" style="width:5%">.
-                    <input type="text" id="ip3" name="T3" size="4" maxlength="4" language="javascript"
-                           onkeyup="return T3_onkeyup()" style="width:5%">.
-                    <input type="text" id="ip4" name="T4" size="4" maxlength="4" style="width:5%">
+                <form method="POST" name="form1" style="margin-bottom:20px;">
+                    I P&emsp; 地 址：
+                    <input type="text" id="ip1" name="T1" size="3" maxlength="3" language="javascript"
+                           onKeyDown="checkIPValid_1()" onKeyUp="checkIPValid_3(eval('document.form1.T1'))" style="margin-top:30px; width:5%">.
+                    <input type="text" id="ip2" name="T2" size="3" maxlength="3" language="javascript"
+                           onKeyDown="checkIPValid_1()" onKeyUp="checkIPValid_3(eval('document.form1.T2'))" style="width:5%">.
+                    <input type="text" id="ip3" name="T3" size="3" maxlength="3" language="javascript"
+                           onKeyDown="checkIPValid_1()" onKeyUp="checkIPValid_3(eval('document.form1.T3'))" style="width:5%">.
+                    <input type="text" id="ip4" name="T4" size="3" maxlength="3" onKeyDown="checkIPValid_1()" onKeyUp="checkIPValid_3(eval('document.form1.T4'))" style="width:5%">
                 </form>
-                <form method="POST" name="card" style="margin-bottom:20px;">
+                <form method="POST" name="form2" style="margin-bottom:20px;">
                     子 网 掩 码：
-                    <input type="text" id="netmask1" name="T1" size="4" maxlength="4" language="javascript"
-                           onkeyup="return T1_onkeyup()" style="width:5%">.
-                    <input type="text" id="netmask2" name="T2" size="4" maxlength="4" language="javascript"
-                           onkeyup="return T2_onkeyup()" style="width:5%">.
-                    <input type="text" id="netmask3" name="T3" size="4" maxlength="4" language="javascript"
-                           onkeyup="return T3_onkeyup()" style="width:5%">.
-                    <input type="text" id="netmask4" name="T4" size="4" maxlength="4" style="width:5%">
+                    <input type="text" id="netmask1" name="T1" size="3" maxlength="3" language="javascript"
+                           onKeyDown="checkIPValid_1()" onKeyUp="checkIPValid_3(eval('document.form2.T1'))" style="width:5%">.
+                    <input type="text" id="netmask2" name="T2" size="3" maxlength="3" language="javascript"
+                           onKeyDown="checkIPValid_1()" onKeyUp="checkIPValid_3(eval('document.form2.T1'))" style="width:5%">.
+                    <input type="text" id="netmask3" name="T3" size="3" maxlength="3" language="javascript"
+                           onKeyDown="checkIPValid_1()" onKeyUp="checkIPValid_3(eval('document.form2.T1'))" style="width:5%">.
+                    <input type="text" id="netmask4" name="T4" size="3" maxlength="3" onKeyDown="checkIPValid_1()" onKeyUp="checkIPValid_3(eval('document.form2.T1'))" style="width:5%">
                 </form>
-                <form method="POST" name="card" style="margin-bottom:20px;">
+                <form method="POST" name="form3" style="margin-bottom:20px;">
                     默 认 网 关：
-                    <input type="text" id="gateway1" name="T1" size="4" maxlength="4" language="javascript"
-                           onkeyup="return T1_onkeyup()" style="width:5%">.
-                    <input type="text" id="gateway2" name="T2" size="4" maxlength="4" language="javascript"
-                           onkeyup="return T2_onkeyup()" style="width:5%">.
-                    <input type="text" id="gateway3" name="T3" size="4" maxlength="4" language="javascript"
-                           onkeyup="return T3_onkeyup()" style="width:5%">.
-                    <input type="text" id="gateway4" name="T4" size="4" maxlength="4" style="width:5%">
+                    <input type="text" id="gateway1" name="T1" size="3" maxlength="3" language="javascript"
+                           onKeyDown="checkIPValid_1()" onKeyUp="checkIPValid_3(eval('document.form3.T1'))" style="width:5%">.
+                    <input type="text" id="gateway2" name="T2" size="3" maxlength="3" language="javascript"
+                           onKeyDown="checkIPValid_1()" onKeyUp="checkIPValid_3(eval('document.form3.T1'))" style="width:5%">.
+                    <input type="text" id="gateway3" name="T3" size="3" maxlength="3" language="javascript"
+                           onKeyDown="checkIPValid_1()" onKeyUp="checkIPValid_3(eval('document.form3.T1'))" style="width:5%">.
+                    <input type="text" id="gateway4" name="T4" size="3" maxlength="3" onKeyDown="checkIPValid_1()" onKeyUp="checkIPValid_3(eval('document.form3.T1'))" style="width:5%">
                 </form>
-                <form method="POST" name="card" style="margin-bottom:50px;">
-                    DNS服务器：
-                    <input type="text" id="dns1" name="T1" size="4" maxlength="4" language="javascript"
-                           onkeyup="return T1_onkeyup()" style="width:5%">.
-                    <input type="text" id="dns2" name="T2" size="4" maxlength="4" language="javascript"
-                           onkeyup="return T2_onkeyup()" style="width:5%">.
-                    <input type="text" id="dns3" name="T3" size="4" maxlength="4" language="javascript"
-                           onkeyup="return T3_onkeyup()" style="width:5%">.
-                    <input type="text" id="dns4" name="T4" size="4" maxlength="4" style="width:5%">
+                <form method="POST" name="form4" style="margin-bottom:50px;">
+                    D N S服务器：
+                    <input type="text" id="dns1" name="T1" size="3" maxlength="3" language="javascript"
+                           onKeyDown="checkIPValid_1()" onKeyUp="checkIPValid_3(eval('document.form4.T1'))" style="width:5%">.
+                    <input type="text" id="dns2" name="T2" size="3" maxlength="3" language="javascript"
+                           onKeyDown="checkIPValid_1()" onKeyUp="checkIPValid_3(eval('document.form4.T1'))" style="width:5%">.
+                    <input type="text" id="dns3" name="T3" size="3" maxlength="3" language="javascript"
+                           onKeyDown="checkIPValid_1()" onKeyUp="checkIPValid_3(eval('document.form4.T1'))" style="width:5%">.
+                    <input type="text" id="dns4" name="T4" size="3" maxlength="3" onKeyDown="checkIPValid_1()" onKeyUp="checkIPValid_3(eval('document.form4.T1'))" style="width:5%">
                 </form>
-
             </div>
             <div id="div3" class="div-item"
                  style="text-align: -webkit-center;height:100%;visibility:hidden;display:none;">
@@ -236,11 +291,8 @@
                 </form>
             </div>
         </div>
-
-
     </div>
     <!-- End Container -->
-
 </div>
 <!-- End Wrapper -->
 <!-- End Footer -->

@@ -82,7 +82,7 @@ getTwitters('twitter', {
         count: 2, 
         enableLinks: true, 
         ignoreReplies: false,
-        template: '<span class="twitterPrefix"><span class="twitterStatus">%text%</span><br /><em class="twitterTime"><a href="http://twitter.com/%user_screen_name%/statuses/%id%">%time%</a></em>',
+        template: '<span class="twitterPrefix"><span class="twitterStatus">%text%</span><br /><em class="twitterTime"><a href="#">%time%</a></em>',
         newwindow: true
 });
 

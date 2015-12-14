@@ -44,6 +44,8 @@ define Package/routerSettings/install
 	$(CP)          $(PKG_BUILD_DIR)/www/index.html $(1)/www_cloud/
 	$(INSTALL_DIR) $(1)/www_cloud/pages
 	$(CP)          $(PKG_BUILD_DIR)/www/pages/* $(1)/www_cloud/pages/
+	$(INSTALL_DIR) $(1)/www_cloud/img
+	$(CP)          $(PKG_BUILD_DIR)/www/img/* $(1)/www_cloud/img/
 	$(INSTALL_DIR) $(1)/etc
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/ui_info.properties $(1)/etc/.ui_info.properties
 	$(INSTALL_DIR) $(1)/etc/config
