@@ -95,6 +95,7 @@ json_maker()
    }"
    
    JSON_DATA_STRING="{
+       \"result\":0,
        \"network_wan\":$NETWORK_WAN,
        \"network_lan\":$NETWORK_LAN,
        \"dhcp_wan\":$DHCP_WAN,

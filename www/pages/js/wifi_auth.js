@@ -16,17 +16,16 @@ function auth_data_binding() {
             if (ret.result == 0) {
 
                 if (ret.stat == 0) {
-                    if ($("#auth_check").is(":checked")) {
-                        $("#auth_txt").html("认 证 上 网 打 开");
-                    }
-                    else {
+                    if (!$("#auth_check").is(":checked")) {
                         $("#auth_check").attr("checked", true);
-                        $("#auth_txt").html("认 证 上 网 关 闭");
+                        $("#auth_txt").html("认 证 上 网 打 开");
                     }
                 } else {
 
-                    if ($("#auth_check").is(":checked"))
+                    if ($("#auth_check").is(":checked")) {
                         $("#auth_check").attr("checked", false);
+                    }
+                    $("#auth_txt").html("认 证 上 网 关 闭");
                 }
 
             } else {
@@ -64,10 +63,10 @@ function auth_data_post() {
 
             var ret = eval(data);
             if (ret.result == 0) {
-                alert("OK: 无线认证设置成功！");
-                window.location = "/index.html";
+              //  alert("OK: 无线认证设置成功！");
+             //   window.location = "/index.html";
             } else {
-                alert("ERROR: 无线认证设置出错！请重新设置！");
+                alert("ERROR: 设置出错！请重新设置！");
                 window.location = "/index.html";
             }
 

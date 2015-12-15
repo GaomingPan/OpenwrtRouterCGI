@@ -18,8 +18,8 @@
 #define  NETWORK_SETTINGS_SCRIPT         CGI_HOME"/networkSettings"
 #define  WIRELESS_SETTINGS_SCRIPT        CGI_HOME"/wirelessSettings"
 
-#define  CMD_RESET                       "sh -c killall dropbear uhttpd; sleep 1; mtd -r erase rootfs_data"
-#define  CMD_STOP_START_DOG              "sh -c uci set dog_alive.@dog_alive[0].is_alive=%d;commit dog_alive;echo %d > /tmp/.is_stop_or_start_deamon"
+#define  CMD_RESET                       "sh -c \"sleep 1; killall dropbear uhttpd; sleep 1; mtd -r erase rootfs_data\""
+#define  CMD_STOP_START_DOG              "sh -c \"uci set dog_alive.@dog_alive[0].is_alive=%d;uci commit dog_alive;echo %d > /tmp/.is_stop_or_start_deamon\""
 
 #define  SESSION_TIME_OUT        180
 #define  MAX_ARRAY_LENTH         2048
@@ -34,7 +34,7 @@
 
 #define  PAGE_AUTH_ERR     "/pages/autherr.html"
 
-#define  HIDDEN_FORM_ID "form_id"
+#define  HIDDEN_FORM_ID     "form_id"
 
 
 

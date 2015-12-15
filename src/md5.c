@@ -178,7 +178,7 @@ void MD5Transform(unsigned int state[4],unsigned char block[64])
 
 
 
-void md5Sum(char *input, char *output)
+void md5_check(char *input, char *output)
 {
 	if(!input){
 		output = (char*)0;

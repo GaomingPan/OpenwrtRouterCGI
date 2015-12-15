@@ -19,10 +19,8 @@
 
 int is_session_valid(long int _time)
 {
-	DEBUG("is_s_valid","_time", _time);
 	if (time(NULL) - _time > SESSION_TIME_OUT)
 		return  -1;
-	DEBUG("is_s_valid","return code", 0);
 	return 0;
 }
 
@@ -42,7 +40,6 @@ int set_http_response_header_content_type(char * type)
 
 	sprintf(http_response_header,
 			"Content-Type: %s\r\n" \
-			"\r\n" \
 			"\r\n",
 			type
 		   );
@@ -84,8 +81,6 @@ int get_file_size(char *file_name)
 int get_http_data_size()
 {
 	char *len_addr = getenv("CONTENT_LENGTH");
-
-	//DEBUG(len_addr, "getenv");
 
 	if(NULL == len_addr)
 		return -1;
@@ -132,8 +127,6 @@ char * get_http_get_data()
 
 char * get_post_data_property(char * property)
 {
-//	DEBUG("get_post_data_property00",property,strlen(property));
-//	DEBUG("get_post_data_property00-00",http_post_data,strlen(http_post_data));
 	char *ptr1,
 	     *ptr2,
 		 *ptr3,
@@ -142,30 +135,22 @@ char * get_post_data_property(char * property)
 
 	ptr1 = strstr(data, property);
 
-//	DEBUG("get_post_data_property11",data,strlen(data));
-//
-//	DEBUG("get_post_data_property","ptr1",(int)ptr1);
-
 	if (!ptr1)
 		return NULL;
 
 	ptr2 = strstr(ptr1, "=");
 
-//	DEBUG("get_post_data_property","ptr2",(int)ptr2);
 	if (!ptr2)
 		return NULL;
 
 	ptr3 = strstr(ptr2, "&");
 
 
-//	DEBUG("get_post_data_property","ptr3",(int)ptr3);
-
 	if(!ptr3)
 		snprintf(property_data, MAX_PROPERTY_DARA_SIZE - 1, ++ptr2);
 	else
 		snprintf(property_data, ptr3 - ptr2, ++ptr2);
 
-	DEBUG("get_post_data_property",property_data, strlen(property_data));
 	return property_data;
 }
 
@@ -191,7 +176,6 @@ char * get_get_data_property(char * property)
 	else
 		snprintf(property_data, MAX_PROPERTY_DARA_SIZE - 1, ++ptr2);
 
-	DEBUG("get_get_data_property",property_data, strlen(property_data));
 	return property_data;
 }
 

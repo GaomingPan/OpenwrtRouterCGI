@@ -16,15 +16,16 @@ function reboot_router()
             data: {
                 form_id: "set_reboot",
             },
-            beforeSend: function () { },
+            beforeSend: function () {
+                window.location = "demo_wait.html";
+            },
             dataType: "json",
-            //success: function (data) { },
+            success: function (data) { },
         });
-   
-   wait_for_reboot(i);
+
 }
 
-
+/*****
 function wait_for_reboot(t){
   
    $("confirm").style.display="";
@@ -35,3 +36,5 @@ function wait_for_reboot(t){
    else
      timer = setTimeout("wait_for_reboot("+t+"-1)",1000);
 }
+*********/
+

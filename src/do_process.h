@@ -19,7 +19,7 @@ void do_sys_reboot();
 
 void do_sys_reset();
 
-void do_wifidog_up_down(int stat);
+void do_wifidog_up_down();
 
 void do_dogstat();
 

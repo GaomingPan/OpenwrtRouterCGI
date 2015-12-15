@@ -8,8 +8,14 @@ function change_password() {
     if (!ret)
         return false;
 
+    if($("#username") == ""){
+
+        alert("ERROR: 用户名不能为空！");
+        return false;
+    }
+
     if ($("#pwd1").val() != $("#pwd2").val()) {
-        alter("ERROR: 您两次输入的密码不一致！");
+        alert("ERROR: 您两次输入的密码不一致！");
         return false;
     }
 
@@ -27,10 +33,10 @@ function change_password() {
         success: function (data) {
             var ret = eval(data);
             if (ret.result == 0) {
-                alter("OK: 您的用户名和密码修改成功！");
+                alert("OK: 您的用户名和密码修改成功！");
                 window.location = "/index.html";
             } else {
-                alter("ERROR: 您的用户名和密码修改失败");
+                alert("ERROR: 您的用户名和密码修改失败");
                 window.location = "/index.html";
             }
         },

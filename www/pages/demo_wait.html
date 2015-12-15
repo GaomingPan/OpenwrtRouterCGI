@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>路由配置中</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/demo.css">
+        <link rel="stylesheet" href="css/fakeloader.css">
+    </head>
+
+    <body style="background-color:#FFFFFF">
+    <!--
+    <script type="text/Javascript">
+        document.oncontextmenu=function(){return false;};
+        document.onkeydown=function(){
+            if((window.event.altKey)&&
+                    ((window.event.keyCode==37)||            //屏蔽Alt+方向键←
+
+                    (window.event.keyCode==39))){            //屏蔽Alt+方向键→
+                event.returnValue=false;
+            }         if((event.keyCode==8)||                    //屏蔽退格删除键
+
+                    (event.keyCode==116)||                   //屏蔽F5刷新键
+
+                    (event.ctrlKey && event.keyCode==82)){   //Ctrl+R
+                event.keyCode=0;
+                event.returnValue=false;
+            }
+            if(event.keyCode==122){event.keyCode=0;event.returnValue=false;}    //屏蔽F11
+
+            if(event.ctrlKey && event.keyCode==78)event.returnValue=false;      //屏蔽Ctrl+n
+
+            if(event.shiftKey && event.keyCode==121)event.returnValue=false;    //屏蔽shift+F10
+
+            if(window.event.srcElement.tagName=="A" && window.event.shiftKey)
+
+                window.event.returnValue=false;       //屏蔽shift加鼠标左键新开一网页
+
+            if((window.event.altKey)&&(window.event.keyCode==115)){             //屏蔽Alt+F4
+
+                window.showModelessDialog("about:blank","","dialogWidth:1px;dialogheight:1px");
+
+                return false;
+            }
+        }
+    </script>
+        <div class="fakeloader"></div>
+        <script src="js/jquery.min.js"></script>
+        <script src="js/fakeloader.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                $(".fakeloader").fakeLoader({
+                    timeToHide:150000,
+                    bgColor:"rgba(1a,bc,9c,0)",
+                    spinner:"spinner6"
+                });
+            });
+        </script>
+-->
+    <center>
+    <br><br>
+    <h3>路由器正在进行配置，请稍等 ......</h3><br>
+    <h3>在此过程中不要操作路由器或断电，否则可能损坏路由器！！！</h3>
+        <br><br>
+        <h3 id="id_wait"></h3>
+    </center>
+    <script type="text/Javascript">
+    var v = 0;
+    
+    function getWaitting(){
+       var t;
+       v++;
+       t = 90 -v;
+       document.getElementById("id_wait").innerHTML = "请稍等 " + t + " 秒钟 ..."
+       
+       if( t == 0)
+         window.location = "/index.html";
+    }
+    setInterval(getWaitting, 1000);
+    /*
+      function waiting(){
+         alert("路由器正在进行配置，请等待两分钟......\n在此过程中不要操作路由器或断电，否则可能损坏路由器！！！");
+          //window.location = "/index.html";
+      }
+      */
+    </script>
+    </body>
+</html>
+
+
+

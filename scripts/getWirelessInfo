@@ -34,6 +34,7 @@ get_wirless_info()
 json_maker()
 {
    JSON_DATA_STRING="{
+      \"result\":0,
       \"ssid\":\"$WIRLESS_SSID\",
       \"hidden\":$WIRLESS_HIDDEN,
       \"encryption\":\"$WIRLESS_ENCRYPTION\",

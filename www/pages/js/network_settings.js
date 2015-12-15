@@ -17,6 +17,12 @@ function networkSettings_data_binding() {
         success: function (data) {
 
             var ret_data = eval(data);
+
+            if(ret_data.result == 1){
+                window.location = "/index.html";
+                return false;
+            }
+
             if (ret_data.network_wan.wan_proto == "static") {
 
                 $("#network_type").html("&nbsp;[&nbsp;当前联网方式:&nbsp;静态&nbsp;IP&nbsp;地址&nbsp;]");
@@ -58,7 +64,7 @@ function networkSettings_data_binding() {
 
             } else if (ret_data.network_wan.wan_proto == "dhcp") {
 
-                $("#network_type").html("&nbsp;[&nbsp;当前联网方式:&nbsp;DHCP&nbsp;客户端&nbsp]");
+                $("#network_type").html("&nbsp;[&nbsp;当前联网方式:&nbsp;DHCP&nbsp;客户端&nbsp;]");
 
                 if ($("#dhcp").is(":checked"))
                     ;

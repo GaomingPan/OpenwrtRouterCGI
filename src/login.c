@@ -59,7 +59,7 @@ int do_login_process()
 //	DEBUG("do_login_process", "2", 2);
 	sprintf(password, "%s", get_post_data_property("password"));
 
-	md5Sum(password, password);
+	md5_check(password, password);
 
     if(is_authority_ok(user_name, password) < 0)
     	return -1;

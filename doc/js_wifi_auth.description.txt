@@ -1,0 +1,94 @@
+﻿status_data_binding.js 说明：
+
+A.状态设定函数，在请求设置数据时，form_id: "set_dogstat",是必须字段，stat: {0|1}字段，0打开，1关闭。
+返回数据：{"result":0}或{"result":1}，0成功，1失败。
+
+function auth_data_post() {
+
+    var stat;
+
+    if ($("#auth_check").is(":checked"))
+        stat = 0;
+    else
+        stat = 1;
+
+
+    $.ajax({
+        type: "POST",
+        url: "/cgi-bin/routerSettings",
+        data: {
+            form_id: "set_dogstat",
+            stat: stat,
+        },
+        dataType: "json",
+        beforeSend: function () {
+
+        },
+        success: function (data) {
+
+            var ret = eval(data);
+            if (ret.result == 0) {
+                alert("OK: 无线认证设置成功！");
+                window.location = "/index.html";
+            } else {
+                alert("ERROR: 无线认证设置出错！请重新设置！");
+                window.location = "/index.html";
+            }
+
+        },//success
+    });//$.ajax
+}
+
+
+
+
+
+B.数据绑定函数，字段 form_id: "data_dogstat" 为必须字段。
+
+数据处理在 success: function (data) {}进行。
+
+返回的数 {"result":0}或{"result":1}，0打开，1关闭。
+
+
+function auth_data_binding() {
+
+    $.ajax({
+        type: "POST",
+        url: "/cgi-bin/routerSettings",
+        data: {
+            form_id: "data_dogstat"
+        },
+        dataType: "json",
+        beforeSend: function () {
+
+        },
+        success: function (data) {
+
+            var ret = eval(data);
+            if (ret.result == 0) {
+
+                if (ret.stat == 0) {
+                    if (!$("#auth_check").is(":checked")) {
+                        $("#auth_check").attr("checked", true);
+                        $("#auth_txt").html("认 证 上 网 打 开");
+                    }
+                } else {
+
+                    if ($("#auth_check").is(":checked")) {
+                        $("#auth_check").attr("checked", false);
+                    }
+                    $("#auth_txt").html("认 证 上 网 关 闭");
+                }
+
+            } else {
+                alert("ERROR: 内部错误！");
+                window.location = "/index.html";
+            }
+
+        }//success
+    });//$.ajax
+}
+
+
+
+

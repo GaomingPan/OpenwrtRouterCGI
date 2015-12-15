@@ -43,51 +43,22 @@ set_network_wan()
       then
         return 1
      fi
+
      uci set network.wan.proto=$WAN_PROTO
-     ret=$?
-     if [ $ret -ne 0 ] 
-     then
-       return 2
-     fi
      
      if [ "$WAN_PROTO" == "pppoe" ]
      then
          uci set network.wan.username=$WAN_PPPoE_USER_NAME
          uci set network.wan.password=$WAN_PPPoE_USER_PASSWORD
-         uci commit netmask
+         uci commit network
          return 0
      fi
      
      uci set network.wan.ipaddr=$WAN_IP
-     ret=$?
-     if [ $ret -ne 0 ] 
-     then
-       return 3
-     fi
      uci set network.wan.netmask=$WAN_NETMASK
-     ret=$?
-     if [ $ret -ne 0 ] 
-     then
-       return 4
-     fi
      uci set network.wan.gateway=$WAN_GATEWAY
-     ret=$?
-     if [ $ret -ne 0 ] 
-     then
-       return 5
-     fi
      uci set network.wan.dns=$WAN_DNS
-     ret=$?
-     if [ $ret -ne 0 ] 
-     then
-       return 6
-     fi
      uci commit network
-     ret=$?
-     if [ ret -ne 0 ] 
-     then
-       return 1
-     fi
      return 0     
 }
 
@@ -109,30 +80,12 @@ set_network_lan()
     then
        return 1
     fi
+
     uci set network.lan.proto=$LAN_PROTO
-    ret=$?
-    if [ $ret -ne 0 ] 
-    then
-       return 2
-    fi
     uci set network.lan.ipaddr=$LAN_IP
-    ret=$?
-    if [ $ret -ne 0 ] 
-    then
-       return 3
-    fi
     uci set network.lan.netmask=$LAN_NETMASK
-    ret=$?
-    if [ $ret -ne 0 ] 
-    then
-       return 4
-    fi
     uci commit network
-    ret=$?
-    if [ $ret -ne 0 ] 
-    then
-       return 1
-    fi
+
     return 0 
 }
 

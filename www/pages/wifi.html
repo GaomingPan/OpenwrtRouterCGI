@@ -7,8 +7,8 @@
     <link rel="stylesheet" type="text/css" media="all" href="style.css"/>
     <link rel="stylesheet" type="text/css" href="style/css/media-queries.css"/>
     <link rel="stylesheet" type="text/css" href="style/js/player/mediaelementplayer.css"/>
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,400italic,300italic,300,700,700italic|Open+Sans+Condensed:300,700'
-          rel="stylesheet" type='text/css'>
+
+
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="css/style.css" media="screen" type="text/css"/>
     <!--[if IE 8]>
@@ -35,10 +35,6 @@
     <!-- the logout js-->
     <script type="text/javascript" src="js/logout.js"></script>
 
-
-    <script type="text/javascript">
-        $.backstretch("style/images/bg/1.jpg");
-    </script>
 
     <style type="text/css">
         .ssid_hidden_box {
@@ -117,11 +113,11 @@
  * Create the checked state
  */
         .ssid_hidden_box input[type=checkbox]:checked + label {
-            background: #26ca28;
+            background: #00C5FF;
         }
 
         .wifi_passwd_box input[type=checkbox]:checked + label {
-            background: #26ca28;
+            background: #00C5FF;
         }
     </style>
 
@@ -138,45 +134,69 @@
             margin: auto;
         }
 
-            #check_frame .checkbox {
-                display: none;
-            }
+        #check_frame .checkbox {
+            display: none;
+        }
 
-            #check_frame .trigger {
-                cursor: pointer;
-                position: relative;
-                float: left;
-                width: 50px;
-                height: 25px;
-                margin: 10px;
-                background: #666;
-                overflow: hidden;
-                -webkit-transition: background .15s linear;
-                border-radius: 20px;
-            }
+        #check_frame .trigger {
+            cursor: pointer;
+            position: relative;
+            float: left;
+            width: 50px;
+            height: 25px;
+            margin: 10px;
+            background: #666;
+            overflow: hidden;
+            -webkit-transition: background .15s linear;
+            border-radius: 20px;
+        }
 
-            #check_frame .checkbox:checked + .trigger {
-                background: #00C5FF;
-            }
+        #check_frame .checkbox:checked + .trigger {
+            background: #00C5FF;
+        }
 
-            #check_frame .trigger:before {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: 0;
-                bottom: 0;
-                width: 25px;
-                height: 10px;
-                margin: auto 5px;
-                box-shadow: 0 0 0 100px hsla(0, 0%, 0%, .3);
-                -webkit-transition: left .15s linear;
-                border-radius: 20px;
-            }
+        #check_frame .trigger:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 25px;
+            height: 10px;
+            margin: auto 5px;
+            box-shadow: 0 0 0 100px hsla(0, 0%, 0%, .3);
+            -webkit-transition: left .15s linear;
+            border-radius: 20px;
+        }
 
-            #check_frame .checkbox:checked + .trigger:before {
-                left: 10px;
-            }
+        #check_frame .checkbox:checked + .trigger:before {
+            left: 10px;
+        }
     </style>
+
+    <!-- 验证表单 js -->
+    <script language="JavaScript">
+        function tt() {
+            var i = document.getElementById("wifi_ssid").value;
+
+            if (i.length == 0) {
+                alert("ssid 不能为空");
+                document.getElementById("wifi_ssid").focus();
+                return false;
+            }
+        }
+
+        function a() {
+            var j = document.getElementById("wifi_password").value;
+            if (j.length == 0) {
+                alert("wifi 密码不能为空");
+                document.getElementById("wifi_password").focus();
+                return false;
+            }
+
+        }
+
+    </script>
 
 </head>
 <body onload="wireless_data_binding()">
@@ -202,7 +222,7 @@
                     <li>
                         <a class="active" href="#">系统设置</a>
                         <ul>
-                            <li><a href="wifi_auth.html">关闭路由认证</a></li>
+                            <li><a href="wifi_auth.html">认证上网</a></li>
                             <li><a href="modify.html">修改密码</a></li>
                             <li><a href="reset.html">恢复出厂设置</a></li>
                             <li><a href="reboot.html">重启</a></li>
@@ -215,7 +235,7 @@
                             <li><a href="wifi.html">无线设置</a></li>
                         </ul>
                     </li>
-                    <li style="margin-left:80px;"><a href="#">lin</a></li>
+                    <!-- <li style="margin-left:80px;"><a href="#">lin</a></li> -->
                     <li><input type="button"
                                style="background-color:#ffffff; border-radius:10px; width:60px;height:19px; color:#39accb; cursor: pointer"
                                value="退出" onclick="logout()"/></li>
@@ -234,7 +254,7 @@
         <img style="width:70px; margin-left:auto; margin-right:auto" src="images/22.png">
 
         <p style="color:#000000; font-size:15px; font-weight:600; width:70px; margin-left:auto; margin-right:auto">
-             网络设置</p>
+            网络设置</p>
     </div>
     <div style="background-color: rgba(232, 232, 232, 0.21);
                     border-radius: 25px;
@@ -243,13 +263,15 @@
                     max-width: 888px;
                     padding: 0 30px 30px 30px;
                     margin: 30px auto 0 auto;">
-        <div style="padding-top:20px; margin-left:10px;"> 
+        <div style="padding-top:20px; margin-left:10px;">
             <p style="font-size:14px; font-weight:600; float:left;">无 线 设 置</p>
             <input style="width:150px; height:100%;margin-left:70%;cursor: pointer;" type="button" value="提交更改"
                    onclick="wireless_data_post()"/>
         </div>
         <hr style="margin-top: 20px;">
-        <div style=" float:left;font-size:13px; font-weight:600; color:#000000;padding-top:25px;padding-left:250px;">禁 用 无 线</div>
+        <div style=" float:left;font-size:13px; font-weight:600; color:#FFFFFF;padding-top:25px;padding-left:250px;">无 线
+            开 关
+        </div>
         <section id="check_frame">
             <input id="wifi" class="checkbox" name="check" type="checkbox">
             <label for="wifi" class="trigger"></label>
@@ -257,14 +279,14 @@
         <div id="objPage">
 
             <div id="div2" class="div-item" style="visibility:hidden;display:none;text-align:-webkit-center;">
-                <form method="POST" name="card" style="margin-bottom:20px;">
+                <form method="POST" name="card" style="margin-bottom:20px;margin-top: 20px;" id="ssid">
                     S S I D ：&emsp;
                     <input id="wifi_ssid" type="text" name="firstname"
-                           style="margin-top:30px; margin-bottom:30px;width:15%"/>
+                           style="margin-top:30px; margin-bottom:30px;width:15%" onblur="tt()"/>
                     <br/>
 
                     <section>
-                        <p style="float:left;margin:auto">隐藏ssid：</p>
+                        <p style="float:left;padding-left: 305px;">隐藏ssid：</p>
 
                         <div class="ssid_hidden_box">
                             <input type="checkbox" value="1" id="ssid_hidden_box" name=""/>
@@ -272,7 +294,7 @@
                         </div>
                     </section>
                     <section>
-                        <p style="float:left;margin:auto">WIFI&emsp;加密：</p>
+                        <p style="float:left;padding-left: 305px;">WIFI加密：</p>
 
                         <div class="wifi_passwd_box">
                             <input type="checkbox" value="0" id="wifi_passwd_box" name=""/>
@@ -282,8 +304,8 @@
                     <div id="objPage1">
                         <div id="div3" class="div-item1"
                              style="visibility:hidden;display:none;text-align:-webkit-center;">
-                            WIFI&emsp;密码：<input type="text" id="wifi_password" name="lastname"
-                                                style="margin-top:30px; margin-bottom:30px;width:15%"/>
+                            WIFI密码：&emsp;<input type="text" id="wifi_password" name="lastname"
+                                                style="margin-top:30px; margin-bottom:30px;width:15%" onblur="a()"/>
                         </div>
                     </div>
                 </form>

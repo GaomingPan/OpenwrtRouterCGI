@@ -18,7 +18,7 @@
 void do_logout()
 {
     clean_session();
-    fprintf(stdout, "%s", "[\"code\":0]");
+    fprintf(stdout, "%s", "{\"result\":0}");
 }
 
 void do_network_settings(RequestCode reCode)
@@ -106,7 +106,7 @@ void do_network_settings(RequestCode reCode)
     	fread(ret, 1, 10, fp);
     	pclose(fp);
     	fprintf(stdout, "%s%d%s", "{\"result\":", atol(ret), "}");
-    	DEBUG("do_network_settings", argv, atol(ret));
+//    	DEBUG("do_network_settings", argv, atol(ret));
     	return;
     	break;
     case rsLan:
@@ -183,7 +183,7 @@ void do_wireless_settings()
 	fread(ret, 1, 10, fp);
 	pclose(fp);
 	fprintf(stdout, "%s%d%s", "{\"result\":", atol(ret), "}");
-	DEBUG("do_wireless_settings", argv, atol(ret));
+//	DEBUG("do_wireless_settings", argv, atol(ret));
 	return;
 }
 
@@ -192,9 +192,9 @@ void do_sys_reboot()
 {
     FILE *fp;
 
-    fprintf(stdout, "{\"result\":0}");
+    fprintf(stdout, "%s", "{\"result\":0}");
 
-    fp = popen("sh -c reboot", "r");
+    fp = popen("sh -c \"sleep 1; reboot\"", "r");
 
     if(!fp)
     	return;
@@ -203,11 +203,11 @@ void do_sys_reboot()
 }
 
 
-int  sys_can_do_reset()
+static int  sys_can_do_reset()
 {
 	FILE  *fp;
 	char  ret[64] = {0};
-	fp = popen("sh -c cat /proc/mtd | grep -e rootfs_data", "r");
+	fp = popen("sh -c \"cat /proc/mtd | grep -e rootfs_data\"", "r");
 	if(!fp)
 		return -1;
 	fread(ret, 1, 64, fp);
@@ -225,37 +225,41 @@ void do_sys_reset()
    int ret;
    ret = sys_can_do_reset();
    if(ret < 0){
-	   fprintf(stdout, "{\"result\":1}");
+	   fprintf(stdout, "%s", "{\"result\":1}");
 	   return;
    }
-//   fprintf(stdout, "{\"result\":0}");
-   fp = open("sh -c "CMD_RESET, "r");
+
+   fp = popen(CMD_RESET, "r");
    if(!fp){
-	   fprintf(stdout, "{\"result\":1}");
+	   fprintf(stdout, "%s", "{\"result\":1}");
 	   return;
    }
-   fprintf(stdout, "{\"result\":0}");
+   fprintf(stdout, "%s", "{\"result\":0}");
    pclose(fp);
    return;
 }
 
 
-void do_wifidog_up_down(int stat)
+void do_wifidog_up_down()
 {
-	DEBUG("do_wifidog_up_down", "stat", stat);
 	FILE *fp;
 	char cmd[64] = {0};
+
+	int stat = atoi( get_post_data_property("stat") );
+
 	sprintf(cmd, CMD_STOP_START_DOG, stat, stat);
 
     fp = popen(cmd, "r");
      if (!fp){
-        fprintf(stdout, "{\"result\":1}");
+        fprintf(stdout, "%s", "{\"result\":1}");
     	return;
     }
     pclose(fp);
-    fprintf(stdout, "{\"result\":0}");
+    fprintf(stdout, "%s", "{\"result\":0}");
+//    DEBUG("do_wifidog_up_down", "{\"result\":0}", 11);
     return;
 }
+
 
 
 void do_dogstat()
@@ -263,16 +267,16 @@ void do_dogstat()
 	FILE *fp;
 	char ret[6];
 
-	fp = popen("sh -c uci get dog_alive.@dog_alive[0].is_alive", "r");
+	fp = popen("sh -c \"uci get dog_alive.@dog_alive[0].is_alive\"", "r");
 
 	if(!fp){
-		fprintf(stdout, "{\"result\":1}");
+		fprintf(stdout, "%s", "{\"result\":1}");
 		return;
 	}
 	fread(ret, 1, 6, fp);
 	pclose(fp);
 
-	fprintf(stdout, "{\"result\":0,\"stat\":%d}", atoi(ret));
+	fprintf(stdout,"{\"result\":0,\"stat\":%d}", atoi(ret));
 }
 
 
@@ -290,14 +294,14 @@ void do_change_admin_password()
 		_password = p;
 
     if ( !_username || !_password ){
-    	fprintf(stdout, "{\"result\":1}");
+    	fprintf(stdout, "%s", "{\"result\":1}");
     	return;
     }
 
-    md5Sum(_password, _password);
+    md5_check(_password, _password);
     save_session_info(_username, _password);
 
-    fprintf(stdout, "{\"result\":0}");
+    fprintf(stdout, "%s", "{\"result\":0}");
 
 }
 
