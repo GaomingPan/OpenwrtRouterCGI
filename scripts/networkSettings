@@ -50,7 +50,7 @@ set_network_wan()
      then
          uci set network.wan.username=$WAN_PPPoE_USER_NAME
          uci set network.wan.password=$WAN_PPPoE_USER_PASSWORD
-         uci commit netmask
+         uci commit network
          return 0
      fi
      

@@ -13,13 +13,8 @@
         <link rel="stylesheet" href="css/demo.css">
         <link rel="stylesheet" href="css/fakeloader.css">
     </head>
-    <script type="text/Javascript">
-      function waiting(){
-         alert("路由器正在进行配置，请等待两分钟......\n在此过程中不要操作路由器或断电，否则可能损坏路由器！！！");
-          //window.location = "/index.html";
-      }
-    </script>
-    <body onload="waiting()"  style="background-color:#FFFFFF">
+
+    <body style="background-color:#FFFFFF">
     <!--
     <script type="text/Javascript">
         document.oncontextmenu=function(){return false;};
@@ -70,11 +65,31 @@
 -->
     <center>
     <br><br>
-    <h3>路由器正在进行配置，请等待两分钟......</h3><br>
+    <h3>路由器正在进行配置，请稍等 ......</h3><br>
     <h3>在此过程中不要操作路由器或断电，否则可能损坏路由器！！！</h3>
         <br><br>
-        <a href="/index.html">刷 新</a>
+        <h3 id="id_wait"></h3>
     </center>
+    <script type="text/Javascript">
+    var v = 0;
+    
+    function getWaitting(){
+       var t;
+       v++;
+       t = 90 -v;
+       document.getElementById("id_wait").innerHTML = "请稍等 " + t + " 秒钟 ..."
+       
+       if( t == 0)
+         window.location = "/index.html";
+    }
+    setInterval(getWaitting, 1000);
+    /*
+      function waiting(){
+         alert("路由器正在进行配置，请等待两分钟......\n在此过程中不要操作路由器或断电，否则可能损坏路由器！！！");
+          //window.location = "/index.html";
+      }
+      */
+    </script>
     </body>
 </html>
 

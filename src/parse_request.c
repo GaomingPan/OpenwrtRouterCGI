@@ -42,10 +42,12 @@ static const struct{
 		{NULL,               rInvalid},
 };
 
+
 int parse_pages_request(char * out_data)
 {
 	return 0;
 }
+
 
 int parse_get_request(char * out_data)
 {

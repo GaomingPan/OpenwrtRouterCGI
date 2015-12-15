@@ -106,7 +106,7 @@ void do_network_settings(RequestCode reCode)
     	fread(ret, 1, 10, fp);
     	pclose(fp);
     	fprintf(stdout, "%s%d%s", "{\"result\":", atol(ret), "}");
-    	DEBUG("do_network_settings", argv, atol(ret));
+//    	DEBUG("do_network_settings", argv, atol(ret));
     	return;
     	break;
     case rsLan:
@@ -183,7 +183,7 @@ void do_wireless_settings()
 	fread(ret, 1, 10, fp);
 	pclose(fp);
 	fprintf(stdout, "%s%d%s", "{\"result\":", atol(ret), "}");
-	DEBUG("do_wireless_settings", argv, atol(ret));
+//	DEBUG("do_wireless_settings", argv, atol(ret));
 	return;
 }
 
@@ -194,7 +194,7 @@ void do_sys_reboot()
 
     fprintf(stdout, "%s", "{\"result\":0}");
 
-    fp = popen("sh -c reboot", "r");
+    fp = popen("sh -c \"sleep 1; reboot\"", "r");
 
     if(!fp)
     	return;
@@ -203,7 +203,7 @@ void do_sys_reboot()
 }
 
 
-int  sys_can_do_reset()
+static int  sys_can_do_reset()
 {
 	FILE  *fp;
 	char  ret[64] = {0};
@@ -240,10 +240,13 @@ void do_sys_reset()
 }
 
 
-void do_wifidog_up_down(int stat)
+void do_wifidog_up_down()
 {
 	FILE *fp;
 	char cmd[64] = {0};
+
+	int stat = atoi( get_post_data_property("stat") );
+
 	sprintf(cmd, CMD_STOP_START_DOG, stat, stat);
 
     fp = popen(cmd, "r");
@@ -253,6 +256,7 @@ void do_wifidog_up_down(int stat)
     }
     pclose(fp);
     fprintf(stdout, "%s", "{\"result\":0}");
+//    DEBUG("do_wifidog_up_down", "{\"result\":0}", 11);
     return;
 }
 

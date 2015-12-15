@@ -66,8 +66,8 @@ function auth_data_post() {
               //  alert("OK: 无线认证设置成功！");
              //   window.location = "/index.html";
             } else {
-              //  alert("ERROR: 无线认证设置出错！请重新设置！");
-              //  window.location = "/index.html";
+                alert("ERROR: 设置出错！请重新设置！");
+                window.location = "/index.html";
             }
 
         },//success

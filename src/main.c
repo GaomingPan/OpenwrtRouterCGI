@@ -36,9 +36,12 @@ static int do_invalid_session()
     		send_redirect_to_page(PAGE_STATUS);
     		break;
 
+    	case rStatus:
     	case rdAdmin:
         case rdNetwork:
         case rdWireless:
+        case rdStatus:
+        case rdDogstat:
 
         case rsWan:
         case rsLan:
@@ -64,7 +67,7 @@ static int do_invalid_session()
 static int do_valid_session()
 {
     request_code = get_post_request_code();
-    DEBUG("session is valid", "RequestCode", request_code);
+//    DEBUG("session is valid", "RequestCode", request_code);
     switch(request_code){
     case rLogin:
 		output_header_v("text/html;charset=utf-8");
@@ -91,14 +94,14 @@ static int do_valid_session()
     	output_header_v("application/json");
     	fprintf(stdout, "%s", get_network_data());
     	save_session_info(NULL, NULL);
-    	DEBUG("network-data",get_network_data(),0);
+//    	DEBUG("network-data",get_network_data(),0);
     	return 0;
     	break;
     case rdWireless:
     	output_header_v("application/json");
     	fprintf(stdout, "%s", get_wireless_data());
     	save_session_info(NULL, NULL);
-    	DEBUG("wireless-data",get_wireless_data(),0);
+//    	DEBUG("wireless-data",get_wireless_data(),0);
     	return 0;
     	break;
     case rdAdmin:
@@ -115,7 +118,8 @@ static int do_valid_session()
     	break;
     case rsDogstat:
     	output_header_v("application/json");
-    	do_wifidog_up_down( atoi( get_post_data_property("stat") ) );
+//    	DEBUG("rsDogstat", "Enter", 0);
+    	do_wifidog_up_down();
     	save_session_info(NULL, NULL);
     	return 0;
     	break;
@@ -140,7 +144,7 @@ static int do_valid_session()
     case rsAdmin:
     	output_header_v("application/json");
     	do_change_admin_password();
-    	save_session_info(NULL, NULL);
+//    	save_session_info(NULL, NULL);
     	return 0;
     	break;
     case rsReboot:
@@ -177,7 +181,7 @@ int main(int argc, char *argv[])
     http_get_data_length = parse_get_request(NULL);
     http_post_data_length = parse_post_request(NULL);
 
-    DEBUG("post-data:",get_http_post_data(),0);
+//    DEBUG("post-data:",get_http_post_data(),0);
     if ( is_session_valid(_time) < 0 )
     	return do_invalid_session();
 
